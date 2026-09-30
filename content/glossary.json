@@ -344,6 +344,41 @@
       "term": "Container registry",
       "definition": "Registro de GitHub Packages para imágenes Docker y OCI, en el dominio ghcr.io.",
       "introducedIn": "github/l4-releases-packages"
+    },
+    {
+      "term": "organización",
+      "definition": "Cuenta compartida de GitHub que es dueña de repositorios y agrupa a personas en teams con roles.",
+      "introducedIn": "github/l2-issues-projects"
+    },
+    {
+      "term": "team",
+      "definition": "Grupo de miembros de una organización que recibe accesos, menciones y peticiones de revisión como un todo.",
+      "introducedIn": "github/l4-organizaciones"
+    },
+    {
+      "term": "outside collaborator",
+      "definition": "Persona con acceso a repositorios concretos de una organización sin ser miembro de ella.",
+      "introducedIn": "github/l4-organizaciones"
+    },
+    {
+      "term": "API REST",
+      "definition": "API con un endpoint por recurso y métodos HTTP (GET, POST, PATCH, DELETE).",
+      "introducedIn": "github/l4-organizaciones"
+    },
+    {
+      "term": "GraphQL",
+      "definition": "API con un único endpoint que devuelve exactamente los campos pedidos en la consulta.",
+      "introducedIn": "github/l2-issues-projects"
+    },
+    {
+      "term": "rate limit",
+      "definition": "Máximo de peticiones por hora que admite la API para cada credencial.",
+      "introducedIn": "github/l4-organizaciones"
+    },
+    {
+      "term": "webhook",
+      "definition": "Aviso HTTP (un POST) que GitHub envía a tu servidor cuando ocurre un evento.",
+      "introducedIn": "github/l4-seguridad"
     }
   ]
 }

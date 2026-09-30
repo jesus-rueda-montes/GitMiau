@@ -730,6 +730,30 @@
           ]
         }
       ]
+    },
+    {
+      "name": "api",
+      "description": "Hace una petición autenticada a la API REST o GraphQL de GitHub",
+      "source": "https://cli.github.com/manual/gh_api",
+      "args": [{ "name": "ENDPOINT" }],
+      "flags": [
+        { "name": "allow-escape-sequences", "takesValue": false, "description": "Permite secuencias de escape de la terminal en la salida" },
+        { "name": "cache", "takesValue": true, "description": "Guarda la respuesta en caché durante ese tiempo (p. ej. 3600s, 60m, 1h)" },
+        { "name": "field", "short": "F", "takesValue": true, "description": "Parámetro clave=valor con conversión de tipos (true, números, @fichero, {owner}…)" },
+        { "name": "header", "short": "H", "takesValue": true, "description": "Cabecera HTTP con el formato clave:valor" },
+        { "name": "hostname", "takesValue": true, "description": "Servidor de GitHub (por defecto, github.com)" },
+        { "name": "include", "short": "i", "takesValue": false, "description": "Muestra el estado y las cabeceras de la respuesta" },
+        { "name": "input", "takesValue": true, "description": "Fichero con el cuerpo de la petición («-» para stdin)" },
+        { "name": "jq", "short": "q", "takesValue": true, "description": "Filtra la respuesta con una expresión jq" },
+        { "name": "method", "short": "X", "takesValue": true, "description": "Método HTTP (por defecto, GET; POST si hay parámetros)" },
+        { "name": "paginate", "takesValue": false, "description": "Pide todas las páginas de resultados" },
+        { "name": "preview", "short": "p", "takesValue": true, "description": "Opta por funciones de la API en fase de prueba" },
+        { "name": "raw-field", "short": "f", "takesValue": true, "description": "Parámetro clave=valor como texto, sin conversión" },
+        { "name": "silent", "takesValue": false, "description": "No muestra el cuerpo de la respuesta" },
+        { "name": "slurp", "takesValue": false, "description": "Con --paginate, junta todas las páginas en un solo array JSON" },
+        { "name": "template", "short": "t", "takesValue": true, "description": "Formatea la respuesta con una plantilla de Go" },
+        { "name": "verbose", "takesValue": false, "description": "Muestra la petición y la respuesta completas" }
+      ]
     }
   ]
 }

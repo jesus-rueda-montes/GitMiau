@@ -1,0 +1,242 @@
+{
+  "exercises": [
+    {
+      "id": "rol-triage",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Una persona de soporte debe **poner labels, asignar y cerrar issues**, pero **no** debe poder hacer push al código. ¿Qué rol de repositorio le das?",
+      "hints": [
+        "Hay un rol entre Read y Write pensado justo para esto."
+      ],
+      "options": [
+        { "id": "a", "text": "Triage", "correct": true, "explanation": "Correcto: gestiona issues y PRs sin permiso de escritura." },
+        { "id": "b", "text": "Read", "correct": false, "explanation": "Solo puede ver y comentar." },
+        { "id": "c", "text": "Write", "correct": false, "explanation": "Podría hacer push al código." },
+        { "id": "d", "text": "Maintain", "correct": false, "explanation": "Demasiado: incluye push y gestión del repo." }
+      ],
+      "solution": {
+        "answer": "Triage",
+        "explanation": "Triage existe para gestionar issues, discussions y PRs sin acceso de escritura al código."
+      }
+    },
+    {
+      "id": "rol-maintain",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "La jefa de proyecto necesita gestionar los ajustes del repo, pero **no** debe poder borrarlo ni tocar los ajustes de seguridad. ¿Qué rol?",
+      "hints": [
+        "Uno por debajo del acceso completo."
+      ],
+      "options": [
+        { "id": "a", "text": "Maintain", "correct": true, "explanation": "Correcto: gestión sin acciones sensibles ni destructivas." },
+        { "id": "b", "text": "Admin", "correct": false, "explanation": "Podría borrar el repo." },
+        { "id": "c", "text": "Write", "correct": false, "explanation": "No puede gestionar el repositorio." },
+        { "id": "d", "text": "Owner de la organización", "correct": false, "explanation": "Es el máximo acceso a toda la organización." }
+      ],
+      "solution": {
+        "answer": "Maintain",
+        "explanation": "Maintain está pensado para gestionar el repositorio sin acceso a acciones sensibles o destructivas, que quedan para Admin."
+      }
+    },
+    {
+      "id": "roles-orden",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Completa los roles de repositorio, de menos a más permisos.",
+      "template": "Read < {{r2}} < Write < {{r4}} < Admin",
+      "blanks": [
+        { "id": "r2", "accepted": ["Triage", "triage"] },
+        { "id": "r4", "accepted": ["Maintain", "maintain"] }
+      ],
+      "hints": [
+        "El segundo sirve para clasificar issues; el cuarto, para gestionar el repo sin poder borrarlo."
+      ],
+      "solution": {
+        "answer": "Read < Triage < Write < Maintain < Admin",
+        "explanation": "Triage gestiona issues y PRs sin push; Maintain gestiona el repo sin acciones destructivas."
+      }
+    },
+    {
+      "id": "teams-accesos",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Entran 5 personas en el equipo de backend, que trabaja en 12 repos. ¿Cuál es la forma recomendada de darles acceso?",
+      "hints": [
+        "Piensa en qué pasa el día que alguien cambie de equipo."
+      ],
+      "options": [
+        { "id": "a", "text": "Añadirlas al team `@mi-org/backend`, que ya tiene acceso a los 12 repos", "correct": true, "explanation": "Correcto: una sola acción por persona." },
+        { "id": "b", "text": "Añadir a cada persona en cada repo (60 invitaciones)", "correct": false, "explanation": "Funciona, pero las bajas y cambios son un caos." },
+        { "id": "c", "text": "Hacerlas owners de la organización", "correct": false, "explanation": "Les da acceso total a todo." },
+        { "id": "d", "text": "Subir los permisos base de la organización a Write", "correct": false, "explanation": "Daría escritura a todos los members en todos los repos." }
+      ],
+      "solution": {
+        "answer": "Por team",
+        "explanation": "El acceso se da al team; quien entra lo recibe y quien sale lo pierde."
+      }
+    },
+    {
+      "id": "team-anidado",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "Un team hijo (por ejemplo, `backend-pagos` dentro de `backend`) hereda los permisos de acceso de su team padre.",
+      "hints": [
+        "Los teams anidados sirven para no repetir la configuración."
+      ],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": true, "explanation": "Correcto." },
+        { "id": "f", "text": "Falso", "correct": false, "explanation": "Sí los hereda." }
+      ],
+      "solution": {
+        "answer": "Verdadero",
+        "explanation": "Los teams hijos heredan los permisos del padre, y sus miembros reciben las menciones al padre."
+      }
+    },
+    {
+      "id": "outside-collaborator",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un consultor externo necesita acceso a **un solo repositorio** durante un mes. ¿Qué es lo adecuado?",
+      "hints": [
+        "No hace falta que forme parte de la organización."
+      ],
+      "options": [
+        { "id": "a", "text": "Añadirlo como outside collaborator solo a ese repo, con el rol mínimo", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Hacerlo member de la organización", "correct": false, "explanation": "Recibiría los permisos base en todos los repos." },
+        { "id": "c", "text": "Compartir la cuenta de un empleado", "correct": false, "explanation": "Nunca: no hay trazabilidad y rompe las normas de GitHub." },
+        { "id": "d", "text": "Darle un token classic de un empleado", "correct": false, "explanation": "Tendría todos los accesos de esa persona." }
+      ],
+      "solution": {
+        "answer": "Outside collaborator",
+        "explanation": "Un outside collaborator tiene acceso a repos concretos sin ser member de la organización."
+      }
+    },
+    {
+      "id": "rest-graphql",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Necesitas el título, el autor y el número de comentarios de 50 PRs, y nada más. Con REST harías muchas peticiones y recibirías muchos datos que no usas. ¿Qué API encaja mejor?",
+      "hints": [
+        "Una de las dos devuelve exactamente los campos que pides."
+      ],
+      "options": [
+        { "id": "a", "text": "GraphQL: una consulta que pide solo esos campos", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "REST: siempre es más rápida", "correct": false, "explanation": "Aquí necesitaría varias peticiones y traería datos de más." },
+        { "id": "c", "text": "Webhooks", "correct": false, "explanation": "Sirven para recibir eventos, no para consultar." }
+      ],
+      "solution": {
+        "answer": "GraphQL",
+        "explanation": "GraphQL devuelve exactamente los datos pedidos y puede sustituir varias peticiones REST por una."
+      }
+    },
+    {
+      "id": "rate-limit",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un script llama a la API REST **sin autenticarse** y empieza a fallar al poco rato. ¿Cuál es el límite sin autenticar?",
+      "hints": [
+        "Es muy bajo: no da ni para una petición por minuto."
+      ],
+      "options": [
+        { "id": "a", "text": "60 peticiones por hora", "correct": true, "explanation": "Correcto. Autenticado, sube a 5.000 por hora." },
+        { "id": "b", "text": "5.000 peticiones por hora", "correct": false, "explanation": "Ese es el límite de un usuario autenticado." },
+        { "id": "c", "text": "1.000 peticiones por hora", "correct": false, "explanation": "Ese es el del `GITHUB_TOKEN` por repositorio." },
+        { "id": "d", "text": "No hay límite", "correct": false, "explanation": "Siempre hay límite." }
+      ],
+      "solution": {
+        "answer": "60/hora",
+        "explanation": "Sin autenticar, 60 por hora; autenticado, 5.000; con `GITHUB_TOKEN` en Actions, 1.000 por hora y repositorio. La cabecera `x-ratelimit-remaining` dice cuántas quedan."
+      }
+    },
+    {
+      "id": "gh-api-releases",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Con `gh api`, pide las releases del **repositorio actual** usando los marcadores `{owner}` y `{repo}` (endpoint `repos/{owner}/{repo}/releases`).",
+      "hints": [
+        "`gh api` seguido del endpoint, sin barra inicial.",
+        "`gh` sustituye `{owner}` y `{repo}` por los del repo actual."
+      ],
+      "accepted": [
+        "gh api repos/{owner}/{repo}/releases"
+      ],
+      "solution": {
+        "answer": "gh api repos/{owner}/{repo}/releases",
+        "explanation": "Sin parámetros, `gh api` hace un GET autenticado con tu sesión."
+      }
+    },
+    {
+      "id": "gh-api-paginate",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Obtén **todas las páginas** de `repos/{owner}/{repo}/issues` y muestra solo los títulos con el filtro jq `.[].title`.",
+      "hints": [
+        "Hay un flag para pedir todas las páginas.",
+        "El filtro jq se pasa con `--jq` (o `-q`), entre comillas simples."
+      ],
+      "accepted": [
+        "gh api repos/{owner}/{repo}/issues --paginate --jq '.[].title'",
+        "gh api repos/{owner}/{repo}/issues --paginate -q '.[].title'"
+      ],
+      "solution": {
+        "answer": "gh api repos/{owner}/{repo}/issues --paginate --jq '.[].title'",
+        "explanation": "La API devuelve los resultados por páginas; `--paginate` las pide todas y `--jq` filtra la salida."
+      }
+    },
+    {
+      "id": "gh-api-metodo",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres hacer una búsqueda (un GET) con `gh api search/issues -f q='is:open'`. ¿Qué pasa y cómo lo arreglas?",
+      "hints": [
+        "¿Qué método usa `gh api` cuando hay parámetros?"
+      ],
+      "options": [
+        { "id": "a", "text": "Al añadir parámetros, `gh api` envía un POST; hay que forzar GET con `-X GET`", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Nada: `gh api` siempre usa GET", "correct": false, "explanation": "GET es el método por defecto solo mientras no haya parámetros." },
+        { "id": "c", "text": "La búsqueda solo existe en GraphQL", "correct": false, "explanation": "También existe en REST." }
+      ],
+      "solution": {
+        "answer": "Falta -X GET",
+        "explanation": "El método por defecto es GET, pero pasa a POST en cuanto hay parámetros. Por eso la documentación usa `gh api -X GET search/issues -f q='...'`."
+      }
+    },
+    {
+      "id": "webhook-seguro",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "Vas a recibir webhooks de GitHub en tu servidor. ¿Qué buenas prácticas recomienda la documentación? (Marca todas las correctas)",
+      "hints": [
+        "Piensa en autenticidad, tiempo de respuesta y repeticiones."
+      ],
+      "options": [
+        { "id": "a", "text": "Configurar un secret y validar la cabecera `X-Hub-Signature-256` con una comparación en tiempo constante", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Responder con un 2XX en menos de 10 segundos y procesar después con una cola", "correct": true, "explanation": "Correcto." },
+        { "id": "c", "text": "Usar `X-GitHub-Delivery` para detectar entregas repetidas", "correct": true, "explanation": "Correcto." },
+        { "id": "d", "text": "Aceptar cualquier petición que llegue a la URL, porque solo GitHub la conoce", "correct": false, "explanation": "La URL no es un secreto: hay que validar la firma." }
+      ],
+      "solution": {
+        "answer": "Firma, respuesta rápida, delivery ID",
+        "explanation": "También: usar HTTPS, comprobar el tipo de evento y la acción, y reenviar los eventos perdidos si el servidor ha estado caído."
+      }
+    },
+    {
+      "id": "webhook-vs-polling",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres avisar en el chat en cuanto se abra un PR en cualquier repo de la organización. ¿Qué usas?",
+      "hints": [
+        "Mejor que GitHub te avise a ti que preguntar tú cada minuto."
+      ],
+      "options": [
+        { "id": "a", "text": "Un webhook de organización con el evento `pull_request`", "correct": true, "explanation": "Correcto: llega casi en tiempo real y no gasta rate limit." },
+        { "id": "b", "text": "Un script que llama a la API cada minuto", "correct": false, "explanation": "Es polling: gasta peticiones y llega tarde." },
+        { "id": "c", "text": "Un workflow en cada repo con `schedule` cada 5 minutos", "correct": false, "explanation": "También es polling, y en cada repo." }
+      ],
+      "solution": {
+        "answer": "Webhook de organización",
+        "explanation": "Los webhooks gastan menos recursos, escalan mejor y llegan casi en tiempo real."
+      }
+    }
+  ]
+}

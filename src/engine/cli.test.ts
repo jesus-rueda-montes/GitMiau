@@ -251,6 +251,12 @@ describe('gh (contenido real)', () => {
     expect(p('gh release create v1.2.0 ./dist/app.tgz --generate-notes').ok).toBe(true)
     expect(p('gh release download -A rar')).toEqual({ ok: false, errors: [expect.stringMatching(/valor no válido para --archive/)] })
   })
+
+  test('api: endpoint como argumento, sin subcomandos', () => {
+    expect(sameGh("gh api repos/{owner}/{repo}/issues --paginate -q '.[].title'", 'gh api repos/{owner}/{repo}/issues --paginate --jq ".[].title"')).toBe(true)
+    expect(sameGh("gh api -X GET search/issues -f q='is:open'", "gh api search/issues --method GET --raw-field q='is:open'")).toBe(true)
+    expect(p('gh api graphql -f query="query { viewer { login } }"').ok).toBe(true)
+  })
 })
 
 describe('git (contenido real)', () => {

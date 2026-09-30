@@ -1,0 +1,11 @@
+{
+  "cards": [
+    { "id": "roles-repo", "front": "Roles de repositorio, de menos a más", "back": "Read (ver y comentar) < Triage (issues y PRs sin push) < Write (push) < Maintain (gestionar sin acciones destructivas) < Admin (todo)." },
+    { "id": "roles-org", "front": "Roles de una organización", "back": "Owner (al menos dos), member, moderator, billing manager, security manager; y outside collaborators (acceso a repos concretos sin ser members)." },
+    { "id": "teams", "front": "¿Para qué sirven los teams?", "back": "Dar acceso por grupo (altas y bajas en un sitio), menciones `@org/team`, revisiones y CODEOWNERS. Los hijos heredan los permisos del padre." },
+    { "id": "rest-graphql", "front": "REST frente a GraphQL", "back": "REST: un endpoint por recurso, estructura fija. GraphQL: un endpoint, devuelve exactamente lo pedido y puede sustituir varias peticiones." },
+    { "id": "gh-api", "front": "`gh api`: método y parámetros", "back": "GET por defecto; POST si hay parámetros; `-X` fija el método. `-f` texto, `-F` con tipos. `--paginate`, `--jq`, `graphql`." },
+    { "id": "rate-limits", "front": "Rate limits de la API REST", "back": "60/h sin autenticar, 5.000/h autenticado, 1.000/h por repo con `GITHUB_TOKEN`. Cabeceras `x-ratelimit-*`; al pasarse, 403 o 429." },
+    { "id": "webhooks", "front": "Webhooks seguros", "back": "Secret y validar `X-Hub-Signature-256` (tiempo constante), HTTPS, 2XX en menos de 10 s con una cola, `X-GitHub-Delivery` contra repeticiones." }
+  ]
+}

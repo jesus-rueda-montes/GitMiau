@@ -1,0 +1,8 @@
+{
+  "title": "Organizaciones, API y webhooks",
+  "summary": "Organizaciones, teams y roles de repositorio (Read, Triage, Write, Maintain, Admin); la API REST y GraphQL con gh api, rate limits y webhooks seguros.",
+  "level": 4,
+  "order": 3,
+  "xp": 120,
+  "prereqs": []
+}
