@@ -8,14 +8,15 @@ Miau es una copia adaptada de Kubernetete (decisión M1 de [DECISIONS.md](DECISI
   - Eliminado el editor HCL: `src/engine/hcl.ts`, `src/lib/hclLoader.ts`, `src/components/code/hclMode.ts`, `src/vendor/tree-sitter-hcl/` y la dependencia `web-tree-sitter`. `grade()` corrige los ejercicios de editor solo con `gradeYaml`.
   - Marca Miau: título, cabecera, favicon, clave de IndexedDB `miau-progress`, copias de progreso con `app: "miau"`.
   - Itinerarios: `fundamentos` (opcional: terminal y YAML), `git` y `github` (`content/tracks.json`).
-  - `CLIS = ['git', 'gh']`. Spec de `git` (`content/cli-specs/git.json`), transcrita de git-scm.com. Comandos: `init`, `config` (`list`, `get`, `set`, `unset`, `edit`), `status`, `add`, `commit`, `log`, `diff`, `show`, `restore`, `reset`, `revert`, `rm`, `check-ignore`, `branch`, `switch`, `merge`, `clone`, `remote` (`add`, `rename`, `remove`/`rm`, `set-url`, `get-url`, `show`, `prune`), `fetch`, `pull`, `push`.
+  - `CLIS = ['git', 'gh']`. Spec de `git` (`content/cli-specs/git.json`), transcrita de git-scm.com. Comandos: `init`, `config` (`list`, `get`, `set`, `unset`, `edit`), `status`, `add`, `commit`, `log`, `diff`, `show`, `restore`, `reset`, `revert`, `rm`, `check-ignore`, `branch`, `switch`, `merge`, `clone`, `remote` (`add`, `rename`, `remove`/`rm`, `set-url`, `get-url`, `show`, `prune`), `fetch`, `pull`, `push`, `rebase`, `stash` (con y sin subcomando), `cherry-pick`, `tag`, `reflog`, `bisect`.
   - Motor: flags cortos agrupados con valor al final (`-am "msg"`), como en getopt. Flags `shortOnly` para los que solo existen en forma corta (`git branch -D`, `git rm -r`).
   - Specs de `kubectl`, `terraform` y `ansible` como fixtures de test en `src/engine/__fixtures__/` (decisión M6).
   - Contenido piloto: `git/l1-que-es-git` (2 lecciones, 9 ejercicios: quiz, command y fill; 5 flashcards).
   - Tests (Vitest), lint, build y e2e (Playwright) en verde.
 - **Fase 1 de contenido (Git nivel 1): completada.** `git/l1-historial` (3 lecciones, 11 ejercicios, 7 flashcards). El e2e ya usa el itinerario de Git (decisión M12). Glosario de Git: commit, staging area, working tree, hash, HEAD, secreto, diff.
 - **Git nivel 2: completado.** `git/l2-ramas` (2 lecciones, 10 ejercicios, 6 flashcards) y `git/l2-remotos` (2 lecciones, 10 ejercicios, 6 flashcards).
-- **Siguiente:** `git/l3-rebase` y `git/l3-herramientas` (nivel 3 de Git).
+- **En curso:** `git/l3-rebase` y `git/l3-herramientas` (nivel 3 de Git).
+- **Repositorio:** https://github.com/jesus-rueda-montes/GitMiau (público). Cada paso se sube con `git push` al terminar.
 - **Siguiente:** resto del temario según [TEMARIO.md](TEMARIO.md); la spec de `gh` al llegar al itinerario de GitHub.
 - **Fase posterior:** simulador de repositorio Git con grafo de commits (decisión M3).
 
@@ -30,6 +31,8 @@ Un paso por entrada, del más antiguo al más reciente. Cada paso termina con lo
 | 2026-09-30 | Motor: flags `shortOnly` + spec de ramas | Campo `shortOnly` en `CliFlagSchema` (exige `short`): el parser no acepta `--name`, el autocompletado solo ofrece `-X` y los errores lo muestran como `-X`. `git rm -r` pasa a `recursive` + `shortOnly`. Spec: `branch` (con `-D` y `-M`), `switch`, `merge`, consultados en git-scm.com. Tests del motor. |
 | 2026-09-30 | Módulo `git/l2-ramas` | Lecciones «Qué es una rama y cómo moverse entre ellas» (`branch`, `switch`, `-c`, `-`, `-d`/`-D`, detached HEAD, `checkout` como forma clásica) y «Merge y conflictos» (fast-forward, tres vías, `--no-ff`, `--ff-only`, `--squash`, marcas de conflicto, `--continue`, `--abort`). 10 ejercicios (uno multi), 6 flashcards. Glosario: rama, merge, fast-forward, conflicto, detached HEAD. Error detectado por el validador: los ids de flashcards no admiten mayúsculas. |
 | 2026-09-30 | Módulo `git/l2-remotos` | Spec: `clone`, `remote` (con subcomandos y alias `rm`), `fetch`, `pull`, `push`, consultados en git-scm.com. Lecciones «Remotos, clone, fetch y pull» y «Subir cambios con push» (upstream, push rechazado, `--force-with-lease`, HTTPS frente a SSH). 10 ejercicios, 6 flashcards. Glosario: remoto, upstream, token. Decisión M16 sobre el comportamiento por defecto de `git pull`. |
+| 2026-09-30 | Publicación en GitHub | Remoto `origin` = `https://github.com/jesus-rueda-montes/GitMiau.git` (repo público creado por el usuario). Primer `git push -u origin main`. El workflow de Pages se ejecuta en cada push; hay que activar *Settings → Pages → Source: GitHub Actions* para que el despliegue funcione. |
+| 2026-09-30 | Spec de git para el nivel 3 | `rebase`, `stash`, `cherry-pick`, `tag`, `reflog`, `bisect`, consultados en git-scm.com. `stash` tiene flags propios y subcomandos (`git stash -u` y `git stash push -u` valen). `reflog` sin `args` en la raíz para que `show`, `list`… se reconozcan como subcomandos. Flags solo cortos: `cherry-pick -x`, `tag -n`. Alias: `bisect new`/`old`, `bisect view`. |
 
 ## Heredado de Kubernetete (sin cambios)
 - Motor de contenido: esquemas zod (`src/content/schema.ts`), parser de lecciones con las 7 secciones obligatorias (`lesson.ts`), `buildCatalog()` que acumula errores con la ruta del archivo (`loader.ts`).
@@ -110,6 +113,7 @@ e2e/                            # Playwright sobre el build de producción
 ## Especificaciones de CLI (`content/cli-specs/<cli>.json`)
 - Solo lo que usa el temario, **transcrito de la documentación oficial**; cada comando lleva su `source`.
 - Flags: `takesValue`, `values` (sugerencias) y `strict` (solo esos valores son válidos). El motor no modela flags con valor **opcional** (`--decorate[=short]`, `-u[<modo>]`, `--rebase[=merges]`, `--force-with-lease[=ref:hash]`): se declaran como booleanos (la forma con `=valor` da error) o se omiten.
+- Un comando con `args` en su raíz **no** reconoce subcomandos (el primer token se toma como posicional). Si un comando tiene subcomandos y también se usa sin ellos (`git stash`, `git reflog`), no se le ponen `args` en la raíz.
 - Estilo `gnu`: `--largo` y `-c` corto; cortos agrupables (`-it`) y, como en getopt, el último del grupo puede llevar valor (`-am "msg"`).
 - Para una CLI nueva: añadirla a `CLIS` en `schema.ts` y crear su JSON.
 - Sinónimos que la documentación declara como tales (`git diff --staged` = `--cached`) son dos flags distintos para el motor: los ejercicios aceptan ambas formas en `accepted`.

@@ -279,4 +279,17 @@ describe('git (contenido real)', () => {
     expect(sameGit('git push -u origin main', 'git push --set-upstream origin main')).toBe(true)
     expect(sameGit('git fetch -p', 'git fetch --prune')).toBe(true)
   })
+
+  test('nivel 3: stash con y sin subcomando, reflog, bisect y cherry-pick -x', () => {
+    const bare = g('git stash -u')
+    expect(bare.ok && bare.command).toMatchObject({ path: ['git', 'stash'], flags: { 'include-untracked': 'true' } })
+    expect(sameGit('git stash push -m "wip login"', "git stash push --message='wip login'")).toBe(true)
+    const pop = g('git stash pop stash@{1}')
+    expect(pop.ok && pop.command).toMatchObject({ path: ['git', 'stash', 'pop'], positionals: ['stash@{1}'] })
+    const reflog = g('git reflog show')
+    expect(reflog.ok && reflog.command.path).toEqual(['git', 'reflog', 'show'])
+    expect(sameGit('git bisect old v1.2', 'git bisect good v1.2')).toBe(true)
+    expect(sameGit('git cherry-pick -x 3f2a9c1', 'git cherry-pick 3f2a9c1 -x')).toBe(true)
+    expect(sameGit('git rebase -i HEAD~3', 'git rebase --interactive HEAD~3')).toBe(true)
+  })
 })

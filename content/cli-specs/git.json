@@ -436,6 +436,234 @@
         { "name": "verbose", "short": "v", "takesValue": false, "description": "Más información" },
         { "name": "quiet", "short": "q", "takesValue": false, "description": "Menos información" }
       ]
+    },
+    {
+      "name": "rebase",
+      "description": "Reaplica commits encima de otra base",
+      "source": "https://git-scm.com/docs/git-rebase",
+      "args": [{ "name": "UPSTREAM" }, { "name": "RAMA" }],
+      "flags": [
+        { "name": "interactive", "short": "i", "takesValue": false, "description": "Edita la lista de commits antes de reaplicarlos (rebase interactivo)" },
+        { "name": "onto", "takesValue": true, "description": "Nueva base sobre la que se reaplican los commits" },
+        { "name": "continue", "takesValue": false, "description": "Continúa tras resolver un conflicto" },
+        { "name": "abort", "takesValue": false, "description": "Cancela el rebase y deja la rama como estaba" },
+        { "name": "skip", "takesValue": false, "description": "Salta el commit actual y sigue" },
+        { "name": "quit", "takesValue": false, "description": "Abandona el rebase sin restaurar HEAD" },
+        { "name": "autosquash", "takesValue": false, "description": "Coloca y marca automáticamente los commits fixup! y squash!" },
+        { "name": "autostash", "takesValue": false, "description": "Guarda los cambios locales antes y los recupera después" },
+        { "name": "exec", "short": "x", "takesValue": true, "description": "Ejecuta un comando después de cada commit" },
+        { "name": "root", "takesValue": false, "description": "Reaplica todos los commits desde el primero" },
+        { "name": "edit-todo", "takesValue": false, "description": "Edita la lista de tareas de un rebase interactivo en curso" },
+        { "name": "rebase-merges", "short": "r", "takesValue": false, "description": "Conserva los commits de merge" },
+        { "name": "update-refs", "takesValue": false, "description": "Actualiza también las ramas que apuntan a los commits reaplicados" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "Menos información" },
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Más información" }
+      ]
+    },
+    {
+      "name": "stash",
+      "description": "Guarda temporalmente los cambios sin commit y limpia el working tree",
+      "source": "https://git-scm.com/docs/git-stash",
+      "flags": [
+        { "name": "include-untracked", "short": "u", "takesValue": false, "description": "Incluye los ficheros untracked" },
+        { "name": "all", "short": "a", "takesValue": false, "description": "Incluye los ficheros untracked y los ignorados" },
+        { "name": "message", "short": "m", "takesValue": true, "description": "Descripción de la entrada del stash" },
+        { "name": "keep-index", "short": "k", "takesValue": false, "description": "Deja en el índice lo que ya estaba preparado" },
+        { "name": "staged", "short": "S", "takesValue": false, "description": "Guarda solo los cambios preparados" },
+        { "name": "patch", "short": "p", "takesValue": false, "description": "Elige de forma interactiva qué trozos guardar" }
+      ],
+      "subcommands": [
+        {
+          "name": "push",
+          "description": "Guarda los cambios en el stash (lo que hace git stash sin subcomando)",
+          "args": [{ "name": "RUTA" }],
+          "flags": [
+            { "name": "include-untracked", "short": "u", "takesValue": false, "description": "Incluye los ficheros untracked" },
+            { "name": "all", "short": "a", "takesValue": false, "description": "Incluye los ficheros untracked y los ignorados" },
+            { "name": "message", "short": "m", "takesValue": true, "description": "Descripción de la entrada del stash" },
+            { "name": "keep-index", "short": "k", "takesValue": false, "description": "Deja en el índice lo que ya estaba preparado" },
+            { "name": "staged", "short": "S", "takesValue": false, "description": "Guarda solo los cambios preparados" },
+            { "name": "patch", "short": "p", "takesValue": false, "description": "Elige de forma interactiva qué trozos guardar" }
+          ]
+        },
+        {
+          "name": "list",
+          "description": "Lista las entradas del stash"
+        },
+        {
+          "name": "show",
+          "description": "Muestra los cambios de una entrada",
+          "args": [{ "name": "STASH" }],
+          "flags": [
+            { "name": "patch", "short": "p", "takesValue": false, "description": "Muestra el diff completo" },
+            { "name": "include-untracked", "short": "u", "takesValue": false, "description": "Incluye los ficheros untracked" }
+          ]
+        },
+        {
+          "name": "pop",
+          "description": "Aplica una entrada y la borra del stash (si no hay conflictos)",
+          "args": [{ "name": "STASH" }],
+          "flags": [
+            { "name": "index", "takesValue": false, "description": "Restaura también lo que estaba preparado" }
+          ]
+        },
+        {
+          "name": "apply",
+          "description": "Aplica una entrada sin borrarla del stash",
+          "args": [{ "name": "STASH" }],
+          "flags": [
+            { "name": "index", "takesValue": false, "description": "Restaura también lo que estaba preparado" }
+          ]
+        },
+        {
+          "name": "drop",
+          "description": "Borra una entrada del stash",
+          "args": [{ "name": "STASH" }]
+        },
+        {
+          "name": "clear",
+          "description": "Borra todas las entradas del stash"
+        },
+        {
+          "name": "branch",
+          "description": "Crea una rama desde donde se hizo el stash y le aplica los cambios",
+          "args": [{ "name": "RAMA" }, { "name": "STASH" }]
+        }
+      ]
+    },
+    {
+      "name": "cherry-pick",
+      "description": "Aplica los cambios de commits existentes creando commits nuevos",
+      "source": "https://git-scm.com/docs/git-cherry-pick",
+      "args": [{ "name": "COMMIT" }],
+      "flags": [
+        { "name": "x", "short": "x", "shortOnly": true, "takesValue": false, "description": "Añade al mensaje \"(cherry picked from commit …)\"" },
+        { "name": "edit", "short": "e", "takesValue": false, "description": "Abre el editor para retocar el mensaje" },
+        { "name": "no-commit", "short": "n", "takesValue": false, "description": "Aplica los cambios sin crear el commit" },
+        { "name": "mainline", "short": "m", "takesValue": true, "description": "Número del padre (desde 1) al elegir un merge" },
+        { "name": "signoff", "short": "s", "takesValue": false, "description": "Añade el trailer Signed-off-by" },
+        { "name": "ff", "takesValue": false, "description": "Hace fast-forward si es posible" },
+        { "name": "allow-empty", "takesValue": false, "description": "Permite commits vacíos" },
+        { "name": "continue", "takesValue": false, "description": "Continúa tras resolver un conflicto" },
+        { "name": "skip", "takesValue": false, "description": "Salta el commit actual y sigue" },
+        { "name": "abort", "takesValue": false, "description": "Cancela y vuelve al estado anterior" },
+        { "name": "quit", "takesValue": false, "description": "Olvida la operación en curso" }
+      ]
+    },
+    {
+      "name": "tag",
+      "description": "Crea, lista o borra tags",
+      "source": "https://git-scm.com/docs/git-tag",
+      "args": [{ "name": "TAG" }, { "name": "COMMIT" }],
+      "flags": [
+        { "name": "annotate", "short": "a", "takesValue": false, "description": "Crea un tag anotado (con autor, fecha y mensaje)" },
+        { "name": "message", "short": "m", "takesValue": true, "description": "Mensaje del tag (implica anotado)" },
+        { "name": "sign", "short": "s", "takesValue": false, "description": "Crea un tag anotado y firmado" },
+        { "name": "delete", "short": "d", "takesValue": false, "description": "Borra tags" },
+        { "name": "list", "short": "l", "takesValue": false, "description": "Lista tags (opcionalmente, los que coinciden con un patrón)" },
+        { "name": "force", "short": "f", "takesValue": false, "description": "Sustituye un tag que ya existe" },
+        { "name": "lines", "short": "n", "shortOnly": true, "takesValue": false, "description": "Al listar, muestra también la primera línea del mensaje" },
+        { "name": "sort", "takesValue": true, "description": "Ordena al listar (p. ej. -version:refname)" },
+        { "name": "contains", "takesValue": false, "description": "Solo los tags que contienen el commit indicado" }
+      ]
+    },
+    {
+      "name": "reflog",
+      "description": "Muestra y gestiona el registro local de por dónde han pasado HEAD y las ramas",
+      "source": "https://git-scm.com/docs/git-reflog",
+      "subcommands": [
+        {
+          "name": "show",
+          "description": "Muestra el reflog de una referencia (lo que hace sin subcomando)",
+          "args": [{ "name": "REFERENCIA" }]
+        },
+        {
+          "name": "list",
+          "description": "Lista las referencias que tienen reflog"
+        },
+        {
+          "name": "exists",
+          "description": "Comprueba si una referencia tiene reflog",
+          "args": [{ "name": "REFERENCIA" }]
+        },
+        {
+          "name": "expire",
+          "description": "Poda las entradas antiguas del reflog"
+        },
+        {
+          "name": "delete",
+          "description": "Borra entradas concretas del reflog",
+          "args": [{ "name": "ENTRADA" }]
+        },
+        {
+          "name": "drop",
+          "description": "Elimina por completo el reflog de una referencia",
+          "args": [{ "name": "REFERENCIA" }]
+        }
+      ]
+    },
+    {
+      "name": "bisect",
+      "description": "Busca con búsqueda binaria el commit que introdujo un error",
+      "source": "https://git-scm.com/docs/git-bisect",
+      "subcommands": [
+        {
+          "name": "start",
+          "description": "Empieza una búsqueda (opcionalmente con el commit malo y los buenos)",
+          "args": [{ "name": "MALO" }, { "name": "BUENO" }]
+        },
+        {
+          "name": "bad",
+          "aliases": [
+            "new"
+          ],
+          "description": "Marca un commit como malo (tiene el error)",
+          "args": [{ "name": "COMMIT" }]
+        },
+        {
+          "name": "good",
+          "aliases": [
+            "old"
+          ],
+          "description": "Marca un commit como bueno (no tiene el error)",
+          "args": [{ "name": "COMMIT" }]
+        },
+        {
+          "name": "skip",
+          "description": "Salta un commit que no se puede probar",
+          "args": [{ "name": "COMMIT" }]
+        },
+        {
+          "name": "reset",
+          "description": "Termina la búsqueda y vuelve a donde estabas",
+          "args": [{ "name": "COMMIT" }]
+        },
+        {
+          "name": "run",
+          "description": "Automatiza la búsqueda con un comando (0 = bueno, 125 = saltar, 1-127 = malo)",
+          "args": [{ "name": "COMANDO" }, { "name": "ARGUMENTOS" }]
+        },
+        {
+          "name": "log",
+          "description": "Muestra lo marcado hasta ahora"
+        },
+        {
+          "name": "visualize",
+          "aliases": [
+            "view"
+          ],
+          "description": "Muestra los commits sospechosos que quedan"
+        },
+        {
+          "name": "terms",
+          "description": "Muestra los términos en uso (bad/good u otros)"
+        },
+        {
+          "name": "replay",
+          "description": "Repite una búsqueda a partir de un log",
+          "args": [{ "name": "FICHERO" }]
+        }
+      ]
     }
   ]
 }
