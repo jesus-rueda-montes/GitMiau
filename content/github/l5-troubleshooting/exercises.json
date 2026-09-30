@@ -1,0 +1,253 @@
+{
+  "exercises": [
+    {
+      "id": "detached-rescate",
+      "type": "command",
+      "cli": "git",
+      "prompt": "`git status` dice *HEAD detached at 3f2a9c1* y has hecho dos commits que quieres conservar. Crea una rama `rescate` en este punto y cámbiate a ella, con un solo comando.",
+      "hints": [
+        "Es el comando moderno para cambiar de rama, con el flag que además la crea.",
+        "`git switch -c <nombre>`."
+      ],
+      "accepted": [
+        "git switch -c rescate",
+        "git switch --create rescate"
+      ],
+      "solution": {
+        "answer": "git switch -c rescate",
+        "explanation": "La rama nueva apunta al commit actual, así que los dos commits quedan a salvo en ella."
+      }
+    },
+    {
+      "id": "reflog-recuperar",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Tras un `git reset --hard` de más, `git reflog` muestra que el commit que querías es `8f41d07`. Crea la rama `rescate` apuntando a ese commit (sin cambiarte a ella).",
+      "hints": [
+        "`git branch` acepta, después del nombre, el commit al que debe apuntar."
+      ],
+      "accepted": [
+        "git branch rescate 8f41d07"
+      ],
+      "solution": {
+        "answer": "git branch rescate 8f41d07",
+        "explanation": "El reflog guarda por dónde ha pasado HEAD; con el hash, una rama nueva devuelve el commit a la historia visible."
+      }
+    },
+    {
+      "id": "push-rechazado",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "`git push` en `main` responde `! [rejected] main -> main (fetch first)`. ¿Qué haces?",
+      "hints": [
+        "*Fetch first*: primero trae lo que hay en el remoto."
+      ],
+      "options": [
+        { "id": "a", "text": "`git pull` (o `git pull --rebase`), resolver conflictos si los hay y volver a hacer push", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "`git push --force`", "correct": false, "explanation": "Borraría los commits que otra persona subió a main." },
+        { "id": "c", "text": "Borrar el repo local y clonarlo de nuevo", "correct": false, "explanation": "Perderías tus commits locales." },
+        { "id": "d", "text": "`git push --force-with-lease`", "correct": false, "explanation": "En main nunca se fuerza; además, fallaría porque el remoto cambió." }
+      ],
+      "solution": {
+        "answer": "Pull y push",
+        "explanation": "El remoto tiene commits que tú no tienes. Intégralos primero; nunca fuerces el push en una rama compartida."
+      }
+    },
+    {
+      "id": "force-rama-propia",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Has hecho rebase de **tu** rama `feature/login`, que ya estaba subida, y el push se rechaza. Súbela forzando de la forma **segura**.",
+      "hints": [
+        "Hay una forma de forzar que falla si alguien más subió algo mientras tanto."
+      ],
+      "accepted": [
+        "git push --force-with-lease",
+        "git push --force-with-lease origin feature/login"
+      ],
+      "solution": {
+        "answer": "git push --force-with-lease",
+        "explanation": "`--force-with-lease` solo sobrescribe si la rama remota sigue donde la viste por última vez; así no borras trabajo ajeno."
+      }
+    },
+    {
+      "id": "commit-rama-equivocada",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Has hecho **dos commits en `main`** que debían ir en la rama `login`. No has hecho push y no tienes cambios sin guardar. ¿Qué secuencia lo arregla?",
+      "hints": [
+        "Primero guarda los commits en una rama; después devuelve main a su sitio."
+      ],
+      "options": [
+        { "id": "a", "text": "`git branch login` → `git reset --hard HEAD~2` → `git switch login`", "correct": true, "explanation": "Correcto: login conserva los commits y main vuelve atrás." },
+        { "id": "b", "text": "`git reset --hard HEAD~2` → `git switch -c login`", "correct": false, "explanation": "Primero borras los commits de main y la rama nueva nace sin ellos (habría que ir al reflog)." },
+        { "id": "c", "text": "`git revert HEAD~2`", "correct": false, "explanation": "revert deshace un commit con otro nuevo; no mueve commits a otra rama." },
+        { "id": "d", "text": "`git switch login` y repetir los cambios a mano", "correct": false, "explanation": "Funciona, pero es trabajo repetido y main sigue con los commits." }
+      ],
+      "solution": {
+        "answer": "branch, reset, switch",
+        "explanation": "`git branch login` crea la rama con los commits; `reset --hard HEAD~2` devuelve main; `git switch login` para seguir trabajando."
+      }
+    },
+    {
+      "id": "deshacer-compartido",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un commit que rompe la web **ya está en `main` en el remoto** y otras personas han hecho pull. ¿Cómo lo deshaces?",
+      "hints": [
+        "La historia compartida no se reescribe."
+      ],
+      "options": [
+        { "id": "a", "text": "`git revert <commit>` y push", "correct": true, "explanation": "Correcto: crea un commit que deshace el otro sin reescribir la historia." },
+        { "id": "b", "text": "`git reset --hard HEAD~1` y `git push --force`", "correct": false, "explanation": "Reescribe historia compartida y rompe los clones de los demás." },
+        { "id": "c", "text": "`git commit --amend`", "correct": false, "explanation": "También reescribe un commit ya compartido." }
+      ],
+      "solution": {
+        "answer": "git revert",
+        "explanation": "`git revert` añade un commit con los cambios contrarios: la historia solo crece y nadie tiene que arreglar su clon."
+      }
+    },
+    {
+      "id": "merge-abort",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Estás en medio de un merge con conflictos que no sabes resolver. Cancélalo y vuelve al estado anterior.",
+      "hints": [
+        "`git merge` tiene un flag para abortar."
+      ],
+      "accepted": [
+        "git merge --abort"
+      ],
+      "solution": {
+        "answer": "git merge --abort",
+        "explanation": "Vuelve al estado anterior al merge. Para un rebase a medias existe `git rebase --abort`."
+      }
+    },
+    {
+      "id": "https-password",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "`git push` por HTTPS te pide usuario y contraseña, pones tu contraseña de GitHub y falla. ¿Por qué?",
+      "hints": [
+        "GitHub cambió cómo se autentican las operaciones de Git."
+      ],
+      "options": [
+        { "id": "a", "text": "GitHub ya no acepta contraseñas para Git; hay que usar un token o configurar Git con `gh auth login` / `gh auth setup-git`", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "La contraseña caduca cada 30 días", "correct": false, "explanation": "No es eso: las contraseñas no sirven para Git." },
+        { "id": "c", "text": "Solo se puede hacer push por SSH", "correct": false, "explanation": "HTTPS funciona, pero con token o credential helper." }
+      ],
+      "solution": {
+        "answer": "Token o gh",
+        "explanation": "La autenticación con contraseña para Git se eliminó. Usa un personal access token o deja que `gh` configure las credenciales."
+      }
+    },
+    {
+      "id": "workflow-no-lanza",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un workflow crea una etiqueta y hace push de un commit usando el `GITHUB_TOKEN`. Tienes otro workflow con `on: push` que debería ejecutarse con ese push, pero **no se lanza**. ¿Por qué?",
+      "hints": [
+        "GitHub evita que los workflows se disparen unos a otros en bucle."
+      ],
+      "options": [
+        { "id": "a", "text": "Los eventos generados con el `GITHUB_TOKEN` (salvo `workflow_dispatch` y `repository_dispatch`) no crean ejecuciones nuevas", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "El `GITHUB_TOKEN` no puede hacer push", "correct": false, "explanation": "Puede, si tiene `contents: write`." },
+        { "id": "c", "text": "`on: push` solo reacciona a pushes desde la terminal", "correct": false, "explanation": "No depende de desde dónde se haga el push, sino de con qué token." }
+      ],
+      "solution": {
+        "answer": "Eventos del GITHUB_TOKEN",
+        "explanation": "Así se evitan bucles recursivos. Para encadenar workflows, usa `workflow_dispatch`, `repository_dispatch` o el token de una GitHub App."
+      }
+    },
+    {
+      "id": "fork-secrets",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "El CI funciona en tus PRs, pero en los PRs de colaboradores externos (desde forks) un paso falla porque `secrets.API_KEY` llega vacío. ¿Por qué?",
+      "hints": [
+        "Piensa en qué pasaría si cualquiera pudiera leer tus secrets abriendo un PR."
+      ],
+      "options": [
+        { "id": "a", "text": "Salvo el `GITHUB_TOKEN`, los secrets no se pasan a los workflows lanzados desde un fork", "correct": true, "explanation": "Correcto: y el `GITHUB_TOKEN` es de solo lectura en esos PRs." },
+        { "id": "b", "text": "El secret está mal escrito", "correct": false, "explanation": "Entonces fallaría también en tus PRs." },
+        { "id": "c", "text": "Los forks tienen sus propios secrets, que se copian al hacer el fork", "correct": false, "explanation": "Los secrets no se copian." }
+      ],
+      "solution": {
+        "answer": "Los forks no reciben secrets",
+        "explanation": "Es una protección: un PR de un fork podría contener código que imprimiera tus secrets. Los pasos que los necesitan deben ejecutarse después del merge."
+      }
+    },
+    {
+      "id": "schedule-parado",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un workflow con `schedule` en un repo **público** llevaba meses funcionando y ha dejado de ejecutarse. Nadie ha tocado el repo en dos meses. ¿Qué ha pasado?",
+      "hints": [
+        "GitHub no quiere ejecutar tareas programadas de repos abandonados."
+      ],
+      "options": [
+        { "id": "a", "text": "En repos públicos, los workflows programados se desactivan tras 60 días sin actividad", "correct": true, "explanation": "Correcto: se reactivan desde la pestaña Actions o con `gh workflow enable`." },
+        { "id": "b", "text": "El cron tiene un error de sintaxis", "correct": false, "explanation": "Funcionó durante meses." },
+        { "id": "c", "text": "`schedule` solo se ejecuta en repos privados", "correct": false, "explanation": "Funciona en los dos." }
+      ],
+      "solution": {
+        "answer": "Desactivado por inactividad",
+        "explanation": "En repos públicos, `schedule` se desactiva automáticamente tras 60 días sin actividad en el repositorio."
+      }
+    },
+    {
+      "id": "gh-run-log-failed",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "La ejecución `123456` del CI ha fallado. Muestra solo los logs de los pasos que fallaron.",
+      "hints": [
+        "Es `gh run view` con el id.",
+        "El flag es «log» + «failed», con guion."
+      ],
+      "accepted": [
+        "gh run view 123456 --log-failed"
+      ],
+      "solution": {
+        "answer": "gh run view 123456 --log-failed",
+        "explanation": "Mucho más rápido que buscar en el log completo (`--log`)."
+      }
+    },
+    {
+      "id": "gh-run-debug",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Relanza la ejecución `123456` con los **logs de depuración** activados.",
+      "hints": [
+        "Es `gh run rerun` con el id.",
+        "El flag es `--debug` (o `-d`)."
+      ],
+      "accepted": [
+        "gh run rerun 123456 --debug",
+        "gh run rerun 123456 -d"
+      ],
+      "solution": {
+        "answer": "gh run rerun 123456 --debug",
+        "explanation": "Activa la depuración solo para ese re-run. Para tenerla siempre, el secret o la variable `ACTIONS_STEP_DEBUG` con valor `true`."
+      }
+    },
+    {
+      "id": "pr-bloqueado",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "El botón de merge de un PR está bloqueado en una rama protegida. ¿Qué puede estar faltando? (Marca todos los correctos)",
+      "hints": [
+        "Repasa las reglas de protección de ramas."
+      ],
+      "options": [
+        { "id": "a", "text": "Un required status check en rojo o pendiente", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Aprobaciones (o se anularon por un push nuevo)", "correct": true, "explanation": "Correcto." },
+        { "id": "c", "text": "Conversaciones de la revisión sin resolver", "correct": true, "explanation": "Correcto." },
+        { "id": "d", "text": "Que el PR tenga más de 10 commits", "correct": false, "explanation": "No existe esa regla." }
+      ],
+      "solution": {
+        "answer": "Checks, aprobaciones, conversaciones",
+        "explanation": "También conflictos con la base o que la rama deba estar al día. El recuadro de merge del PR (o `gh pr checks` / `gh pr view`) dice qué falta."
+      }
+    }
+  ]
+}

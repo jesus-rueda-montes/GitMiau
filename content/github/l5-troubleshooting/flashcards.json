@@ -1,0 +1,11 @@
+{
+  "cards": [
+    { "id": "diagnostico", "front": "Primer paso ante cualquier problema de Git", "back": "Diagnosticar: `git status` (rama, cambios, operación a medias) y `git log --oneline --graph --all`." },
+    { "id": "commits-perdidos", "front": "Recuperar commits tras `reset --hard`, `branch -D` o un detached HEAD", "back": "`git reflog` para encontrar el hash y `git branch rescate <hash>`. Lo que nunca estuvo en un commit no se recupera." },
+    { "id": "push-rechazado", "front": "Push rechazado (*fetch first*)", "back": "`git pull` (o `--rebase`), resolver y push. En tu propia rama tras un rebase: `--force-with-lease`. Nunca forzar en main." },
+    { "id": "rama-equivocada", "front": "Commits en main que debían ir en una rama (sin push)", "back": "`git branch nueva` → `git reset --hard HEAD~N` → `git switch nueva`." },
+    { "id": "workflow-falla", "front": "Investigar un workflow que falla", "back": "`gh run view <id> --log-failed`; `gh run rerun <id> --failed` o `--debug`; `ACTIONS_STEP_DEBUG=true` para logs de depuración." },
+    { "id": "workflow-no-lanza", "front": "Un workflow no se lanza: causas", "back": "Evento generado por el `GITHUB_TOKEN`, filtros `branches`/`paths`, workflow_dispatch fuera de la rama por defecto, schedule desactivado (60 días en públicos), YAML inválido, workflow desactivado." },
+    { "id": "forks", "front": "PRs desde forks en Actions", "back": "No reciben secrets (salvo `GITHUB_TOKEN`), y el `GITHUB_TOKEN` es de solo lectura." }
+  ]
+}

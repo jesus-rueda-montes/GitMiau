@@ -1,0 +1,8 @@
+{
+  "title": "Troubleshooting: Git y GitHub",
+  "summary": "Diagnóstico y rescate de los problemas más habituales: detached HEAD, push rechazado, commits «perdidos», commit en la rama equivocada, secretos subidos y workflows que fallan o no se ejecutan.",
+  "level": 5,
+  "order": 1,
+  "xp": 150,
+  "prereqs": []
+}
