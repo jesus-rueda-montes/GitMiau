@@ -254,4 +254,21 @@ describe('git (contenido real)', () => {
     expect(reset.ok && reset.command).toMatchObject({ positionals: ['HEAD~1'], flags: { hard: 'true' } })
     expect(sameGit('git rm -r --cached logs', 'git rm --cached -r logs')).toBe(true)
   })
+
+  test('flags solo cortos (shortOnly): -D vale, --force-delete no existe', () => {
+    const r = g('git branch -D experimento')
+    expect(r.ok && r.command).toMatchObject({ positionals: ['experimento'], flags: { 'force-delete': 'true' } })
+    expect(g('git branch --force-delete experimento')).toEqual({ ok: false, errors: ['flag desconocido: --force-delete'] })
+    const shorts = complete(git, 'git branch -').candidates.map((c) => c.value)
+    expect(shorts).toContain('-D')
+    expect(shorts).not.toContain('--force-delete')
+    expect(complete(git, 'git branch --fo').candidates.map((c) => c.value)).toEqual(['--force'])
+  })
+
+  test('ramas: switch -c y switch - (volver a la anterior)', () => {
+    expect(sameGit('git switch -c feature/login', 'git switch --create=feature/login')).toBe(true)
+    const back = g('git switch -')
+    expect(back.ok && back.command.positionals).toEqual(['-'])
+    expect(sameGit('git merge --no-ff feature/login', 'git merge feature/login --no-ff')).toBe(true)
+  })
 })

@@ -68,12 +68,15 @@ const availableFlags = (spec: CliSpec, node: CliCommand): CliFlag[] => [...(node
 /** Prefijo de los flags largos según el estilo de la CLI: "--name" o "-name". */
 export const flagPrefix = (spec: CliSpec) => (spec.flagStyle === 'single-dash' ? '-' : '--')
 
+/** Cómo se escribe un flag en los mensajes: -D si solo tiene forma corta. */
+const flagLabel = (flag: CliFlag, dash: string) => (flag.shortOnly ? `-${flag.short}` : `${dash}${flag.name}`)
+
 const expectsSubcommand = (node: CliCommand, positionals: string[]) =>
   !!node.subcommands?.length && !node.args?.length && positionals.length === 0
 
 function setFlag(state: WalkState, flag: CliFlag, value: string) {
   if (flag.strict && flag.values && !flag.values.includes(value))
-    state.errors.push(`valor no válido para ${state.dash}${flag.name}: "${value}" (válidos: ${flag.values.join(', ')})`)
+    state.errors.push(`valor no válido para ${flagLabel(flag, state.dash)}: "${value}" (válidos: ${flag.values.join(', ')})`)
   state.flags[flag.name] = value
 }
 
@@ -108,7 +111,7 @@ function walk(spec: CliSpec, tokens: string[]): WalkState {
       const eq = t.indexOf('=')
       const name = eq === -1 ? t.slice(2) : t.slice(2, eq)
       const value = eq === -1 ? undefined : t.slice(eq + 1)
-      const flag = flags.find((f) => f.name === name)
+      const flag = flags.find((f) => f.name === name && !f.shortOnly)
       if (!flag) state.errors.push(`flag desconocido: ${dash}${name}`)
       else if (flag.takesValue) {
         if (value === undefined) state.pendingFlag = flag
@@ -175,7 +178,7 @@ export function parseCommand(spec: CliSpec, line: string): ParseResult {
   if (tokens[0] !== spec.cli) return { ok: false, errors: [`el comando debe empezar por "${spec.cli}"`] }
   const s = walk(spec, tokens.slice(1))
   const errors = [...s.errors]
-  if (s.pendingFlag) errors.push(`el flag ${s.dash}${s.pendingFlag.name} necesita un valor`)
+  if (s.pendingFlag) errors.push(`el flag ${flagLabel(s.pendingFlag, s.dash)} necesita un valor`)
   if (s.path.length === 1 && spec.commands.length > 0 && !spec.args?.length) errors.push(`falta el subcomando (p. ej. ${spec.commands.slice(0, 3).map((c) => c.name).join(', ')})`)
   if (errors.length) return { ok: false, errors }
   return { ok: true, command: { path: s.path, positionals: s.positionals, flags: s.flags, trailing: s.trailing } }
@@ -229,16 +232,19 @@ export function complete(spec: CliSpec, line: string): Completion {
     const flags = availableFlags(spec, s.node)
     const eq = partial.indexOf('=')
     if (partial.startsWith(dash) && eq !== -1) {
-      const flag = flags.find((f) => f.name === partial.slice(dash.length, eq))
+      const flag = flags.find((f) => f.name === partial.slice(dash.length, eq) && !f.shortOnly)
       return result(byPrefix((flag?.values ?? []).map((v) => ({ value: `${dash}${flag!.name}=${v}` }))))
     }
     const unused = flags.filter((f) => !(f.name in s.flags))
-    const cs: Candidate[] = unused.map((f) => ({
-      value: `${dash}${f.name}`,
-      description: `${f.short ? `-${f.short}, ` : ''}${f.description}`,
-    }))
+    const cs: Candidate[] = unused
+      .filter((f) => !f.shortOnly)
+      .map((f) => ({
+        value: `${dash}${f.name}`,
+        description: `${f.short ? `-${f.short}, ` : ''}${f.description}`,
+      }))
     if (dash === '--' && !partial.startsWith('--'))
-      for (const f of unused) if (f.short) cs.push({ value: `-${f.short}`, description: `--${f.name}: ${f.description}` })
+      for (const f of unused)
+        if (f.short) cs.push({ value: `-${f.short}`, description: f.shortOnly ? f.description : `--${f.name}: ${f.description}` })
     return result(byPrefix(cs))
   }
 

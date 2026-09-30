@@ -8,8 +8,8 @@ Miau es una copia adaptada de Kubernetete (decisión M1 de [DECISIONS.md](DECISI
   - Eliminado el editor HCL: `src/engine/hcl.ts`, `src/lib/hclLoader.ts`, `src/components/code/hclMode.ts`, `src/vendor/tree-sitter-hcl/` y la dependencia `web-tree-sitter`. `grade()` corrige los ejercicios de editor solo con `gradeYaml`.
   - Marca Miau: título, cabecera, favicon, clave de IndexedDB `miau-progress`, copias de progreso con `app: "miau"`.
   - Itinerarios: `fundamentos` (opcional: terminal y YAML), `git` y `github` (`content/tracks.json`).
-  - `CLIS = ['git', 'gh']`. Spec de `git` (`content/cli-specs/git.json`), transcrita de git-scm.com. Comandos: `init`, `config` (`list`, `get`, `set`, `unset`, `edit`), `status`, `add`, `commit`, `log`, `diff`, `show`, `restore`, `reset`, `revert`, `rm`, `check-ignore`.
-  - Motor: flags cortos agrupados con valor al final (`-am "msg"`), como en getopt.
+  - `CLIS = ['git', 'gh']`. Spec de `git` (`content/cli-specs/git.json`), transcrita de git-scm.com. Comandos: `init`, `config` (`list`, `get`, `set`, `unset`, `edit`), `status`, `add`, `commit`, `log`, `diff`, `show`, `restore`, `reset`, `revert`, `rm`, `check-ignore`, `branch`, `switch`, `merge`.
+  - Motor: flags cortos agrupados con valor al final (`-am "msg"`), como en getopt. Flags `shortOnly` para los que solo existen en forma corta (`git branch -D`, `git rm -r`).
   - Specs de `kubectl`, `terraform` y `ansible` como fixtures de test en `src/engine/__fixtures__/` (decisión M6).
   - Contenido piloto: `git/l1-que-es-git` (2 lecciones, 9 ejercicios: quiz, command y fill; 5 flashcards).
   - Tests (Vitest), lint, build y e2e (Playwright) en verde.
@@ -25,6 +25,7 @@ Un paso por entrada, del más antiguo al más reciente. Cada paso termina con lo
 | 2026-09-30 | Base de Miau | Copia adaptada de Kubernetete, piloto `git/l1-que-es-git`, documentación inicial. Commit `88d1a54`. |
 | 2026-09-30 | Spec de git para `l1-historial` | Añadidos `diff`, `show`, `restore`, `reset`, `revert`, `rm` y `check-ignore`, consultados en git-scm.com (también `gitrevisions` para `HEAD~1`, `HEAD^` y `HEAD:ruta`). Script de formato compacto de specs: una línea por flag. |
 | 2026-09-30 | Módulo `git/l1-historial` | Lecciones «Ver qué ha cambiado» (`diff`, `show`, `HEAD~n`), «Ignorar ficheros con .gitignore» y «Deshacer cambios» (`restore`, `reset`, `revert`, `commit --amend`). 11 ejercicios y 7 flashcards. Glosario de Git (7 términos). e2e pasado a `git/l1-que-es-git` → `git/l1-historial`. Tests del motor para `restore -S`, `reset --hard HEAD~1` y `rm -r`. Error detectado: un título de lección con `:` sin comillas rompe el frontmatter YAML (lo avisa el test de contenido). |
+| 2026-09-30 | Motor: flags `shortOnly` + spec de ramas | Campo `shortOnly` en `CliFlagSchema` (exige `short`): el parser no acepta `--name`, el autocompletado solo ofrece `-X` y los errores lo muestran como `-X`. `git rm -r` pasa a `recursive` + `shortOnly`. Spec: `branch` (con `-D` y `-M`), `switch`, `merge`, consultados en git-scm.com. Tests del motor. |
 
 ## Heredado de Kubernetete (sin cambios)
 - Motor de contenido: esquemas zod (`src/content/schema.ts`), parser de lecciones con las 7 secciones obligatorias (`lesson.ts`), `buildCatalog()` que acumula errores con la ruta del archivo (`loader.ts`).
@@ -108,7 +109,7 @@ e2e/                            # Playwright sobre el build de producción
 - Estilo `gnu`: `--largo` y `-c` corto; cortos agrupables (`-it`) y, como en getopt, el último del grupo puede llevar valor (`-am "msg"`).
 - Para una CLI nueva: añadirla a `CLIS` en `schema.ts` y crear su JSON.
 - Sinónimos que la documentación declara como tales (`git diff --staged` = `--cached`) son dos flags distintos para el motor: los ejercicios aceptan ambas formas en `accepted`.
-- Flags que solo existen en forma corta (`git rm -r`): `name` y `short` son la misma letra.
+- Flags que solo existen en forma corta (`git branch -D`, `git rm -r`): `"shortOnly": true`, con `short` y un `name` descriptivo que solo sirve de identificador interno. Los atajos como `-D` (= `--delete --force`) son un flag distinto para el motor: si un ejercicio debe aceptar ambas formas, van las dos en `accepted`.
 
 ## Notas para tests
 - Los tests de interfaz usan el contenido piloto `git/l1-que-es-git` (`PILOT` en `components.test.tsx`) y aprueban antes los módulos anteriores del itinerario (`resetAndUnlockPilot`).

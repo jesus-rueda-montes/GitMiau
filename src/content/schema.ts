@@ -193,15 +193,20 @@ export type GlossaryEntry = z.infer<typeof GlossaryEntrySchema>
 
 // --- Especificaciones de CLI (autocompletado y corrección de comandos) ------
 
-export const CliFlagSchema = z.strictObject({
-  name: z.string().regex(/^[a-z0-9][a-z0-9-]*$/),
-  short: z.string().regex(/^[a-zA-Z0-9]$/).optional(),
-  takesValue: z.boolean(),
-  /** Sugerencias de autocompletado; con strict, además, los únicos valores válidos. */
-  values: z.array(z.string()).optional(),
-  strict: z.boolean().optional(),
-  description: z.string().min(1),
-})
+export const CliFlagSchema = z
+  .strictObject({
+    /** Nombre largo (--name). En los flags shortOnly es solo un identificador interno. */
+    name: z.string().regex(/^[a-z0-9][a-z0-9-]*$/),
+    short: z.string().regex(/^[a-zA-Z0-9]$/).optional(),
+    /** El flag solo existe en forma corta (git branch -D): --name no es válido. */
+    shortOnly: z.boolean().optional(),
+    takesValue: z.boolean(),
+    /** Sugerencias de autocompletado; con strict, además, los únicos valores válidos. */
+    values: z.array(z.string()).optional(),
+    strict: z.boolean().optional(),
+    description: z.string().min(1),
+  })
+  .refine((f) => !f.shortOnly || f.short, { message: 'un flag shortOnly necesita "short"' })
 
 export const CliArgSchema = z.strictObject({
   name: z.string().min(1),

@@ -233,7 +233,7 @@
       "args": [{ "name": "RUTA" }],
       "flags": [
         { "name": "cached", "takesValue": false, "description": "Solo los quita del índice (deja de seguirlos); el fichero sigue en disco" },
-        { "name": "r", "short": "r", "takesValue": false, "description": "Borra de forma recursiva (directorios)" },
+        { "name": "recursive", "short": "r", "shortOnly": true, "takesValue": false, "description": "Borra de forma recursiva (directorios)" },
         { "name": "force", "short": "f", "takesValue": false, "description": "Fuerza el borrado aunque haya cambios" },
         { "name": "dry-run", "short": "n", "takesValue": false, "description": "No borra nada: solo muestra qué se borraría" },
         { "name": "quiet", "short": "q", "takesValue": false, "description": "No muestra los ficheros borrados" }
@@ -249,6 +249,68 @@
         { "name": "quiet", "short": "q", "takesValue": false, "description": "No muestra nada; solo el código de salida" },
         { "name": "non-matching", "short": "n", "takesValue": false, "description": "Muestra también las rutas que no coinciden (con -v)" },
         { "name": "no-index", "takesValue": false, "description": "No mira el índice (útil para depurar por qué un fichero seguido no se ignora)" }
+      ]
+    },
+    {
+      "name": "branch",
+      "description": "Lista, crea, renombra o borra ramas",
+      "source": "https://git-scm.com/docs/git-branch",
+      "args": [{ "name": "RAMA" }, { "name": "PUNTO_DE_PARTIDA" }],
+      "flags": [
+        { "name": "delete", "short": "d", "takesValue": false, "description": "Borra una rama (debe estar fusionada)" },
+        { "name": "force-delete", "short": "D", "shortOnly": true, "takesValue": false, "description": "Borra una rama aunque no esté fusionada (atajo de --delete --force)" },
+        { "name": "move", "short": "m", "takesValue": false, "description": "Renombra una rama" },
+        { "name": "force-move", "short": "M", "shortOnly": true, "takesValue": false, "description": "Renombra aunque ya exista una rama con ese nombre (atajo de --move --force)" },
+        { "name": "copy", "short": "c", "takesValue": false, "description": "Copia una rama" },
+        { "name": "force", "short": "f", "takesValue": false, "description": "Fuerza la operación (crear, renombrar, borrar o copiar)" },
+        { "name": "list", "takesValue": false, "description": "Lista las ramas (lo que hace sin argumentos)" },
+        { "name": "all", "short": "a", "takesValue": false, "description": "Lista las ramas locales y las de seguimiento remoto" },
+        { "name": "remotes", "short": "r", "takesValue": false, "description": "Lista (o borra) las ramas de seguimiento remoto" },
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Muestra el hash y el mensaje del último commit de cada rama" },
+        { "name": "show-current", "takesValue": false, "description": "Muestra el nombre de la rama actual" },
+        { "name": "merged", "takesValue": false, "description": "Solo las ramas ya fusionadas en HEAD (o en el commit indicado)" },
+        { "name": "no-merged", "takesValue": false, "description": "Solo las ramas aún no fusionadas en HEAD (o en el commit indicado)" },
+        { "name": "contains", "takesValue": false, "description": "Solo las ramas que contienen el commit indicado" },
+        { "name": "set-upstream-to", "short": "u", "takesValue": true, "description": "Fija la rama remota de la que hace seguimiento" },
+        { "name": "unset-upstream", "takesValue": false, "description": "Quita la rama remota de seguimiento" }
+      ]
+    },
+    {
+      "name": "switch",
+      "description": "Cambia de rama",
+      "source": "https://git-scm.com/docs/git-switch",
+      "args": [{ "name": "RAMA" }, { "name": "PUNTO_DE_PARTIDA" }],
+      "flags": [
+        { "name": "create", "short": "c", "takesValue": true, "description": "Crea una rama nueva y cambia a ella" },
+        { "name": "force-create", "short": "C", "takesValue": true, "description": "Como --create, pero la resetea si ya existe" },
+        { "name": "detach", "short": "d", "takesValue": false, "description": "Cambia a un commit concreto (detached HEAD) para inspeccionarlo" },
+        { "name": "discard-changes", "short": "f", "takesValue": false, "description": "Cambia aunque se pierdan los cambios locales (-f equivale a --force)" },
+        { "name": "merge", "short": "m", "takesValue": false, "description": "Lleva los cambios locales a la rama nueva" },
+        { "name": "track", "short": "t", "takesValue": false, "description": "Configura el seguimiento de la rama remota al crearla" },
+        { "name": "orphan", "takesValue": true, "description": "Crea una rama sin historia" },
+        { "name": "no-guess", "takesValue": false, "description": "No crea automáticamente la rama a partir de una remota con el mismo nombre" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "No muestra mensajes" }
+      ]
+    },
+    {
+      "name": "merge",
+      "description": "Une la historia de otra rama en la rama actual",
+      "source": "https://git-scm.com/docs/git-merge",
+      "args": [{ "name": "COMMIT" }],
+      "flags": [
+        { "name": "ff", "takesValue": false, "description": "Fast-forward si es posible; si no, commit de merge (por defecto)" },
+        { "name": "no-ff", "takesValue": false, "description": "Crea siempre un commit de merge, aunque sea posible el fast-forward" },
+        { "name": "ff-only", "takesValue": false, "description": "Solo fast-forward; si no es posible, se niega" },
+        { "name": "squash", "takesValue": false, "description": "Aplica los cambios como uno solo, sin crear el commit" },
+        { "name": "no-commit", "takesValue": false, "description": "Hace el merge pero se detiene antes del commit" },
+        { "name": "message", "short": "m", "takesValue": true, "description": "Mensaje del commit de merge" },
+        { "name": "no-edit", "takesValue": false, "description": "Acepta el mensaje generado sin abrir el editor" },
+        { "name": "edit", "short": "e", "takesValue": false, "description": "Abre el editor para el mensaje del merge" },
+        { "name": "abort", "takesValue": false, "description": "Cancela el merge y vuelve al estado anterior" },
+        { "name": "continue", "takesValue": false, "description": "Termina el merge después de resolver los conflictos" },
+        { "name": "quit", "takesValue": false, "description": "Olvida el merge en curso y deja el índice y el working tree como están" },
+        { "name": "strategy", "short": "s", "takesValue": true, "description": "Estrategia de merge (p. ej. ort, resolve, octopus, ours)" },
+        { "name": "strategy-option", "short": "X", "takesValue": true, "description": "Opción de la estrategia (p. ej. ours, theirs)" }
       ]
     }
   ]
