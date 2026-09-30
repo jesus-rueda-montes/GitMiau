@@ -215,6 +215,23 @@ describe('forma TIPO/NOMBRE de kubectl', () => {
   })
 })
 
+describe('gh (contenido real)', () => {
+  const gh = CliSpecSchema.parse(loadRawContent().cliSpecs['/content/cli-specs/gh.json'])
+  const p = (line: string) => parseCommand(gh, line)
+  const sameGh = (a: string, b: string) => {
+    const x = p(a)
+    const y = p(b)
+    return x.ok && y.ok && sameCommand(x.command, y.command)
+  }
+
+  test('subcomandos de repo y auth, con valores estrictos', () => {
+    expect(sameGh('gh repo create miau --public --clone', 'gh repo create miau -c --public')).toBe(true)
+    expect(sameGh('gh auth login -p ssh --web', 'gh auth login --git-protocol=ssh -w')).toBe(true)
+    expect(p('gh auth login -p ftp')).toEqual({ ok: false, errors: [expect.stringMatching(/valor no válido para --git-protocol/)] })
+    expect(sameGh('gh repo fork cli/cli --clone=false', 'gh repo fork cli/cli')).toBe(true)
+  })
+})
+
 describe('git (contenido real)', () => {
   const git = CliSpecSchema.parse(loadRawContent().cliSpecs['/content/cli-specs/git.json'])
   const g = (line: string) => parseCommand(git, line)

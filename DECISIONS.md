@@ -23,6 +23,7 @@ Registro de decisiones con su motivo. Las más recientes van al final de cada ta
 | M15 | Campo `shortOnly` en los flags de las specs, en lugar de inventar un nombre largo o aceptar mayúsculas en `name` | `git branch -D` y `git rm -r` no tienen forma larga. Con un nombre largo inventado, el motor aceptaría `--delete-force`, que no existe; la regla es no inventar. |
 | M16 | Sobre `git pull` con ramas divergidas se explica que falla y hay que elegir `--rebase` o `--no-rebase` (o configurar `pull.rebase`), sin citar versiones | La documentación actual dice que el modo por defecto es `--ff-only`; versiones anteriores daban un error pidiendo configurar `pull.rebase`/`pull.ff`. En ambos casos el alumno tiene que elegir, así que la explicación vale para las dos. |
 | M17 | Repositorio público `jesus-rueda-montes/GitMiau`, con push al final de cada paso | Elegido por el usuario; público para poder usar GitHub Pages gratis. Push tras cada paso para que el trabajo no quede solo en local. |
+| M18 | El itinerario de GitHub combina **interfaz web** (quizzes y escenarios: revisar PRs, permisos, ajustes) y **CLI `gh`** (ejercicios de comandos) | El usuario pidió «lo más profesional y usado en el mundo laboral». Las dos formas se usan: la web para revisar y configurar y `gh` para trabajar desde la terminal y automatizar (scripts, workflows de Actions). |
 
 ## Heredadas de Kubernetete
 
@@ -71,6 +72,6 @@ Numeración original. Se han quitado las que solo aplicaban a Kubernetes, Terraf
 | 55 | Test e2e con Playwright (solo Chromium) sobre el build de producción, en CI antes del build de Pages | Prueba los chunks bajo demanda reales y la persistencia en IndexedDB; un solo navegador mantiene el CI rápido. |
 
 ## Pendiente de decidir
-- **Versiones de las GitHub Actions** del workflow (`checkout@v4`, `setup-node@v4`, `upload-pages-artifact@v3`, `deploy-pages@v4`): el CI de GitMiau avisa de que usan Node.js 20, obsoleto en GitHub Actions. Hay que comprobar en la documentación oficial qué versiones mayores existen antes de cambiarlas (afecta también a Kubernetete).
+- **Versiones de las GitHub Actions** del workflow (`checkout@v4`, `setup-node@v4`, `upload-pages-artifact@v3`, `deploy-pages@v4`): el CI de GitMiau avisa de que usan Node.js 20, obsoleto en GitHub Actions. Hay que comprobar en la documentación oficial qué versiones mayores existen antes de cambiarlas (afecta también a Kubernetete). **Aplazado por el usuario** (2026-09-30).
 - **GitHub Pages**: el usuario tiene que activar *Settings → Pages → Source: GitHub Actions* en GitMiau; mientras tanto, el job `deploy` falla (el `build` pasa).
 - **Simulador de repositorio Git** (decisión M3): modelo de datos, qué comandos simula y cómo se dibuja el grafo. Se decidirá con el usuario al empezar esa fase.

@@ -1,0 +1,122 @@
+{
+  "cli": "gh",
+  "description": "GitHub CLI",
+  "source": "https://cli.github.com/manual/",
+  "commands": [
+    {
+      "name": "auth",
+      "description": "Autenticación de gh (y de Git) con GitHub",
+      "source": "https://cli.github.com/manual/gh_auth",
+      "subcommands": [
+        {
+          "name": "login",
+          "description": "Inicia sesión en una cuenta de GitHub",
+          "flags": [
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre el navegador para autenticarte" },
+            { "name": "clipboard", "short": "c", "takesValue": false, "description": "Copia al portapapeles el código de un solo uso" },
+            { "name": "git-protocol", "short": "p", "values": ["ssh", "https"], "strict": true, "takesValue": true, "description": "Protocolo para las operaciones de Git: ssh o https" },
+            { "name": "hostname", "short": "h", "takesValue": true, "description": "Host de GitHub (p. ej. una instancia de GitHub Enterprise)" },
+            { "name": "scopes", "short": "s", "takesValue": true, "description": "Permisos (scopes) adicionales que se piden" },
+            { "name": "with-token", "takesValue": false, "description": "Lee el token de la entrada estándar" },
+            { "name": "skip-ssh-key", "takesValue": false, "description": "No pregunta si generar y subir una clave SSH" },
+            { "name": "insecure-storage", "takesValue": false, "description": "Guarda las credenciales en texto plano en vez de en el almacén del sistema" }
+          ]
+        },
+        {
+          "name": "status",
+          "description": "Muestra la cuenta activa y el estado de la autenticación",
+          "flags": [
+            { "name": "active", "short": "a", "takesValue": false, "description": "Solo la cuenta activa" },
+            { "name": "hostname", "short": "h", "takesValue": true, "description": "Solo el host indicado" },
+            { "name": "show-token", "short": "t", "takesValue": false, "description": "Muestra los tokens en texto plano" }
+          ]
+        },
+        {
+          "name": "logout",
+          "description": "Cierra la sesión de una cuenta"
+        },
+        {
+          "name": "refresh",
+          "description": "Renueva las credenciales guardadas"
+        },
+        {
+          "name": "setup-git",
+          "description": "Configura Git para que use gh como gestor de credenciales"
+        },
+        {
+          "name": "switch",
+          "description": "Cambia la cuenta activa"
+        },
+        {
+          "name": "token",
+          "description": "Muestra el token de la cuenta activa"
+        }
+      ]
+    },
+    {
+      "name": "repo",
+      "description": "Trabaja con repositorios de GitHub",
+      "source": "https://cli.github.com/manual/gh_repo",
+      "subcommands": [
+        {
+          "name": "create",
+          "description": "Crea un repositorio en GitHub",
+          "args": [{ "name": "NOMBRE" }],
+          "flags": [
+            { "name": "public", "takesValue": false, "description": "Repositorio público" },
+            { "name": "private", "takesValue": false, "description": "Repositorio privado" },
+            { "name": "internal", "takesValue": false, "description": "Repositorio interno (organizaciones de empresa)" },
+            { "name": "description", "short": "d", "takesValue": true, "description": "Descripción del repositorio" },
+            { "name": "clone", "short": "c", "takesValue": false, "description": "Clona el repositorio nuevo en el directorio actual" },
+            { "name": "add-readme", "takesValue": false, "description": "Añade un README" },
+            { "name": "license", "short": "l", "takesValue": true, "description": "Licencia de código abierto (p. ej. mit)" },
+            { "name": "gitignore", "short": "g", "takesValue": true, "description": "Plantilla de .gitignore (p. ej. Node)" },
+            { "name": "source", "short": "s", "takesValue": true, "description": "Ruta de un repositorio local que se usa como origen" },
+            { "name": "remote", "short": "r", "takesValue": true, "description": "Nombre del remoto que se añade al repositorio local" },
+            { "name": "push", "takesValue": false, "description": "Sube los commits locales al repositorio nuevo" },
+            { "name": "homepage", "short": "h", "takesValue": true, "description": "URL de la página del proyecto" },
+            { "name": "template", "short": "p", "takesValue": true, "description": "Crea el repositorio a partir de una plantilla" },
+            { "name": "include-all-branches", "takesValue": false, "description": "Incluye todas las ramas de la plantilla" },
+            { "name": "team", "short": "t", "takesValue": true, "description": "Equipo de la organización que recibe acceso" },
+            { "name": "disable-issues", "takesValue": false, "description": "Desactiva las issues" },
+            { "name": "disable-wiki", "takesValue": false, "description": "Desactiva la wiki" }
+          ]
+        },
+        {
+          "name": "clone",
+          "description": "Clona un repositorio (si es un fork, añade el original como upstream)",
+          "args": [{ "name": "REPOSITORIO" }, { "name": "DIRECTORIO" }],
+          "flags": [
+            { "name": "no-upstream", "takesValue": false, "description": "No añade el remoto upstream al clonar un fork" },
+            { "name": "upstream-remote-name", "short": "u", "takesValue": true, "description": "Nombre del remoto upstream (por defecto, upstream)" }
+          ]
+        },
+        {
+          "name": "fork",
+          "description": "Crea un fork de un repositorio en tu cuenta",
+          "args": [{ "name": "REPOSITORIO" }],
+          "flags": [
+            { "name": "clone", "takesValue": false, "description": "Clona el fork después de crearlo" },
+            { "name": "remote", "takesValue": false, "description": "Añade un remoto de Git para el fork" },
+            { "name": "remote-name", "takesValue": true, "description": "Nombre del remoto del fork (por defecto, origin)" },
+            { "name": "fork-name", "takesValue": true, "description": "Nombre del repositorio del fork" },
+            { "name": "org", "takesValue": true, "description": "Crea el fork en una organización" },
+            { "name": "default-branch-only", "takesValue": false, "description": "Solo la rama por defecto" }
+          ]
+        },
+        {
+          "name": "view",
+          "description": "Muestra la descripción y el README de un repositorio",
+          "args": [{ "name": "REPOSITORIO" }],
+          "flags": [
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre el repositorio en el navegador" },
+            { "name": "branch", "short": "b", "takesValue": true, "description": "Muestra una rama concreta" },
+            { "name": "json", "takesValue": true, "description": "Salida JSON con los campos indicados" },
+            { "name": "jq", "short": "q", "takesValue": true, "description": "Filtra el JSON con una expresión jq" },
+            { "name": "template", "short": "t", "takesValue": true, "description": "Formatea el JSON con una plantilla de Go" }
+          ]
+        }
+      ]
+    }
+  ]
+}
