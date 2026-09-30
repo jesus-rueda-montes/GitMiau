@@ -1,0 +1,8 @@
+{
+  "title": "Preparación de entrevista",
+  "summary": "Las preguntas de Git y GitHub que más se repiten, con respuestas modelo (Git frente a GitHub, merge frente a rebase, reset frente a revert, estrategias de ramas, CI/CD) y escenarios prácticos para montar el flujo de un equipo.",
+  "level": 5,
+  "order": 2,
+  "xp": 150,
+  "prereqs": []
+}

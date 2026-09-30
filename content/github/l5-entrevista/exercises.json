@@ -1,0 +1,231 @@
+{
+  "exercises": [
+    {
+      "id": "git-vs-github",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "«¿Qué diferencia hay entre Git y GitHub?» ¿Qué respuesta es la más precisa?",
+      "hints": [
+        "Uno funciona sin conexión en tu máquina; el otro es un servicio."
+      ],
+      "options": [
+        { "id": "a", "text": "Git es un control de versiones distribuido que funciona en local; GitHub es una plataforma que aloja repos Git y añade PRs, issues, Actions y permisos", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Son lo mismo: GitHub es el nombre comercial de Git", "correct": false, "explanation": "Git existe sin GitHub y hay otras plataformas." },
+        { "id": "c", "text": "Git es la versión de terminal y GitHub la versión gráfica", "correct": false, "explanation": "GitHub no es una interfaz de Git; es una plataforma de alojamiento y colaboración." },
+        { "id": "d", "text": "Git guarda el código en la nube y GitHub en local", "correct": false, "explanation": "Es al revés, y Git no necesita servidor." }
+      ],
+      "solution": {
+        "answer": "Herramienta frente a plataforma",
+        "explanation": "Git es la herramienta de control de versiones; GitHub, la plataforma que aloja repositorios y añade colaboración."
+      }
+    },
+    {
+      "id": "merge-rebase-criterio",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "«¿Merge o rebase?» ¿Qué respuesta demuestra más criterio?",
+      "hints": [
+        "Busca la que compara y da una regla de uso."
+      ],
+      "options": [
+        { "id": "a", "text": "Merge conserva la historia real con un commit de merge; rebase la deja lineal pero reescribe los commits. Rebase para ordenar mi rama antes de compartirla, nunca sobre commits que otros tienen", "correct": true, "explanation": "Correcto: define, compara y da una regla." },
+        { "id": "b", "text": "Rebase, siempre: la historia queda más limpia", "correct": false, "explanation": "Sin matices: ignora el riesgo de reescribir historia compartida." },
+        { "id": "c", "text": "Merge, siempre: rebase es peligroso", "correct": false, "explanation": "Rebase es útil en ramas propias." },
+        { "id": "d", "text": "Son equivalentes, da igual", "correct": false, "explanation": "La historia resultante es distinta." }
+      ],
+      "solution": {
+        "answer": "Comparar y dar una regla",
+        "explanation": "El entrevistador busca el criterio: cuándo usar cada uno y por qué."
+      }
+    },
+    {
+      "id": "reset-revert-entrevista",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un compañero quiere deshacer un commit que **ya está en `main` en GitHub** con `git reset --hard HEAD~1` y `git push --force`. ¿Qué le propones?",
+      "hints": [
+        "La historia compartida no se reescribe."
+      ],
+      "options": [
+        { "id": "a", "text": "`git revert` del commit y push normal", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Lo mismo, pero con `--force-with-lease`", "correct": false, "explanation": "Sigue reescribiendo `main`, que es compartida." },
+        { "id": "c", "text": "Borrar `main` y crearla de nuevo", "correct": false, "explanation": "Peor todavía." }
+      ],
+      "solution": {
+        "answer": "git revert",
+        "explanation": "`git reset` es para lo local; lo compartido se deshace con `git revert`, que añade un commit sin reescribir la historia."
+      }
+    },
+    {
+      "id": "fetch-pull-entrevista",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "`git fetch` descarga los cambios del remoto y los integra en tu rama actual.",
+      "hints": [
+        "¿Cuál de los dos toca tu rama?"
+      ],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "Eso es `git pull`." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: fetch solo descarga; pull descarga e integra." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "`git fetch` actualiza las ramas remotas (`origin/main`) sin tocar la tuya; `git pull` hace fetch y después merge o rebase."
+      }
+    },
+    {
+      "id": "estrategia-ramas",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Una startup de 6 personas despliega su web **varias veces al día**. ¿Qué estrategia de ramas recomiendas?",
+      "hints": [
+        "Despliegue continuo: pocas ramas y de vida corta."
+      ],
+      "options": [
+        { "id": "a", "text": "GitHub Flow (o trunk-based): ramas cortas desde `main`, PRs pequeños y `main` siempre desplegable", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Git Flow con `develop`, `release/*` y `hotfix/*`", "correct": false, "explanation": "Pensado para software versionado con varias versiones mantenidas; aquí es demasiado pesado." },
+        { "id": "c", "text": "Una rama larga por persona que se fusiona cada mes", "correct": false, "explanation": "Integraciones enormes y conflictos constantes." }
+      ],
+      "solution": {
+        "answer": "GitHub Flow / trunk-based",
+        "explanation": "Con despliegue continuo conviene integrar a menudo en `main`; lo no terminado se oculta con feature flags."
+      }
+    },
+    {
+      "id": "cicd-definicion",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Qué diferencia hay entre **entrega continua** y **despliegue continuo**?",
+      "hints": [
+        "La diferencia está en el último paso: ¿lo decide una persona o es automático?"
+      ],
+      "options": [
+        { "id": "a", "text": "En la entrega continua lo que pasa el CI queda listo para desplegar; en el despliegue continuo se despliega solo, sin intervención", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Son sinónimos", "correct": false, "explanation": "Difieren en si el despliegue es automático." },
+        { "id": "c", "text": "La entrega continua no usa tests", "correct": false, "explanation": "Las dos parten de la integración continua con tests." }
+      ],
+      "solution": {
+        "answer": "Listo para desplegar frente a desplegado",
+        "explanation": "La integración continua verifica cada cambio; la entrega continua lo deja listo; el despliegue continuo lo lleva a producción automáticamente."
+      }
+    },
+    {
+      "id": "escenario-main-roto",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "Escenario: un equipo hace push directo a `main` y el CI se rompe cada semana. ¿Qué medidas propondrías? (Marca todas las adecuadas)",
+      "hints": [
+        "Piensa por capas: flujo, CI, protección, revisión."
+      ],
+      "options": [
+        { "id": "a", "text": "PRs obligatorios en `main` con al menos una aprobación", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "El job de CI como required status check", "correct": true, "explanation": "Correcto: sin eso, el CI es solo informativo." },
+        { "id": "c", "text": "CODEOWNERS para las áreas sensibles", "correct": true, "explanation": "Correcto." },
+        { "id": "d", "text": "Dar Admin a todo el equipo para que puedan saltarse las reglas si hay prisa", "correct": false, "explanation": "Anula toda la protección." }
+      ],
+      "solution": {
+        "answer": "PRs, CI obligatorio, CODEOWNERS",
+        "explanation": "Con PR obligatorio, CI como check requerido y sin excepciones, `main` solo recibe código revisado y probado."
+      }
+    },
+    {
+      "id": "escenario-secreto",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Escenario: en mitad de la entrevista te dicen «alguien ha subido la clave de producción de la base de datos a un repo público». ¿Qué dices **primero**?",
+      "hints": [
+        "¿Qué deja de ser peligroso antes?"
+      ],
+      "options": [
+        { "id": "a", "text": "Rotar la clave inmediatamente y revisar si se ha usado", "correct": true, "explanation": "Correcto: después, limpiar y prevenir." },
+        { "id": "b", "text": "Reescribir la historia con `git rebase -i` y hacer force push", "correct": false, "explanation": "No sirve de nada si la clave ya se copió; va después, si hace falta." },
+        { "id": "c", "text": "Activar push protection", "correct": false, "explanation": "Evita la próxima filtración, no esta." },
+        { "id": "d", "text": "Hacer el repo privado", "correct": false, "explanation": "La clave ya fue pública." }
+      ],
+      "solution": {
+        "answer": "Rotar",
+        "explanation": "Orden: rotar → revisar el uso → quitarla del código (secret) → prevenir (`.gitignore`, push protection, OIDC)."
+      }
+    },
+    {
+      "id": "escenario-ci-lento",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "Escenario: en un monorepo el CI tarda 40 minutos y se ejecuta entero en cada PR. ¿Qué propondrías? (Marca todas las adecuadas)",
+      "hints": [
+        "Ejecutar menos, en paralelo y sin repetir trabajo."
+      ],
+      "options": [
+        { "id": "a", "text": "Filtros `paths` para que cada workflow solo se ejecute si cambia su parte", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Cache de dependencias y matrix para paralelizar", "correct": true, "explanation": "Correcto." },
+        { "id": "c", "text": "`concurrency` con `cancel-in-progress: true` para cancelar ejecuciones superadas", "correct": true, "explanation": "Correcto." },
+        { "id": "d", "text": "Quitar los tests del CI", "correct": false, "explanation": "Entonces el CI ya no protege nada." }
+      ],
+      "solution": {
+        "answer": "paths, cache, matrix, concurrency",
+        "explanation": "Menos ejecuciones innecesarias, trabajo en paralelo y sin gastar runners en commits superados. Con mucho tráfico, además, merge queue."
+      }
+    },
+    {
+      "id": "ci-completo",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "Termina el workflow de CI del escenario: 1) que se ejecute en `pull_request` y en `merge_group`; 2) permisos de solo lectura (`contents: read`); 3) un bloque `concurrency` con `group: ci-${{ github.ref }}` y `cancel-in-progress: true`.",
+      "starter": "name: CI\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - run: npm ci\n      - run: npm test\n",
+      "assertions": [
+        { "path": "on", "op": "hasKeys", "value": ["pull_request", "merge_group"], "message": "on incluye pull_request y merge_group" },
+        { "path": "permissions.contents", "op": "equals", "value": "read", "message": "permissions.contents: read" },
+        { "path": "concurrency.group", "op": "matches", "value": "^ci-\\$\\{\\{\\s*github\\.ref\\s*\\}\\}$", "message": "concurrency.group es ci-${{ github.ref }}" },
+        { "path": "concurrency.cancel-in-progress", "op": "equals", "value": true, "message": "concurrency.cancel-in-progress: true (booleano, sin comillas)" },
+        { "path": "jobs.test.steps", "op": "count", "value": 3, "message": "El job test conserva sus 3 steps" }
+      ],
+      "hints": [
+        "`on`, `permissions` y `concurrency` van al nivel superior, junto a `jobs`.",
+        "`merge_group` puede ir sin valor, igual que `pull_request`."
+      ],
+      "solution": {
+        "answer": "name: CI\non:\n  pull_request:\n  merge_group:\npermissions:\n  contents: read\nconcurrency:\n  group: ci-${{ github.ref }}\n  cancel-in-progress: true\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - run: npm ci\n      - run: npm test\n",
+        "explanation": "`merge_group` hace que el CI se ejecute en la merge queue; `contents: read` limita el `GITHUB_TOKEN`; `concurrency` cancela la ejecución anterior de la misma rama cuando llega un commit nuevo."
+      }
+    },
+    {
+      "id": "flujo-issue-pr",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Escenario de la issue a producción: crea un PR hacia `main` rellenando título y descripción a partir de los commits de tu rama.",
+      "hints": [
+        "Es `gh pr create` con un flag que rellena todo desde los commits.",
+        "El flag es `--fill` (o `-f`)."
+      ],
+      "accepted": [
+        "gh pr create --fill",
+        "gh pr create -f",
+        "gh pr create --fill --base main",
+        "gh pr create --fill -B main",
+        "gh pr create -f -B main",
+        "gh pr create -f --base main"
+      ],
+      "solution": {
+        "answer": "gh pr create --fill",
+        "explanation": "Con `--fill`, el título y la descripción salen de los commits. Añade `Closes #N` en la descripción para que la issue se cierre al fusionar."
+      }
+    },
+    {
+      "id": "flujo-release",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Escenario de la librería: publica la release `v2.3.0` a partir de un tag que **ya existe** en el remoto (que falle si no existe), con las notas generadas.",
+      "hints": [
+        "`gh release create` con dos flags: uno comprueba el tag y otro genera las notas."
+      ],
+      "accepted": [
+        "gh release create v2.3.0 --verify-tag --generate-notes",
+        "gh release create v2.3.0 --generate-notes --verify-tag"
+      ],
+      "solution": {
+        "answer": "gh release create v2.3.0 --verify-tag --generate-notes",
+        "explanation": "`--verify-tag` evita que `gh` cree un tag nuevo desde la rama por defecto si te equivocas de nombre."
+      }
+    }
+  ]
+}

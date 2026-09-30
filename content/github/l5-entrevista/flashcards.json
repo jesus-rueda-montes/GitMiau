@@ -1,0 +1,11 @@
+{
+  "cards": [
+    { "id": "estructura", "front": "Estructura de una buena respuesta de entrevista", "back": "Definición → para qué → cómo funciona → matiz práctico (una regla o un ejemplo real)." },
+    { "id": "git-github", "front": "Git frente a GitHub", "back": "Git: control de versiones distribuido, en local. GitHub: plataforma que aloja repos Git y añade PRs, issues, Actions, seguridad y permisos." },
+    { "id": "merge-rebase", "front": "Merge frente a rebase (respuesta corta)", "back": "Merge conserva la historia y crea un commit de merge; rebase la deja lineal reescribiendo commits. Rebase solo en ramas propias antes de compartirlas." },
+    { "id": "reset-revert", "front": "Reset frente a revert (respuesta corta)", "back": "Reset mueve la rama atrás (solo local). Revert crea un commit que deshace otro (para lo compartido)." },
+    { "id": "cicd", "front": "Integración, entrega y despliegue continuos", "back": "CI: cada cambio se integra y se verifica automáticamente. Entrega: queda listo para desplegar. Despliegue: se despliega solo." },
+    { "id": "metodo-escenario", "front": "Método para responder un escenario", "back": "Aclarar el contexto → resolver lo urgente → flujo por capas (ramas, CI, protección, despliegue, seguridad) → justificar → nombrar el coste." },
+    { "id": "main-roto", "front": "Escenario: el equipo rompe `main`", "back": "GitHub Flow con PRs pequeños, CI como required status check, PR con aprobación y sin excepciones, CODEOWNERS." }
+  ]
+}
