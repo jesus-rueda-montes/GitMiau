@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { parseCommand } from '../engine/cli'
+import { checkSim, runAll, simLines } from '../engine/gitsim'
 import { gradeYaml, parsePath } from '../engine/yamlAssert'
 import { checkSections, parseLesson, type ParsedLesson } from './lesson'
 import {
@@ -59,7 +60,7 @@ export interface Catalog {
 }
 
 const ExerciseIndexSchema = z.object({
-  exercises: z.array(z.object({ id: z.string().min(1), type: z.enum(['quiz', 'fill', 'command', 'editor']) })).min(1),
+  exercises: z.array(z.object({ id: z.string().min(1), type: z.enum(['quiz', 'fill', 'command', 'editor', 'git-sim']) })).min(1),
 })
 
 export interface RawContent {
@@ -221,6 +222,27 @@ export function buildCatalog(raw: RawContent, { full = true }: BuildOptions = {}
             )
         }
       }
+      if (ex.type === 'git-sim') {
+        const git = cliSpecs.git
+        if (!git) problems.push(`${where} [${ex.id}]: el simulador necesita content/cli-specs/git.json`)
+        else if (!ex.solution.answer) problems.push(`${where} [${ex.id}]: los ejercicios git-sim necesitan solution.answer (un comando por línea)`)
+        else {
+          // El setup y la solución deben ejecutarse sin errores; la solución debe
+          // pasar las comprobaciones y el estado inicial no (si no, sobra el ejercicio).
+          const setup = runAll(git, ex.setup)
+          setup.outputs.forEach((o, i) => {
+            if (!o.ok) problems.push(`${where} [${ex.id}]: el setup falla en «${ex.setup[i]}»: ${o.lines.map((l) => l.text).join(' ')}`)
+          })
+          const lines = simLines(ex.solution.answer)
+          const sol = runAll(git, lines, setup.state)
+          sol.outputs.forEach((o, i) => {
+            if (!o.ok) problems.push(`${where} [${ex.id}]: la solución falla en «${lines[i]}»: ${o.lines.map((l) => l.text).join(' ')}`)
+          })
+          const failing = ex.assertions.filter((a) => !checkSim(sol.state, a))
+          if (failing.length) problems.push(`${where} [${ex.id}]: la solución no pasa: ${failing.map((a) => a.message).join('; ')}`)
+          if (ex.assertions.every((a) => checkSim(setup.state, a))) problems.push(`${where} [${ex.id}]: el estado inicial ya pasa todas las comprobaciones`)
+        }
+      }
       for (const [cli, cmd] of commands) {
         const r = parseCommand(cliSpecs[cli as keyof CliSpecs]!, cmd)
         if (!r.ok) problems.push(`${where} [${ex.id}]: "${cmd}" no es válido: ${r.errors.join('; ')}`)
@@ -322,6 +344,7 @@ export function loadCliSpec(cli: string): Promise<CliSpec | undefined> {
 /** CLI cuya especificación necesita un ejercicio (terminal o hueco de comando). */
 export function cliOf(ex: Exercise): string | undefined {
   if (ex.type === 'command') return ex.cli
+  if (ex.type === 'git-sim') return 'git'
   if (ex.type === 'fill' && ex.language === 'shell') return ex.template.trim().split(/\s+/)[0]
   return undefined
 }

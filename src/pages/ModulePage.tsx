@@ -6,7 +6,7 @@ import { exerciseKey, PASS_SCORE } from '../engine/progress'
 import { Placeholder } from './Placeholder'
 import { useModuleAccess } from './useModuleAccess'
 
-const TYPE_LABEL = { quiz: 'Test', command: 'Comando', fill: 'Rellenar huecos', editor: 'Editor' } as const
+const TYPE_LABEL = { quiz: 'Test', command: 'Comando', fill: 'Rellenar huecos', editor: 'Editor', 'git-sim': 'Simulador de Git' } as const
 
 export function ModulePage() {
   const { catalog, mod, locked, reasons, progress } = useModuleAccess()

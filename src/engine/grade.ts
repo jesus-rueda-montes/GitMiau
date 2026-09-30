@@ -1,5 +1,6 @@
 import type { CliSpec, CommandExercise, Exercise, FillExercise, QuizExercise } from '../content/schema'
 import { parseCommand, sameCommand } from './cli'
+import { gradeSim } from './gitsim'
 import { gradeYaml, type CheckResult } from './yamlAssert'
 
 export type CliSpecLookup = Partial<Record<CliSpec['cli'], CliSpec>>
@@ -11,6 +12,7 @@ export type Answer =
   | { type: 'fill'; values: Record<string, string> }
   | { type: 'command'; text: string }
   | { type: 'editor'; code: string }
+  | { type: 'git-sim'; commands: string[] }
 
 export interface GradeResult {
   correct: boolean
@@ -20,12 +22,12 @@ export interface GradeResult {
   blanks?: Record<string, boolean>
   /** Para command/editor: explicación de por qué no es correcto. */
   feedback?: string
-  /** Para editor: cada comprobación con su resultado. */
+  /** Para editor y git-sim: cada comprobación con su resultado. */
   checks?: CheckResult[]
 }
 
 /** Tipos que ya se pueden resolver. Crece según avanzan las fases. */
-export const SUPPORTED_TYPES: ReadonlySet<Exercise['type']> = new Set(['quiz', 'fill', 'command', 'editor'])
+export const SUPPORTED_TYPES: ReadonlySet<Exercise['type']> = new Set(['quiz', 'fill', 'command', 'editor', 'git-sim'])
 
 export function isSupported(ex: Pick<Exercise, 'type'>): boolean {
   return SUPPORTED_TYPES.has(ex.type)
@@ -82,6 +84,11 @@ export function grade(ex: Exercise, answer: Answer, ctx: GradeContext = {}): Gra
   if (ex.type === 'fill' && answer.type === 'fill') return gradeFill(ex, answer.values)
   if (ex.type === 'command' && answer.type === 'command') return gradeCommand(ex, answer.text, specs[ex.cli])
   if (ex.type === 'editor' && answer.type === 'editor') return gradeYaml(answer.code, ex.assertions)
+  if (ex.type === 'git-sim' && answer.type === 'git-sim') {
+    const spec = specs.git
+    if (!spec) throw new Error('falta la especificación de git para el simulador')
+    return gradeSim(spec, ex.setup, answer.commands, ex.assertions)
+  }
   if (ex.type !== answer.type) throw new Error(`respuesta de tipo ${answer.type} para ejercicio ${ex.type}`)
   throw new Error(`corrección de "${ex.type}" aún no implementada`)
 }
@@ -110,6 +117,8 @@ export function emptyAnswer(ex: Exercise): Answer {
       return { type: 'command', text: '' }
     case 'editor':
       return { type: 'editor', code: ex.starter }
+    case 'git-sim':
+      return { type: 'git-sim', commands: [] }
   }
 }
 
@@ -123,5 +132,7 @@ export function isAnswered(answer: Answer): boolean {
       return answer.text.trim() !== ''
     case 'editor':
       return answer.code.trim() !== ''
+    case 'git-sim':
+      return answer.commands.length > 0
   }
 }

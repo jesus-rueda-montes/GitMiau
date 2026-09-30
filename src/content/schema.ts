@@ -142,11 +142,40 @@ export const EditorExerciseSchema = z.strictObject({
   assertions: z.array(AssertionSchema).min(1),
 })
 
+// Comprobaciones sobre el estado final del simulador de Git (decisión M25).
+// ref: rama, tag, origin/<rama> (rama remota del repo local), origin:<rama>
+// (la rama tal como está en el remoto) o HEAD (solo con op "head").
+export const SIM_OPS = ['exists', 'absent', 'contains', 'notContains', 'tipMessage', 'commits', 'sameAs', 'linear', 'isMerge', 'head', 'upstream'] as const
+export const SimAssertionSchema = z
+  .strictObject({
+    ref: z.string().min(1),
+    op: z.enum(SIM_OPS),
+    value: z.union([z.string(), z.number().int().nonnegative()]).optional(),
+    message: z.string().min(1),
+  })
+  .superRefine((a, ctx) => {
+    const needsString = ['contains', 'notContains', 'tipMessage', 'sameAs', 'head', 'upstream'].includes(a.op)
+    if (needsString && typeof a.value !== 'string') ctx.addIssue({ code: 'custom', message: `el operador ${a.op} necesita un texto en "value"` })
+    if (a.op === 'commits' && typeof a.value !== 'number') ctx.addIssue({ code: 'custom', message: 'commits necesita un número en "value"' })
+    if (['exists', 'absent', 'linear', 'isMerge'].includes(a.op) && a.value !== undefined)
+      ctx.addIssue({ code: 'custom', message: `el operador ${a.op} no usa "value"` })
+    if ((a.op === 'head') !== (a.ref === 'HEAD')) ctx.addIssue({ code: 'custom', message: 'el operador head va siempre con ref "HEAD" (y solo él)' })
+  })
+
+export const GitSimExerciseSchema = z.strictObject({
+  ...exerciseBase,
+  type: z.literal('git-sim'),
+  /** Comandos que construyen el estado inicial; "origin: …" se ejecuta en el remoto. */
+  setup: z.array(z.string().min(1)).default([]),
+  assertions: z.array(SimAssertionSchema).min(1),
+})
+
 export const ExerciseSchema = z.discriminatedUnion('type', [
   QuizExerciseSchema,
   CommandExerciseSchema,
   FillExerciseSchema,
   EditorExerciseSchema,
+  GitSimExerciseSchema,
 ])
 
 export const ExercisesFileSchema = z.strictObject({
@@ -188,6 +217,8 @@ export type QuizExercise = z.infer<typeof QuizExerciseSchema>
 export type CommandExercise = z.infer<typeof CommandExerciseSchema>
 export type FillExercise = z.infer<typeof FillExerciseSchema>
 export type EditorExercise = z.infer<typeof EditorExerciseSchema>
+export type GitSimExercise = z.infer<typeof GitSimExerciseSchema>
+export type SimAssertion = z.infer<typeof SimAssertionSchema>
 export type Flashcard = z.infer<typeof FlashcardSchema>
 export type GlossaryEntry = z.infer<typeof GlossaryEntrySchema>
 
