@@ -537,6 +537,48 @@
           ]
         }
       ]
+    },
+    {
+      "name": "ruleset",
+      "aliases": [
+        "rs"
+      ],
+      "description": "Consulta los rulesets de un repositorio u organización",
+      "source": "https://cli.github.com/manual/gh_ruleset",
+      "subcommands": [
+        {
+          "name": "list",
+          "aliases": [
+            "ls"
+          ],
+          "description": "Lista los rulesets",
+          "flags": [
+            { "name": "limit", "short": "L", "takesValue": true, "description": "Número máximo de resultados (por defecto, 30)" },
+            { "name": "org", "short": "o", "takesValue": true, "description": "Rulesets de una organización" },
+            { "name": "parents", "short": "p", "takesValue": false, "description": "Incluye los rulesets de niveles superiores (activado por defecto)" },
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre la lista en el navegador" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "view",
+          "description": "Muestra un ruleset",
+          "args": [{ "name": "ID" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "check",
+          "description": "Muestra las reglas que se aplican a una rama",
+          "args": [{ "name": "RAMA" }],
+          "flags": [
+            { "name": "default", "takesValue": false, "description": "Comprueba la rama por defecto" },
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre la página de reglas de la rama en el navegador" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        }
+      ]
     }
   ]
 }

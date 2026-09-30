@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "proteccion", "front": "Ajustes clave para proteger `main`", "back": "PR obligatorio con aprobaciones, required status checks, conversaciones resueltas, historia lineal (opcional) y no permitir que se salten las reglas." },
+    { "id": "defectos", "front": "Rama protegida: force push y borrado", "back": "Bloqueados por defecto. Se permiten con «Allow force pushes» y «Allow deletions»." },
+    { "id": "rulesets", "front": "Rulesets frente a branch protection rules", "back": "Varios rulesets por rama (gana la regla más restrictiva), Active/Disabled sin borrar, bypass list, visibles con lectura, ramas y tags." },
+    { "id": "merge-queue", "front": "¿Qué es la merge queue?", "back": "Prueba cada PR con la base actual y los PRs de delante antes de fusionarlo. El workflow de CI necesita el evento `merge_group`." },
+    { "id": "codeowners", "front": "CODEOWNERS: ubicación y regla de coincidencia", "back": "En `.github/`, la raíz o `docs/` (el primero encontrado). Patrón + propietarios; gana la última coincidencia." },
+    { "id": "codeowners-review", "front": "Require review from Code Owners", "back": "El PR necesita la aprobación de al menos un propietario de los ficheros tocados (con permiso de escritura)." }
+  ]
+}

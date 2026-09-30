@@ -1,0 +1,8 @@
+{
+  "title": "Proteger ramas: reglas, rulesets y CODEOWNERS",
+  "summary": "Branch protection rules y rulesets (revisiones obligatorias, status checks, historia lineal, sin force push), merge queue y CODEOWNERS.",
+  "level": 3,
+  "order": 3,
+  "xp": 100,
+  "prereqs": []
+}

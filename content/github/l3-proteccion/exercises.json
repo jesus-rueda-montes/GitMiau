@@ -1,0 +1,363 @@
+{
+  "exercises": [
+    {
+      "id": "checks-no-obligatorios",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "`main` tiene una branch protection rule que exige PR con una aprobación. Aun así, alguien fusiona un PR con el CI **en rojo**. ¿Qué falta?",
+      "hints": [
+        "Que el CI se ejecute no significa que su resultado bloquee el merge."
+      ],
+      "options": [
+        {
+          "id": "a",
+          "text": "Marcar los jobs de CI como required status checks («Require status checks to pass»)",
+          "correct": true,
+          "explanation": "Correcto: sin eso, el resultado del CI es informativo."
+        },
+        {
+          "id": "b",
+          "text": "Añadir más aprobaciones obligatorias",
+          "correct": false,
+          "explanation": "Las aprobaciones no dicen nada del resultado del CI."
+        },
+        {
+          "id": "c",
+          "text": "Activar la historia lineal",
+          "correct": false,
+          "explanation": "Controla el tipo de merge, no los tests."
+        },
+        {
+          "id": "d",
+          "text": "Nada: GitHub nunca permite fusionar con el CI en rojo",
+          "correct": false,
+          "explanation": "Sí lo permite si los checks no son obligatorios."
+        }
+      ],
+      "solution": {
+        "answer": "Required status checks",
+        "explanation": "Hay que elegir qué checks (normalmente, los jobs de CI) son obligatorios; entonces el botón de merge se bloquea hasta que estén en verde."
+      }
+    },
+    {
+      "id": "force-push-protegida",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "En una rama protegida, el force push y el borrado de la rama están permitidos salvo que los desactives.",
+      "hints": [
+        "Piensa en lo más seguro por defecto."
+      ],
+      "options": [
+        {
+          "id": "v",
+          "text": "Verdadero",
+          "correct": false,
+          "explanation": "Es al revés."
+        },
+        {
+          "id": "f",
+          "text": "Falso",
+          "correct": true,
+          "explanation": "Correcto: por defecto están bloqueados; hay opciones para permitirlos."
+        }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "GitHub bloquea por defecto el force push y el borrado en las ramas protegidas. «Allow force pushes» y «Allow deletions» los permiten explícitamente."
+      }
+    },
+    {
+      "id": "historia-lineal",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "`main` tiene **Require linear history**. ¿Qué métodos de merge de PR se pueden usar? (Marca todos los correctos)",
+      "hints": [
+        "Historia lineal = sin commits de merge."
+      ],
+      "options": [
+        {
+          "id": "a",
+          "text": "Squash and merge",
+          "correct": true,
+          "explanation": "Correcto: deja un solo commit, sin merge."
+        },
+        {
+          "id": "b",
+          "text": "Rebase and merge",
+          "correct": true,
+          "explanation": "Correcto: reaplica los commits sin merge."
+        },
+        {
+          "id": "c",
+          "text": "Create a merge commit",
+          "correct": false,
+          "explanation": "Crea un commit de merge: rompe la historia lineal."
+        }
+      ],
+      "solution": {
+        "answer": "Squash y rebase",
+        "explanation": "Require linear history impide los commits de merge, así que solo quedan squash and merge y rebase and merge."
+      }
+    },
+    {
+      "id": "rulesets-combinados",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Dos rulesets activos apuntan a `main`: uno exige **1** aprobación y otro exige **2**. ¿Cuántas hacen falta?",
+      "hints": [
+        "Los rulesets no se sustituyen: se combinan."
+      ],
+      "options": [
+        {
+          "id": "a",
+          "text": "2: si una regla está definida de formas distintas, se aplica la más restrictiva",
+          "correct": true,
+          "explanation": "Correcto."
+        },
+        {
+          "id": "b",
+          "text": "1: gana el ruleset más antiguo",
+          "correct": false,
+          "explanation": "No hay prioridad por antigüedad."
+        },
+        {
+          "id": "c",
+          "text": "3: se suman",
+          "correct": false,
+          "explanation": "Las reglas no se suman numéricamente; gana la más restrictiva."
+        },
+        {
+          "id": "d",
+          "text": "Depende de cuál esté primero en la lista",
+          "correct": false,
+          "explanation": "El orden no importa."
+        }
+      ],
+      "solution": {
+        "answer": "2",
+        "explanation": "Los rulesets que apuntan a la misma rama se agregan y, ante la misma regla con valores distintos, gana la versión más restrictiva."
+      }
+    },
+    {
+      "id": "merge-group",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "El repo va a usar **merge queue**. Modifica el `on` del workflow de CI para que se ejecute también cuando un PR entra en la cola, sin quitar `pull_request`.",
+      "starter": "name: CI\non:\n  pull_request:\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - run: npm ci && npm test\n",
+      "assertions": [
+        {
+          "path": "on",
+          "op": "hasKeys",
+          "value": [
+            "pull_request",
+            "merge_group"
+          ],
+          "message": "on incluye pull_request y merge_group"
+        },
+        {
+          "path": "jobs.test.steps",
+          "op": "count",
+          "value": 2,
+          "message": "El job test conserva sus 2 steps"
+        }
+      ],
+      "hints": [
+        "El evento de la merge queue se llama como un «grupo de merge» en inglés.",
+        "Va dentro de `on`, al mismo nivel que `pull_request`, y puede ir sin valor."
+      ],
+      "solution": {
+        "answer": "name: CI\non:\n  pull_request:\n  merge_group:\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - run: npm ci && npm test\n",
+        "explanation": "Sin `merge_group`, los checks no se ejecutan cuando el PR entra en la cola y el merge no puede completarse."
+      }
+    },
+    {
+      "id": "codeowners-ultima",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "El CODEOWNERS contiene estas dos líneas, en este orden:\n\n```text\n*          @ada\n/infra/    @mi-org/plataforma\n```\n\n¿Quién es el propietario de `infra/main.tf`?",
+      "hints": [
+        "Si hay varias coincidencias, importa el orden."
+      ],
+      "options": [
+        {
+          "id": "a",
+          "text": "`@mi-org/plataforma`",
+          "correct": true,
+          "explanation": "Correcto: es la última línea que coincide."
+        },
+        {
+          "id": "b",
+          "text": "`@ada`",
+          "correct": false,
+          "explanation": "`*` coincide, pero hay una coincidencia posterior."
+        },
+        {
+          "id": "c",
+          "text": "Los dos",
+          "correct": false,
+          "explanation": "Solo cuenta la última coincidencia."
+        },
+        {
+          "id": "d",
+          "text": "Nadie: las reglas se contradicen",
+          "correct": false,
+          "explanation": "No se contradicen: gana la última."
+        }
+      ],
+      "solution": {
+        "answer": "@mi-org/plataforma",
+        "explanation": "En CODEOWNERS gana la última coincidencia. Por eso la regla general `*` va arriba y las específicas debajo."
+      }
+    },
+    {
+      "id": "codeowners-orden",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Alguien pone la línea `* @ada` **al final** del CODEOWNERS, después de todas las reglas específicas. ¿Qué pasa?",
+      "hints": [
+        "`*` coincide con todo, y gana la última coincidencia."
+      ],
+      "options": [
+        {
+          "id": "a",
+          "text": "`@ada` pasa a ser la propietaria de todos los ficheros y anula las reglas específicas",
+          "correct": true,
+          "explanation": "Correcto: es la última coincidencia para cualquier fichero."
+        },
+        {
+          "id": "b",
+          "text": "Nada: `*` solo se aplica a lo que no tiene otra regla",
+          "correct": false,
+          "explanation": "No funciona por especificidad, sino por orden."
+        },
+        {
+          "id": "c",
+          "text": "GitHub marca el fichero como inválido",
+          "correct": false,
+          "explanation": "Es sintaxis válida; el problema es el orden."
+        },
+        {
+          "id": "d",
+          "text": "Se piden revisiones a todos los propietarios",
+          "correct": false,
+          "explanation": "Solo cuenta la última coincidencia de cada fichero."
+        }
+      ],
+      "solution": {
+        "answer": "@ada se queda con todo",
+        "explanation": "Pon las reglas generales al principio y las específicas al final."
+      }
+    },
+    {
+      "id": "codeowners-aprobacion",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Con **Require review from Code Owners**, un PR toca ficheros cuyo propietario es el equipo `@mi-org/plataforma` (5 personas). ¿Cuántas aprobaciones de ese equipo necesita?",
+      "hints": [
+        "No hace falta que apruebe todo el equipo."
+      ],
+      "options": [
+        {
+          "id": "a",
+          "text": "Una, de cualquier propietario",
+          "correct": true,
+          "explanation": "Correcto."
+        },
+        {
+          "id": "b",
+          "text": "Las 5",
+          "correct": false,
+          "explanation": "Basta con un propietario."
+        },
+        {
+          "id": "c",
+          "text": "La mayoría (3)",
+          "correct": false,
+          "explanation": "No funciona por mayoría."
+        },
+        {
+          "id": "d",
+          "text": "Ninguna, si el autor es administrador",
+          "correct": false,
+          "explanation": "Depende de si puede saltarse las reglas; por defecto, hay que cumplirlas."
+        }
+      ],
+      "solution": {
+        "answer": "Una",
+        "explanation": "La regla exige la aprobación de al menos un propietario de los ficheros modificados. El número total de aprobaciones lo marca la regla de PR."
+      }
+    },
+    {
+      "id": "ubicacion-codeowners",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Hay un `CODEOWNERS` en `.github/` y otro en la raíz del repositorio. ¿Cuál usa GitHub?",
+      "hints": [
+        "GitHub busca en un orden fijo y se queda con el primero."
+      ],
+      "options": [
+        {
+          "id": "a",
+          "text": "El de `.github/`",
+          "correct": true,
+          "explanation": "Correcto: el orden es `.github/`, la raíz y `docs/`."
+        },
+        {
+          "id": "b",
+          "text": "El de la raíz",
+          "correct": false,
+          "explanation": "Se busca antes en `.github/`."
+        },
+        {
+          "id": "c",
+          "text": "Combina los dos",
+          "correct": false,
+          "explanation": "Solo usa uno."
+        },
+        {
+          "id": "d",
+          "text": "Ninguno: da error",
+          "correct": false,
+          "explanation": "No da error; usa el primero que encuentra."
+        }
+      ],
+      "solution": {
+        "answer": ".github/CODEOWNERS",
+        "explanation": "GitHub busca CODEOWNERS en `.github/`, después en la raíz y después en `docs/`, y usa el primero. Mejor tener uno solo."
+      }
+    },
+    {
+      "id": "gh-ruleset-check",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Consulta qué reglas se aplican a la rama `main`.",
+      "hints": [
+        "Es un subcomando de `gh ruleset` que significa \"comprobar\".",
+        "Después va el nombre de la rama."
+      ],
+      "accepted": [
+        "gh ruleset check main"
+      ],
+      "solution": {
+        "answer": "gh ruleset check main",
+        "explanation": "`gh ruleset check` muestra todas las reglas que se aplican a una rama, vengan del ruleset que vengan (también de la organización)."
+      }
+    },
+    {
+      "id": "gh-ruleset-list",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Lista los rulesets del repositorio actual.",
+      "hints": [
+        "Es `gh ruleset` con el subcomando para listar (tiene alias `ls`)."
+      ],
+      "accepted": [
+        "gh ruleset list"
+      ],
+      "solution": {
+        "answer": "gh ruleset list",
+        "explanation": "`gh ruleset list` (o `gh rs ls`) lista los rulesets, incluidos por defecto los que vienen de niveles superiores."
+      }
+    }
+  ]
+}

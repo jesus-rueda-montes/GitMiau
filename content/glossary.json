@@ -264,6 +264,26 @@
       "term": "JWT",
       "definition": "JSON Web Token: token firmado que contiene datos (claims) sobre quién lo presenta.",
       "introducedIn": "github/l3-actions-avanzado"
+    },
+    {
+      "term": "status check",
+      "definition": "Resultado (verde o rojo) de una comprobación sobre un commit o PR, normalmente un job de CI.",
+      "introducedIn": "github/l3-proteccion"
+    },
+    {
+      "term": "ruleset",
+      "definition": "Conjunto de reglas con nombre que protege ramas o tags; varios pueden aplicarse a la vez.",
+      "introducedIn": "github/l3-proteccion"
+    },
+    {
+      "term": "merge queue",
+      "definition": "Cola que prueba cada PR con la base actualizada y los PRs que tiene delante antes de fusionarlo.",
+      "introducedIn": "github/l3-proteccion"
+    },
+    {
+      "term": "CODEOWNERS",
+      "definition": "Fichero que asigna propietarios (personas o equipos) a rutas del repositorio para las revisiones.",
+      "introducedIn": "github/l3-proteccion"
     }
   ]
 }
