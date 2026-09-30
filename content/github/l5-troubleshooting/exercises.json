@@ -248,6 +248,50 @@
         "answer": "Checks, aprobaciones, conversaciones",
         "explanation": "También conflictos con la base o que la rama deba estar al día. El recuadro de merge del PR (o `gh pr checks` / `gh pr view`) dice qué falta."
       }
+    },
+    {
+      "id": "sim-rama-equivocada",
+      "type": "git-sim",
+      "prompt": "En el simulador: has hecho dos commits en `main` que debían ir en una rama `login` (todavía no has hecho push). Arréglalo: `login` con los dos commits, `main` sin ellos, y termina en `login`.",
+      "setup": [
+        "git commit -m \"Primer commit\"",
+        "git commit -m \"Formulario de login\"",
+        "git commit -m \"Valida el email\""
+      ],
+      "assertions": [
+        {
+          "ref": "HEAD",
+          "op": "head",
+          "value": "login",
+          "message": "Terminas en la rama login"
+        },
+        {
+          "ref": "login",
+          "op": "contains",
+          "value": "Formulario de login",
+          "message": "login tiene «Formulario de login»"
+        },
+        {
+          "ref": "login",
+          "op": "tipMessage",
+          "value": "Valida el email",
+          "message": "login termina en «Valida el email»"
+        },
+        {
+          "ref": "main",
+          "op": "tipMessage",
+          "value": "Primer commit",
+          "message": "main vuelve a «Primer commit»"
+        }
+      ],
+      "hints": [
+        "Primero guarda los commits en una rama nueva que apunte aquí (git branch, sin cambiarte).",
+        "Después devuelve main dos commits atrás con git reset --hard HEAD~2 y cámbiate a login."
+      ],
+      "solution": {
+        "answer": "git branch login\ngit reset --hard HEAD~2\ngit switch login",
+        "explanation": "`git branch login` conserva los commits en la rama nueva; `reset --hard HEAD~2` devuelve main a su sitio; y `git switch login` para seguir trabajando. Solo porque aún no había push."
+      }
     }
   ]
 }

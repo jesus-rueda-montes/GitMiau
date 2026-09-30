@@ -70,6 +70,13 @@ describe('commits y ramas', () => {
     expect(msgs(r, 'rescate')).toEqual(['D', 'A'])
     expect(errorOf(s, 'git switch HEAD~1')).toMatch(/--detach/)
   })
+
+  test('HEAD@{n} lee el reflog', () => {
+    const s = sim(['git commit -m A', 'git commit -m B', 'git reset --hard HEAD~1'])
+    expect(s.commits[resolveRev(s, s.local, 'HEAD@{0}')!].message).toBe('A')
+    expect(s.commits[resolveRev(s, s.local, 'HEAD@{1}')!].message).toBe('B')
+    expect(msgs(sim(['git branch rescate HEAD@{1}'], s), 'rescate')).toEqual(['B', 'A'])
+  })
 })
 
 describe('merge, rebase y deshacer', () => {

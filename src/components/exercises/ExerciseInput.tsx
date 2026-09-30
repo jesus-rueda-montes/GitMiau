@@ -3,6 +3,7 @@ import type { Answer, GradeResult } from '../../engine/grade'
 import { CommandInput } from './CommandInput'
 import { EditorInput } from './EditorInput'
 import { FillInput } from './FillInput'
+import { GitSimInput } from './GitSimInput'
 import { QuizInput } from './QuizInput'
 
 interface Props {
@@ -39,5 +40,7 @@ export function ExerciseInput({ ex, answer, onChange, result, onSubmit }: Props)
     )
   if (ex.type === 'editor' && answer.type === 'editor')
     return <EditorInput ex={ex} code={answer.code} onChange={(code) => onChange({ type: 'editor', code })} result={result} />
+  if (ex.type === 'git-sim' && answer.type === 'git-sim')
+    return <GitSimInput ex={ex} commands={answer.commands} onChange={(commands) => onChange({ type: 'git-sim', commands })} result={result} />
   return null
 }

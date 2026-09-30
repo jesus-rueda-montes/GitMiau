@@ -159,6 +159,58 @@
         "answer": "git push --force-with-lease",
         "explanation": "Tras reescribir una rama propia ya subida hay que forzar el push; `--force-with-lease` lo hace sin riesgo de pisar trabajo ajeno."
       }
+    },
+    {
+      "id": "sim-rebase-feature",
+      "type": "git-sim",
+      "prompt": "En el simulador: actualiza la rama `feature` con los cambios de `main` usando **rebase** y después integra `feature` en `main` con un **fast-forward**, de forma que `main` quede con historia lineal.",
+      "setup": [
+        "git commit -m \"Primer commit\"",
+        "git switch -c feature",
+        "git commit -m \"Filtro por precio\"",
+        "git commit -m \"Filtro por marca\"",
+        "git switch main",
+        "git commit -m \"Corrige un error del carrito\""
+      ],
+      "assertions": [
+        {
+          "ref": "HEAD",
+          "op": "head",
+          "value": "main",
+          "message": "Terminas en main"
+        },
+        {
+          "ref": "main",
+          "op": "contains",
+          "value": "Filtro por marca",
+          "message": "main incluye los commits de feature"
+        },
+        {
+          "ref": "main",
+          "op": "contains",
+          "value": "Corrige un error del carrito",
+          "message": "main conserva su propio commit"
+        },
+        {
+          "ref": "main",
+          "op": "linear",
+          "message": "La historia de main es lineal (sin commits de merge)"
+        },
+        {
+          "ref": "main",
+          "op": "sameAs",
+          "value": "feature",
+          "message": "main y feature apuntan al mismo commit (fast-forward)"
+        }
+      ],
+      "hints": [
+        "Primero cámbiate a feature y haz rebase sobre main.",
+        "Después, desde main, un merge normal será fast-forward porque feature ya está encima."
+      ],
+      "solution": {
+        "answer": "git switch feature\ngit rebase main\ngit switch main\ngit merge feature",
+        "explanation": "El rebase reaplica los commits de feature encima de main (con hash nuevo). Entonces main solo tiene que avanzar: el merge es un fast-forward y no hay commit de merge."
+      }
     }
   ]
 }

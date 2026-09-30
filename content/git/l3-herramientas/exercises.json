@@ -172,6 +172,91 @@
         "answer": "125",
         "explanation": "0 = bueno; 125 = saltar; 1-127 (salvo 125) = malo; otros códigos abortan el bisect."
       }
+    },
+    {
+      "id": "sim-cherry-pick",
+      "type": "git-sim",
+      "prompt": "En el simulador: en la rama `develop` hay un commit «Corrige el cálculo del IVA» que hace falta ya en `main`, pero el resto de `develop` aún no está listo. Llévalo a `main` **sin fusionar la rama**.",
+      "setup": [
+        "git commit -m \"Primer commit\"",
+        "git switch -c develop",
+        "git commit -m \"Nueva pantalla de pagos\"",
+        "git commit -m \"Corrige el cálculo del IVA\"",
+        "git commit -m \"Cambia los colores\"",
+        "git switch main"
+      ],
+      "assertions": [
+        {
+          "ref": "HEAD",
+          "op": "head",
+          "value": "main",
+          "message": "Terminas en main"
+        },
+        {
+          "ref": "main",
+          "op": "contains",
+          "value": "Corrige el cálculo del IVA",
+          "message": "main tiene la corrección del IVA"
+        },
+        {
+          "ref": "main",
+          "op": "notContains",
+          "value": "Nueva pantalla de pagos",
+          "message": "main no tiene «Nueva pantalla de pagos»"
+        },
+        {
+          "ref": "main",
+          "op": "notContains",
+          "value": "Cambia los colores",
+          "message": "main no tiene «Cambia los colores»"
+        }
+      ],
+      "hints": [
+        "git log --oneline --all te enseña el hash de cada commit.",
+        "git cherry-pick copia un solo commit a la rama actual. También sirve una revisión relativa: develop~1 es el penúltimo de develop."
+      ],
+      "solution": {
+        "answer": "git cherry-pick develop~1",
+        "explanation": "`git cherry-pick` aplica en main una copia de ese commit (con hash nuevo). Con el hash que muestra `git log --oneline --all` funciona igual."
+      }
+    },
+    {
+      "id": "sim-reflog-rescate",
+      "type": "git-sim",
+      "prompt": "En el simulador: alguien ha hecho `git reset --hard HEAD~2` en `main` y han desaparecido los commits «Añade el carrito» y «Añade el pago». Recupéralos creando una rama `rescate` que apunte al último de ellos.",
+      "setup": [
+        "git commit -m \"Primer commit\"",
+        "git commit -m \"Añade el carrito\"",
+        "git commit -m \"Añade el pago\"",
+        "git reset --hard HEAD~2"
+      ],
+      "assertions": [
+        {
+          "ref": "rescate",
+          "op": "exists",
+          "message": "Existe la rama rescate"
+        },
+        {
+          "ref": "rescate",
+          "op": "tipMessage",
+          "value": "Añade el pago",
+          "message": "rescate apunta a «Añade el pago»"
+        },
+        {
+          "ref": "rescate",
+          "op": "contains",
+          "value": "Añade el carrito",
+          "message": "rescate también contiene «Añade el carrito»"
+        }
+      ],
+      "hints": [
+        "git reflog muestra por dónde ha pasado HEAD, con su hash.",
+        "git branch rescate <hash> (o HEAD@{n}) crea la rama en ese commit."
+      ],
+      "solution": {
+        "answer": "git branch rescate HEAD@{1}",
+        "explanation": "Justo antes del reset, HEAD estaba en «Añade el pago»: es `HEAD@{1}` en el reflog. Con su hash funciona igual."
+      }
     }
   ]
 }

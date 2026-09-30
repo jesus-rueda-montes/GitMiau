@@ -212,3 +212,46 @@ describe('práctica de un ejercicio (contenido piloto)', () => {
     expect(screen.getByLabelText('hueco ambito').className).toMatch(/red/)
   })
 })
+
+describe('simulador de Git en un ejercicio', () => {
+  const MOD = 'git/l1-historial'
+  beforeAll(async () => {
+    await loadExercises(getCatalog().modules.find((m) => m.ref === MOD)!)
+  }, 30_000)
+  beforeEach(() => {
+    useProgress.getState().reset()
+    useProgress.getState().exam(getCatalog().modules.find((m) => m.ref === PILOT)!, 1)
+  })
+
+  test('Enter ejecuta y actualiza el grafo; Comprobar evalúa el estado final', async () => {
+    render(
+      <MemoryRouter initialEntries={[`/modulo/${MOD}/ejercicio/sim-revert`]}>
+        <Routes>
+          <Route path="modulo/:trackId/:slug/ejercicio/:exerciseId" element={<ExercisePage />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+    await waitFor(() => expect(screen.queryByText(/Cargando el ejercicio/)).toBeNull())
+    const run = (line: string) => {
+      fireEvent.change(screen.getByLabelText('Terminal'), { target: { value: line } })
+      fireEvent.keyDown(screen.getByLabelText('Terminal'), { key: 'Enter' })
+    }
+    const graph = () => screen.getByRole('img', { name: /repositorio local/ }).textContent ?? ''
+    expect(graph()).toMatch(/Cambia el precio/)
+
+    // Un reset funciona en el simulador, pero no es lo que pide el ejercicio.
+    run('git reset --hard HEAD~1')
+    expect(graph()).not.toMatch(/Cambia el precio/)
+    fireEvent.click(screen.getByText('Comprobar'))
+    expect(await screen.findByText(/No es correcto todavía/)).toBeTruthy()
+    expect(screen.getByText(/El commit original sigue en la historia/).parentElement!.className).toMatch(/red/)
+
+    fireEvent.click(screen.getByText('Intentar de nuevo'))
+    fireEvent.click(screen.getByText(/Empezar de nuevo/))
+    run('git revert HEAD')
+    expect(graph()).toMatch(/Revert "Cambia el precio"/)
+    fireEvent.click(screen.getByText('Comprobar'))
+    expect(await screen.findByText('¡Correcto!')).toBeTruthy()
+    expect(useProgress.getState().exercises[`${MOD}#sim-revert`]?.solved).toBe(true)
+  })
+})

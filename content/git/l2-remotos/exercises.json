@@ -162,6 +162,52 @@
         "answer": "origin",
         "explanation": "`git clone` crea el remoto `origin` apuntando a la URL clonada, y las ramas de seguimiento `origin/*`."
       }
+    },
+    {
+      "id": "sim-push-rechazado",
+      "type": "git-sim",
+      "prompt": "En el simulador: has hecho el commit «Añade el buscador» en `main`, pero mientras tanto Ana ha subido otro a `origin`. Publica tu commit en `origin` **sin commit de merge**: la historia de `origin/main` debe quedar lineal, con el commit de Ana antes que el tuyo.",
+      "setup": [
+        "origin: git commit -m \"Primer commit\"",
+        "origin: git commit -m \"Añade la portada\"",
+        "git fetch",
+        "git switch main",
+        "git commit -m \"Añade el buscador\"",
+        "origin: git commit -m \"Corrige el menú (Ana)\""
+      ],
+      "assertions": [
+        {
+          "ref": "origin:main",
+          "op": "contains",
+          "value": "Corrige el menú (Ana)",
+          "message": "El commit de Ana sigue en origin"
+        },
+        {
+          "ref": "origin:main",
+          "op": "tipMessage",
+          "value": "Añade el buscador",
+          "message": "Tu commit es el último de origin/main"
+        },
+        {
+          "ref": "origin:main",
+          "op": "linear",
+          "message": "La historia de origin es lineal (sin commit de merge)"
+        },
+        {
+          "ref": "main",
+          "op": "sameAs",
+          "value": "origin:main",
+          "message": "Tu main y el de origin apuntan al mismo commit"
+        }
+      ],
+      "hints": [
+        "Prueba git push y lee por qué se rechaza.",
+        "Hay que traer lo de Ana y poner tu commit encima, sin merge: git pull con la opción de rebase."
+      ],
+      "solution": {
+        "answer": "git pull --rebase\ngit push",
+        "explanation": "`git pull --rebase` trae el commit de Ana y reaplica el tuyo encima (con hash nuevo). Así el push es un fast-forward y la historia queda lineal. Nunca `--force` en `main`."
+      }
     }
   ]
 }

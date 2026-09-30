@@ -172,6 +172,54 @@
         "answer": "git add y git commit",
         "explanation": "Editar → quitar marcas → `git add` → `git commit` (o `git merge --continue`)."
       }
+    },
+    {
+      "id": "sim-rama-merge",
+      "type": "git-sim",
+      "prompt": "En el simulador: crea la rama `login`, haz en ella dos commits («Formulario de login» y «Valida el email»), vuelve a `main` y fusiona `login` **con un commit de merge** (sin fast-forward), para que la funcionalidad quede agrupada en la historia.",
+      "setup": [
+        "git commit -m \"Primer commit\"",
+        "git commit -m \"Añade la portada\""
+      ],
+      "assertions": [
+        {
+          "ref": "HEAD",
+          "op": "head",
+          "value": "main",
+          "message": "Terminas en la rama main"
+        },
+        {
+          "ref": "login",
+          "op": "exists",
+          "message": "Existe la rama login"
+        },
+        {
+          "ref": "main",
+          "op": "contains",
+          "value": "Formulario de login",
+          "message": "main contiene «Formulario de login»"
+        },
+        {
+          "ref": "main",
+          "op": "contains",
+          "value": "Valida el email",
+          "message": "main contiene «Valida el email»"
+        },
+        {
+          "ref": "main",
+          "op": "isMerge",
+          "message": "El último commit de main es un commit de merge (--no-ff)"
+        }
+      ],
+      "hints": [
+        "Para crear la rama y cambiarte a ella a la vez: git switch -c login.",
+        "Los commits se crean con git commit -m \"…\" (en el simulador no hace falta git add).",
+        "Desde main, git merge --no-ff login."
+      ],
+      "solution": {
+        "answer": "git switch -c login\ngit commit -m \"Formulario de login\"\ngit commit -m \"Valida el email\"\ngit switch main\ngit merge --no-ff login",
+        "explanation": "Como main no había avanzado, un merge normal sería fast-forward y no dejaría commit de merge. `--no-ff` lo crea igualmente, con dos padres."
+      }
     }
   ]
 }

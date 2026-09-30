@@ -98,7 +98,9 @@ export function resolveRev(state: SimState, repo: Repo, rev: string): string | u
   if (!m) return undefined
   const [, base, suffix] = m
   let id: string | undefined
-  if (base === 'HEAD' || base === '@') id = headCommit(repo)
+  const reflogRef = /^(?:HEAD)?@\{(\d+)\}$/.exec(base)
+  if (reflogRef) id = repo.reflog[Number(reflogRef[1])]?.id
+  else if (base === 'HEAD' || base === '@') id = headCommit(repo)
   else if (base in repo.branches) id = repo.branches[base]
   else if (base in repo.tags) id = repo.tags[base]
   else if (base.startsWith(`${REMOTE}/`) && base.slice(REMOTE.length + 1) in repo.remoteTracking)

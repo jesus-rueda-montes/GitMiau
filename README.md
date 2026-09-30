@@ -1,6 +1,6 @@
 # 🐱 Miau
 
-App web para aprender Git y GitHub, desde principiante hasta nivel de entrevista técnica.
+App web para aprender Git y GitHub, desde principiante hasta nivel de entrevista técnica: lecciones, ejercicios con terminal simulada, editor YAML, flashcards, exámenes y un **simulador de Git** que dibuja el grafo de commits mientras escribes comandos.
 
 ```bash
 npm install
@@ -11,4 +11,4 @@ npm run dev
 - Build: `npm run build`
 - Arquitectura: [ARCHITECTURE.md](ARCHITECTURE.md) · Decisiones: [DECISIONS.md](DECISIONS.md) · Temario: [TEMARIO.md](TEMARIO.md)
 
-Se publica en GitHub Pages automáticamente al hacer push a `main` (hay que activar *Settings → Pages → Source: GitHub Actions* en el repo).
+Se publica en GitHub Pages automáticamente al hacer push a `main`: https://jesus-rueda-montes.github.io/GitMiau/

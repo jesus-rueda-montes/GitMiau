@@ -37,11 +37,13 @@ describe('insignias', () => {
     expect(earnedIds(computeBadges(catalog, s)).has('itinerario-fundamentos')).toBe(true)
   })
 
-  test('todoterreno exige los 4 tipos de ejercicio', () => {
+  test('todoterreno exige los 5 tipos de ejercicio', () => {
     let s = initialProgress()
     for (const id of ['tres-areas', 'init-main', 'config-email']) s = recordAttempt(s, `${pilot.ref}#${id}`, true, day)
     expect(computeBadges(catalog, s).find((b) => b.id === 'todoterreno')).toMatchObject({ current: 3, earned: false })
     s = recordAttempt(s, `${yaml.ref}#config-app`, true, day)
+    expect(computeBadges(catalog, s).find((b) => b.id === 'todoterreno')).toMatchObject({ current: 4, earned: false })
+    s = recordAttempt(s, 'git/l2-ramas#sim-rama-merge', true, day)
     expect(earnedIds(computeBadges(catalog, s)).has('todoterreno')).toBe(true)
   })
 

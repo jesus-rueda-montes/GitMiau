@@ -39,7 +39,7 @@ const DEFS: Def[] = [
   { id: 'primer-examen', icon: '🎓', title: 'Aprobado', description: 'Aprueba el examen de un módulo.', target: 1, value: ({ p }) => Object.values(p.exams).filter((e) => e.passed).length },
   { id: 'nota-perfecta', icon: '💯', title: 'Matrícula', description: 'Saca un 100 % en un examen.', target: 1, value: ({ p }) => Object.values(p.exams).filter((e) => e.best === 1).length },
   { id: 'terminal', icon: '⌨️', title: 'Soltura en la terminal', description: 'Resuelve 5 ejercicios de comandos.', target: 5, value: ({ solvedCommands }) => solvedCommands },
-  { id: 'todoterreno', icon: '🧰', title: 'Todoterreno', description: 'Resuelve al menos un ejercicio de cada tipo: test, comando, huecos y editor.', target: 4, value: ({ solvedTypes }) => solvedTypes.size },
+  { id: 'todoterreno', icon: '🧰', title: 'Todoterreno', description: 'Resuelve al menos un ejercicio de cada tipo: test, comando, huecos, editor y simulador.', target: 5, value: ({ solvedTypes }) => solvedTypes.size },
   { id: 'racha-3', icon: '🔥', title: 'En racha', description: 'Estudia 3 días seguidos.', target: 3, value: ({ p }) => p.streak.best },
   { id: 'racha-7', icon: '🔥', title: 'Una semana', description: 'Estudia 7 días seguidos.', target: 7, value: ({ p }) => p.streak.best },
   { id: 'racha-30', icon: '🏔️', title: 'Constancia', description: 'Estudia 30 días seguidos.', target: 30, value: ({ p }) => p.streak.best },

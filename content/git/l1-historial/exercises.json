@@ -189,6 +189,44 @@
         "answer": "git revert --no-edit 3f2a9c1",
         "explanation": "`git revert` crea un commit que invierte los cambios de `3f2a9c1`; `--no-edit` usa el mensaje por defecto (\"Revert ...\")."
       }
+    },
+    {
+      "id": "sim-revert",
+      "type": "git-sim",
+      "prompt": "En el simulador, el último commit de `main` («Cambia el precio») tiene un error y **tus compañeros ya lo tienen**. Deshazlo sin reescribir la historia.",
+      "setup": [
+        "git commit -m \"Primer commit\"",
+        "git commit -m \"Añade la tienda\"",
+        "git commit -m \"Cambia el precio\""
+      ],
+      "assertions": [
+        {
+          "ref": "main",
+          "op": "contains",
+          "value": "Cambia el precio",
+          "message": "El commit original sigue en la historia (no se reescribe)"
+        },
+        {
+          "ref": "main",
+          "op": "tipMessage",
+          "value": "Revert \"Cambia el precio\"",
+          "message": "El último commit de main deshace «Cambia el precio»"
+        },
+        {
+          "ref": "main",
+          "op": "commits",
+          "value": 4,
+          "message": "main tiene 4 commits: los 3 de antes y el que deshace"
+        }
+      ],
+      "hints": [
+        "Si otros ya tienen el commit, no se usa reset: se crea un commit nuevo que haga lo contrario.",
+        "git revert, seguido del commit que quieres deshacer (HEAD es el último)."
+      ],
+      "solution": {
+        "answer": "git revert HEAD",
+        "explanation": "`git revert` crea un commit nuevo con los cambios contrarios. La historia solo crece, así que nadie tiene que arreglar su copia."
+      }
     }
   ]
 }
