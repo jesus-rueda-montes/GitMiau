@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "stash", "front": "¿Para qué sirve `git stash`?", "back": "Aparta los cambios sin commit y deja el working tree limpio. Los untracked solo entran con `-u`." },
+    { "id": "pop-apply", "front": "`git stash pop` frente a `apply`", "back": "Los dos aplican la entrada. `pop` además la borra (si no hay conflictos); `apply` la conserva." },
+    { "id": "cherry-pick", "front": "¿Qué hace `git cherry-pick <commit>`?", "back": "Aplica los cambios de ese commit en la rama actual como un commit nuevo (otro hash). `-x` anota el commit original." },
+    { "id": "tags", "front": "Tag ligero frente a anotado", "back": "Ligero: solo un nombre para un commit. Anotado (`-a -m`): autor, fecha y mensaje; el recomendado para versiones. Se suben con `git push origin <tag>` o `--tags`." },
+    { "id": "reflog", "front": "¿Qué es el reflog?", "back": "Registro local de los movimientos de HEAD y las ramas (`HEAD@{n}`). Sirve para recuperar commits tras un reset o un borrado de rama." },
+    { "id": "bisect", "front": "`git bisect`: pasos básicos", "back": "`start` → `bad` (actual) → `good <commit>` → ir marcando good/bad → `reset`. `run <cmd>`: 0 bueno, 125 saltar, 1-127 malo." }
+  ]
+}

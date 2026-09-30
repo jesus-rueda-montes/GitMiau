@@ -71,5 +71,6 @@ Numeración original. Se han quitado las que solo aplicaban a Kubernetes, Terraf
 | 55 | Test e2e con Playwright (solo Chromium) sobre el build de producción, en CI antes del build de Pages | Prueba los chunks bajo demanda reales y la persistencia en IndexedDB; un solo navegador mantiene el CI rápido. |
 
 ## Pendiente de decidir
-- **Versiones de las GitHub Actions** del workflow (`checkout@v4`, `upload-pages-artifact@v3`, `deploy-pages@v4`): comprobar si hay versiones mayores nuevas al crear el repo en GitHub.
+- **Versiones de las GitHub Actions** del workflow (`checkout@v4`, `setup-node@v4`, `upload-pages-artifact@v3`, `deploy-pages@v4`): el CI de GitMiau avisa de que usan Node.js 20, obsoleto en GitHub Actions. Hay que comprobar en la documentación oficial qué versiones mayores existen antes de cambiarlas (afecta también a Kubernetete).
+- **GitHub Pages**: el usuario tiene que activar *Settings → Pages → Source: GitHub Actions* en GitMiau; mientras tanto, el job `deploy` falla (el `build` pasa).
 - **Simulador de repositorio Git** (decisión M3): modelo de datos, qué comandos simula y cómo se dibuja el grafo. Se decidirá con el usuario al empezar esa fase.

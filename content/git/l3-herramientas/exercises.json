@@ -1,0 +1,177 @@
+{
+  "exercises": [
+    {
+      "id": "stash-untracked",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "Un `git stash` sin opciones guarda también los ficheros **nuevos** que Git aún no sigue (untracked).",
+      "hints": ["Hay una opción específica para incluirlos."],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "Por defecto solo guarda los ficheros con seguimiento." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: hace falta `-u` (`--include-untracked`)." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "`git stash` guarda los cambios de los ficheros seguidos. Los untracked se quedan en el working tree salvo que uses `-u` (o `-a`, que incluye además los ignorados)."
+      }
+    },
+    {
+      "id": "stash-push",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Guarda en el stash todos tus cambios, **incluidos los ficheros nuevos**, con la descripción `login a medias`.",
+      "hints": [
+        "El subcomando para guardar es `push` (también vale `git stash` a secas).",
+        "Necesitas `-u` para los untracked y `-m` para la descripción."
+      ],
+      "accepted": ["git stash push -u -m \"login a medias\"", "git stash -u -m \"login a medias\""],
+      "output": "Saved working directory and index state On feature/login: login a medias",
+      "solution": {
+        "answer": "git stash push -u -m \"login a medias\"",
+        "explanation": "`-u` (`--include-untracked`) incluye los ficheros nuevos y `-m` pone una descripción para reconocer la entrada en `git stash list`."
+      }
+    },
+    {
+      "id": "stash-list",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Muestra las entradas que hay guardadas en el stash.",
+      "hints": ["Es un subcomando de `git stash` que significa \"lista\"."],
+      "accepted": ["git stash list"],
+      "output": "stash@{0}: On feature/login: login a medias\nstash@{1}: WIP on main: 9b1e4d2 Añade el README",
+      "solution": {
+        "answer": "git stash list",
+        "explanation": "`stash@{0}` es la entrada más reciente; los números crecen hacia las más antiguas."
+      }
+    },
+    {
+      "id": "pop-vs-apply",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres aplicar la entrada `stash@{1}` en **dos ramas distintas**. ¿Qué subcomando usas en la primera?",
+      "hints": ["Uno de los dos borra la entrada después de aplicarla."],
+      "options": [
+        { "id": "a", "text": "`git stash apply stash@{1}`", "correct": true, "explanation": "Correcto: aplica los cambios y conserva la entrada para usarla otra vez." },
+        { "id": "b", "text": "`git stash pop stash@{1}`", "correct": false, "explanation": "La borraría de la pila (si no hay conflictos) y no podrías reutilizarla." },
+        { "id": "c", "text": "`git stash drop stash@{1}`", "correct": false, "explanation": "Solo borra la entrada, sin aplicarla." },
+        { "id": "d", "text": "`git stash branch stash@{1}`", "correct": false, "explanation": "`branch` espera primero el nombre de una rama nueva." }
+      ],
+      "solution": {
+        "answer": "git stash apply",
+        "explanation": "`apply` aplica y conserva la entrada; `pop` aplica y la borra (salvo que haya conflictos)."
+      }
+    },
+    {
+      "id": "cherry-pick-x",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Estás en `release/1.4`. Trae **solo** el arreglo del commit `9c0e2d7` de `main`, dejando constancia en el mensaje de qué commit original viene.",
+      "hints": [
+        "El comando que copia un commit concreto es `git cherry-pick`.",
+        "La opción que añade \"(cherry picked from commit …)\" es `-x`."
+      ],
+      "accepted": ["git cherry-pick -x 9c0e2d7"],
+      "output": "[release/1.4 4d1a8f3] Corrige el redondeo del IVA\n 1 file changed, 1 insertion(+), 1 deletion(-)",
+      "solution": {
+        "answer": "git cherry-pick -x 9c0e2d7",
+        "explanation": "`cherry-pick` aplica los cambios de `9c0e2d7` como un commit nuevo en la rama actual; `-x` añade al mensaje la referencia al original."
+      }
+    },
+    {
+      "id": "tag-anotado",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Marca el commit actual como la versión `v1.5.0` con un tag **anotado** y el mensaje `Versión 1.5.0`.",
+      "hints": [
+        "El comando es `git tag`.",
+        "`-a` crea un tag anotado y `-m` le da el mensaje."
+      ],
+      "accepted": ["git tag -a v1.5.0 -m \"Versión 1.5.0\""],
+      "solution": {
+        "answer": "git tag -a v1.5.0 -m \"Versión 1.5.0\"",
+        "explanation": "Un tag anotado guarda autor, fecha y mensaje: es el recomendado para las versiones publicadas."
+      }
+    },
+    {
+      "id": "push-tags",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Un `git push` normal no ha subido tus tags. Completa el comando para subir **todos** los tags a `origin`.",
+      "template": "git push origin --{{flag}}",
+      "blanks": [{ "id": "flag", "accepted": ["tags"] }],
+      "hints": ["La opción es el plural de \"tag\" en inglés."],
+      "solution": {
+        "answer": "git push origin --tags",
+        "explanation": "Los tags no se suben por defecto. `--tags` los sube todos; para uno solo: `git push origin v1.5.0`."
+      }
+    },
+    {
+      "id": "reflog-recuperar",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Hiciste `git reset --hard HEAD~3` por error y los 3 commits ya no aparecen en `git log`. ¿Qué haces?",
+      "hints": [
+        "Hay un registro local de por dónde ha pasado HEAD.",
+        "Los commits siguen existiendo aunque ninguna rama apunte a ellos."
+      ],
+      "options": [
+        { "id": "a", "text": "Buscar el hash en `git reflog` y crear una rama (o hacer reset) a ese commit", "correct": true, "explanation": "Correcto: el reflog recuerda dónde estaba HEAD antes del reset." },
+        { "id": "b", "text": "Nada: los commits se han borrado definitivamente", "correct": false, "explanation": "Siguen en el repositorio y el reflog apunta a ellos (durante un tiempo)." },
+        { "id": "c", "text": "`git pull` para recuperarlos del remoto", "correct": false, "explanation": "Solo funcionaría si los hubieras subido; el reflog funciona aunque no." },
+        { "id": "d", "text": "`git revert HEAD~3`", "correct": false, "explanation": "Crearía un commit que deshace otro; no recupera nada." }
+      ],
+      "solution": {
+        "answer": "Usar git reflog",
+        "explanation": "`git reflog` muestra, por ejemplo, `8f41d07 HEAD@{1}: commit: …`. Con `git branch rescate 8f41d07` o `git reset --hard 8f41d07` lo recuperas."
+      }
+    },
+    {
+      "id": "branch-rescate",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Según `git reflog`, el commit perdido es `8f41d07`. Crea una rama llamada `rescate` que apunte a él.",
+      "hints": [
+        "`git branch` puede crear una rama en un commit concreto.",
+        "Primero va el nombre de la rama y después el commit."
+      ],
+      "accepted": ["git branch rescate 8f41d07"],
+      "solution": {
+        "answer": "git branch rescate 8f41d07",
+        "explanation": "`git branch <nombre> <commit>` crea la rama en ese commit: el trabajo vuelve a estar en una rama y no caducará con el reflog."
+      }
+    },
+    {
+      "id": "bisect-run",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Ya has hecho `git bisect start HEAD v1.4.0`. Automatiza la búsqueda usando el comando `npm test` para decidir si cada commit es bueno o malo.",
+      "hints": [
+        "Es un subcomando de `git bisect` que significa \"ejecutar\".",
+        "Después va el comando que hay que ejecutar en cada paso."
+      ],
+      "accepted": ["git bisect run npm test"],
+      "output": "9c0e2d7 is the first bad commit",
+      "solution": {
+        "answer": "git bisect run npm test",
+        "explanation": "`git bisect run` ejecuta el comando en cada commit intermedio y usa su código de salida: 0 bueno, 125 saltar, 1-127 malo."
+      }
+    },
+    {
+      "id": "bisect-125",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "En un script para `git bisect run`, ¿con qué código de salida le dices a Git que **ese commit no se puede probar** y debe saltarlo?",
+      "hints": ["No es 0 ni 1: es un valor especial."],
+      "options": [
+        { "id": "a", "text": "0", "correct": false, "explanation": "0 significa que el commit es bueno." },
+        { "id": "b", "text": "1", "correct": false, "explanation": "1 significa que el commit es malo." },
+        { "id": "c", "text": "125", "correct": true, "explanation": "Correcto: 125 = no se puede probar, se salta." },
+        { "id": "d", "text": "255", "correct": false, "explanation": "Un código fuera de 0-127 aborta la búsqueda." }
+      ],
+      "solution": {
+        "answer": "125",
+        "explanation": "0 = bueno; 125 = saltar; 1-127 (salvo 125) = malo; otros códigos abortan el bisect."
+      }
+    }
+  ]
+}

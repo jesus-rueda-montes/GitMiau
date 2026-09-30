@@ -15,7 +15,8 @@ Miau es una copia adaptada de Kubernetete (decisión M1 de [DECISIONS.md](DECISI
   - Tests (Vitest), lint, build y e2e (Playwright) en verde.
 - **Fase 1 de contenido (Git nivel 1): completada.** `git/l1-historial` (3 lecciones, 11 ejercicios, 7 flashcards). El e2e ya usa el itinerario de Git (decisión M12). Glosario de Git: commit, staging area, working tree, hash, HEAD, secreto, diff.
 - **Git nivel 2: completado.** `git/l2-ramas` (2 lecciones, 10 ejercicios, 6 flashcards) y `git/l2-remotos` (2 lecciones, 10 ejercicios, 6 flashcards).
-- **Git nivel 3:** `git/l3-rebase` ✅ (2 lecciones, 10 ejercicios, 6 flashcards). En curso: `git/l3-herramientas`.
+- **Itinerario de Git: completado** (6 módulos). Nivel 3: `git/l3-rebase` (2 lecciones, 10 ejercicios, 6 flashcards) y `git/l3-herramientas` (3 lecciones, 11 ejercicios, 6 flashcards).
+- **Siguiente:** itinerario de GitHub (`github/l1-repos-cuenta`), que necesitará la spec de `gh`.
 - **Repositorio:** https://github.com/jesus-rueda-montes/GitMiau (público). Cada paso se sube con `git push` al terminar.
 - **Siguiente:** resto del temario según [TEMARIO.md](TEMARIO.md); la spec de `gh` al llegar al itinerario de GitHub.
 - **Fase posterior:** simulador de repositorio Git con grafo de commits (decisión M3).
@@ -34,6 +35,8 @@ Un paso por entrada, del más antiguo al más reciente. Cada paso termina con lo
 | 2026-09-30 | Publicación en GitHub | Remoto `origin` = `https://github.com/jesus-rueda-montes/GitMiau.git` (repo público creado por el usuario). Primer `git push -u origin main`. El workflow de Pages se ejecuta en cada push; hay que activar *Settings → Pages → Source: GitHub Actions* para que el despliegue funcione. |
 | 2026-09-30 | Spec de git para el nivel 3 | `rebase`, `stash`, `cherry-pick`, `tag`, `reflog`, `bisect`, consultados en git-scm.com. `stash` tiene flags propios y subcomandos (`git stash -u` y `git stash push -u` valen). `reflog` sin `args` en la raíz para que `show`, `list`… se reconozcan como subcomandos. Flags solo cortos: `cherry-pick -x`, `tag -n`. Alias: `bisect new`/`old`, `bisect view`. |
 | 2026-09-30 | Módulo `git/l3-rebase` | Spec: `git commit --fixup` y `--squash`. Lecciones «Rebase frente a merge» (reaplicar, hashes nuevos, conflictos, ours/theirs invertidos, regla de oro, `--force-with-lease`) y «Rebase interactivo» (todo list, órdenes, `--autosquash`). 10 ejercicios, 6 flashcards. Glosario: rebase (presentado en `l2-remotos`, donde aparece por primera vez), todo list. En CI, el run de un push anterior aparece como *cancelled* por `cancel-in-progress`: es lo esperado. |
+| 2026-09-30 | Módulo `git/l3-herramientas` | Lecciones «Guardar trabajo a medias con stash», «Cherry-pick y tags» y «Recuperar con reflog y encontrar errores con bisect». 11 ejercicios, 6 flashcards. Glosario: stash (presentado en `l2-ramas`), tag (en `l2-remotos`), reflog, búsqueda binaria. |
+| 2026-09-30 | Estado de CI en GitHub | En el run de `3ad8b14`, el job `build` (lint, tests, e2e, build) pasa; el job `deploy` falla con 404 porque **GitHub Pages no está activado** en el repo. Aviso: `actions/*@v4` usan Node.js 20, que GitHub ha declarado obsoleto (ver «Pendiente de decidir» en DECISIONS.md). |
 
 ## Heredado de Kubernetete (sin cambios)
 - Motor de contenido: esquemas zod (`src/content/schema.ts`), parser de lecciones con las 7 secciones obligatorias (`lesson.ts`), `buildCatalog()` que acumula errores con la ruta del archivo (`loader.ts`).

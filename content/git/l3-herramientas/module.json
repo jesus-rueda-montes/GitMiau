@@ -1,0 +1,8 @@
+{
+  "title": "Herramientas: stash, cherry-pick, tags, reflog y bisect",
+  "summary": "Guardar trabajo a medias, copiar commits entre ramas, marcar versiones, recuperar commits «perdidos» y encontrar el commit que rompió algo.",
+  "level": 3,
+  "order": 2,
+  "xp": 100,
+  "prereqs": []
+}

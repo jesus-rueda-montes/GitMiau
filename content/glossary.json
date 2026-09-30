@@ -114,6 +114,26 @@
       "term": "todo list",
       "definition": "En un rebase interactivo, la lista editable de commits con la orden que se aplicará a cada uno.",
       "introducedIn": "git/l3-rebase"
+    },
+    {
+      "term": "stash",
+      "definition": "Pila donde Git aparta temporalmente cambios sin commit para dejar limpio el working tree.",
+      "introducedIn": "git/l2-ramas"
+    },
+    {
+      "term": "tag",
+      "definition": "Nombre fijo para un commit concreto, normalmente una versión (v1.5.0). A diferencia de una rama, no avanza.",
+      "introducedIn": "git/l2-remotos"
+    },
+    {
+      "term": "reflog",
+      "definition": "Registro local de los movimientos de HEAD y las ramas; permite recuperar commits que ya no están en ninguna rama.",
+      "introducedIn": "git/l3-herramientas"
+    },
+    {
+      "term": "búsqueda binaria",
+      "definition": "Buscar partiendo el rango por la mitad en cada paso; con N elementos basta con unas log₂(N) comprobaciones.",
+      "introducedIn": "git/l3-herramientas"
     }
   ]
 }
