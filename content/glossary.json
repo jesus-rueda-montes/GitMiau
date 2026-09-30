@@ -134,6 +134,26 @@
       "term": "búsqueda binaria",
       "definition": "Buscar partiendo el rango por la mitad en cada paso; con N elementos basta con unas log₂(N) comprobaciones.",
       "introducedIn": "git/l3-herramientas"
+    },
+    {
+      "term": "fork",
+      "definition": "Copia de un repositorio ajeno en tu cuenta de GitHub, para proponer cambios sin tener permiso de escritura en el original.",
+      "introducedIn": "github/l1-repos-cuenta"
+    },
+    {
+      "term": "README",
+      "definition": "Fichero de portada del repositorio (README.md): qué es el proyecto, cómo instalarlo y cómo usarlo.",
+      "introducedIn": "github/l1-repos-cuenta"
+    },
+    {
+      "term": "licencia",
+      "definition": "Texto que fija qué pueden hacer otros con tu código. Sin licencia, se reservan todos los derechos.",
+      "introducedIn": "github/l1-repos-cuenta"
+    },
+    {
+      "term": "clave SSH",
+      "definition": "Par de claves (privada y pública) para autenticarte sin contraseña; la pública se registra en GitHub.",
+      "introducedIn": "github/l1-repos-cuenta"
     }
   ]
 }

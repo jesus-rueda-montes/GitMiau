@@ -1,0 +1,8 @@
+{
+  "title": "Repositorios, forks y autenticación",
+  "summary": "Repositorios públicos y privados, README y licencias, forks, cómo autenticarte (token o SSH) y la CLI gh para crear, clonar y hacer forks.",
+  "level": 1,
+  "order": 1,
+  "xp": 100,
+  "prereqs": ["git/l2-remotos"]
+}

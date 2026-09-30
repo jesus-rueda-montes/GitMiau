@@ -16,7 +16,7 @@ Miau es una copia adaptada de Kubernetete (decisión M1 de [DECISIONS.md](DECISI
 - **Fase 1 de contenido (Git nivel 1): completada.** `git/l1-historial` (3 lecciones, 11 ejercicios, 7 flashcards). El e2e ya usa el itinerario de Git (decisión M12). Glosario de Git: commit, staging area, working tree, hash, HEAD, secreto, diff.
 - **Git nivel 2: completado.** `git/l2-ramas` (2 lecciones, 10 ejercicios, 6 flashcards) y `git/l2-remotos` (2 lecciones, 10 ejercicios, 6 flashcards).
 - **Itinerario de Git: completado** (6 módulos). Nivel 3: `git/l3-rebase` (2 lecciones, 10 ejercicios, 6 flashcards) y `git/l3-herramientas` (3 lecciones, 11 ejercicios, 6 flashcards).
-- **En curso:** itinerario de GitHub. Spec de `gh` creada (`auth`, `repo`). Primer módulo: `github/l1-repos-cuenta`.
+- **Itinerario de GitHub (en curso):** `github/l1-repos-cuenta` ✅ (2 lecciones, 11 ejercicios, 6 flashcards; requiere `git/l2-remotos`). Siguiente: `github/l2-pull-requests`.
 - **Repositorio:** https://github.com/jesus-rueda-montes/GitMiau (público). Cada paso se sube con `git push` al terminar.
 - **Siguiente:** resto del temario según [TEMARIO.md](TEMARIO.md); la spec de `gh` al llegar al itinerario de GitHub.
 - **Fase posterior:** simulador de repositorio Git con grafo de commits (decisión M3).
@@ -38,6 +38,7 @@ Un paso por entrada, del más antiguo al más reciente. Cada paso termina con lo
 | 2026-09-30 | Módulo `git/l3-herramientas` | Lecciones «Guardar trabajo a medias con stash», «Cherry-pick y tags» y «Recuperar con reflog y encontrar errores con bisect». 11 ejercicios, 6 flashcards. Glosario: stash (presentado en `l2-ramas`), tag (en `l2-remotos`), reflog, búsqueda binaria. |
 | 2026-09-30 | Estado de CI en GitHub | En el run de `3ad8b14`, el job `build` (lint, tests, e2e, build) pasa; el job `deploy` falla con 404 porque **GitHub Pages no está activado** en el repo. Aviso: `actions/*@v4` usan Node.js 20, que GitHub ha declarado obsoleto (ver «Pendiente de decidir» en DECISIONS.md). |
 | 2026-09-30 | Spec de `gh` | `content/cli-specs/gh.json`, transcrita de cli.github.com/manual: `auth` (`login`, `status`, `logout`, `refresh`, `setup-git`, `switch`, `token`) y `repo` (`create`, `clone`, `fork`, `view`). `--git-protocol` con valores estrictos `ssh`/`https`. Decisión M18: el itinerario de GitHub combina interfaz web (quizzes) y `gh` (comandos). Limitación conocida: el motor solo exige subcomando en la raíz (`gh repo` a secas se acepta como sintaxis, aunque nunca coincide con una respuesta). |
+| 2026-09-30 | Módulo `github/l1-repos-cuenta` | Lecciones «Repositorios en GitHub» (visibilidad, README, licencias, fork, origin/upstream) y «Autenticación y la CLI gh» (tokens fine-grained/classic, SSH con ed25519, `gh auth`, `gh repo`). Datos comprobados en docs.github.com (licencias, tokens, SSH, forks). 11 ejercicios: primeros con `cli: "gh"`; `ssh-keygen` se practica como fill (no es una CLI con spec). Glosario: fork, README, licencia, clave SSH. |
 
 ## Heredado de Kubernetete (sin cambios)
 - Motor de contenido: esquemas zod (`src/content/schema.ts`), parser de lecciones con las 7 secciones obligatorias (`lesson.ts`), `buildCatalog()` que acumula errores con la ruta del archivo (`loader.ts`).

@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "visibilidad", "front": "Tipos de visibilidad de un repositorio", "back": "Público (cualquiera lo ve), privado (solo quien tenga acceso) e interno (miembros de la empresa, en GitHub Enterprise)." },
+    { "id": "sin-licencia", "front": "Repo público sin licencia: ¿qué se puede hacer con él?", "back": "Verlo y hacer fork (términos de GitHub). Nada más: se aplica el copyright por defecto." },
+    { "id": "fork", "front": "Fork: qué es y cómo se configuran los remotos", "back": "Tu copia de un repo ajeno en GitHub, para proponer cambios sin permiso de escritura. `origin` = tu fork, `upstream` = el original." },
+    { "id": "token", "front": "Autenticación de Git por HTTPS en GitHub", "back": "Con un personal access token (mejor fine-grained), no con la contraseña. O `gh auth login`, que configura las credenciales." },
+    { "id": "ssh", "front": "Crear y probar una clave SSH para GitHub", "back": "`ssh-keygen -t ed25519 -C \"email\"`, registrar la clave .pub en la cuenta y probar con `ssh -T git@github.com`." },
+    { "id": "gh", "front": "Comandos básicos de `gh` para repositorios", "back": "`gh auth login/status`, `gh repo create <nombre> --public --clone`, `gh repo clone dueño/repo`, `gh repo fork dueño/repo --clone`, `gh repo view --web`." }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "exercises": [
+    {
+      "id": "sin-licencia",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Publicas un repositorio **público** sin fichero `LICENSE`. ¿Qué pueden hacer legalmente los demás con tu código?",
+      "hints": [
+        "Sin licencia se aplica el copyright por defecto.",
+        "Los términos de servicio de GitHub conceden dos cosas concretas."
+      ],
+      "options": [
+        { "id": "a", "text": "Cualquier cosa: si es público, es libre", "correct": false, "explanation": "Público no significa libre: sin licencia conservas todos los derechos." },
+        { "id": "b", "text": "Verlo y hacer fork en GitHub, pero no reutilizarlo, distribuirlo ni crear obras derivadas", "correct": true, "explanation": "Correcto: es lo que dice la documentación de GitHub." },
+        { "id": "c", "text": "Nada: ni siquiera verlo", "correct": false, "explanation": "Al ser público, los términos de GitHub permiten verlo y hacer fork." },
+        { "id": "d", "text": "Usarlo solo con fines no comerciales", "correct": false, "explanation": "Eso sería una licencia concreta; sin licencia no se concede ningún uso." }
+      ],
+      "solution": {
+        "answer": "Ver y hacer fork, nada más",
+        "explanation": "Sin licencia se aplica el copyright por defecto. Los términos de GitHub permiten ver y hacer fork de los repos públicos, pero para reutilizar el código hace falta una licencia (MIT, Apache 2.0, GPL…)."
+      }
+    },
+    {
+      "id": "fork-vs-clone",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Qué diferencia hay entre un **fork** y un **clone**?",
+      "hints": ["Uno ocurre en GitHub; el otro, en tu máquina."],
+      "options": [
+        { "id": "a", "text": "El fork es una copia del repositorio en tu cuenta de GitHub; el clone, una copia en tu ordenador", "correct": true, "explanation": "Correcto: lo habitual es hacer fork y luego clonar tu fork." },
+        { "id": "b", "text": "Son lo mismo con distinto nombre", "correct": false, "explanation": "Ocurren en sitios distintos y sirven para cosas distintas." },
+        { "id": "c", "text": "El clone solo descarga la última versión, sin historia", "correct": false, "explanation": "`git clone` descarga la historia completa (salvo que uses `--depth`)." },
+        { "id": "d", "text": "El fork solo se puede hacer de repositorios privados", "correct": false, "explanation": "Lo más habitual es hacer fork de proyectos públicos." }
+      ],
+      "solution": {
+        "answer": "Fork en GitHub, clone en local",
+        "explanation": "Un fork crea tu copia en GitHub (donde sí puedes hacer push) y un clone descarga un repositorio a tu máquina."
+      }
+    },
+    {
+      "id": "remotos-fork",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Has clonado **tu fork** de `biblioteca/proyecto`. Según la convención, ¿qué remoto debe apuntar al repositorio **original**?",
+      "hints": ["`origin` ya apunta a lo que has clonado: tu fork."],
+      "options": [
+        { "id": "a", "text": "`upstream`", "correct": true, "explanation": "Correcto: `origin` = tu fork, `upstream` = el original." },
+        { "id": "b", "text": "`origin`", "correct": false, "explanation": "`origin` apunta a tu fork, que es lo que clonaste." },
+        { "id": "c", "text": "`main`", "correct": false, "explanation": "`main` es una rama, no un remoto." },
+        { "id": "d", "text": "`fork`", "correct": false, "explanation": "No es la convención." }
+      ],
+      "solution": {
+        "answer": "upstream",
+        "explanation": "Con `upstream` traes las novedades del original (`git fetch upstream`) y con `origin` subes a tu fork."
+      }
+    },
+    {
+      "id": "remote-upstream",
+      "type": "command",
+      "cli": "git",
+      "prompt": "En el clon de tu fork, añade como remoto `upstream` el repositorio original `https://github.com/biblioteca/proyecto.git`.",
+      "hints": [
+        "Es el mismo comando que usaste para añadir `origin`.",
+        "`git remote add <nombre> <url>`."
+      ],
+      "accepted": ["git remote add upstream https://github.com/biblioteca/proyecto.git"],
+      "solution": {
+        "answer": "git remote add upstream https://github.com/biblioteca/proyecto.git",
+        "explanation": "Así tienes los dos remotos: `origin` (tu fork, para hacer push) y `upstream` (el original, para traer novedades)."
+      }
+    },
+    {
+      "id": "password-https",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "Puedes usar la contraseña de tu cuenta de GitHub cuando `git push` te pide credenciales por HTTPS.",
+      "hints": ["Recuerda la tarjeta de hotel de la analogía."],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "Para las operaciones de Git se usa un token en lugar de la contraseña." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: token, gestor de credenciales (`gh auth login`) o SSH." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "GitHub pide un personal access token en lugar de la contraseña. Lo más cómodo es `gh auth login` (configura las credenciales) o usar SSH."
+      }
+    },
+    {
+      "id": "fine-grained",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un script solo necesita leer el repositorio `ada/tienda`. ¿Qué tipo de token crearías?",
+      "hints": ["Piensa en el mínimo privilegio."],
+      "options": [
+        { "id": "a", "text": "Un fine-grained token limitado a `ada/tienda`, con permiso de lectura y fecha de caducidad", "correct": true, "explanation": "Correcto: solo lo necesario y durante un tiempo limitado." },
+        { "id": "b", "text": "Un token classic con todos los scopes, sin caducidad", "correct": false, "explanation": "Daría acceso a todo durante siempre: si se filtra, el daño es máximo." },
+        { "id": "c", "text": "Ninguno: pongo mi contraseña en el script", "correct": false, "explanation": "Ni funciona para Git ni es seguro." },
+        { "id": "d", "text": "Una clave SSH privada copiada en el script", "correct": false, "explanation": "La clave privada nunca se comparte ni se guarda en el código." }
+      ],
+      "solution": {
+        "answer": "Fine-grained, mínimo privilegio",
+        "explanation": "GitHub recomienda los fine-grained: se limitan a repositorios concretos y a permisos detallados. Y los tokens se tratan como contraseñas."
+      }
+    },
+    {
+      "id": "ssh-keygen",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Completa el comando que recomienda GitHub para generar una clave SSH nueva para `ada@example.com`.",
+      "template": "ssh-keygen -t {{algoritmo}} -C \"ada@example.com\"",
+      "blanks": [{ "id": "algoritmo", "accepted": ["ed25519"] }],
+      "hints": [
+        "Es un algoritmo de firma basado en curvas elípticas.",
+        "Los ficheros que genera se llaman `id_` + ese nombre."
+      ],
+      "solution": {
+        "answer": "ssh-keygen -t ed25519 -C \"ada@example.com\"",
+        "explanation": "`-t ed25519` elige el algoritmo y `-C` añade un comentario (tu email) a la clave. Genera `id_ed25519` (privada) e `id_ed25519.pub` (la pública, que se registra en GitHub)."
+      }
+    },
+    {
+      "id": "gh-auth-login",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Inicia sesión en `gh` **con el navegador** y usando **SSH** como protocolo para las operaciones de Git.",
+      "hints": [
+        "El comando es `gh auth login`.",
+        "`--web` (`-w`) abre el navegador y `--git-protocol` (`-p`) elige `ssh` o `https`."
+      ],
+      "accepted": ["gh auth login --web --git-protocol ssh"],
+      "output": "! First copy your one-time code: 1A2B-3C4D\nOpen this URL to continue in your web browser: https://github.com/login/device\n✓ Authentication complete.\n✓ Logged in as ada",
+      "solution": {
+        "answer": "gh auth login --web --git-protocol ssh",
+        "explanation": "`--web` autentica en el navegador con un código de un solo uso y `--git-protocol ssh` hace que Git use SSH con GitHub."
+      }
+    },
+    {
+      "id": "gh-auth-status",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Comprueba con qué cuenta has iniciado sesión en `gh`.",
+      "hints": ["Es un subcomando de `gh auth` que significa \"estado\"."],
+      "accepted": ["gh auth status"],
+      "output": "github.com\n  ✓ Logged in to github.com account ada (keyring)\n  - Active account: true\n  - Git operations protocol: ssh",
+      "solution": {
+        "answer": "gh auth status",
+        "explanation": "`gh auth status` muestra la cuenta activa en cada host y si la autenticación funciona."
+      }
+    },
+    {
+      "id": "gh-repo-create",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Crea en GitHub el repositorio **público** `tienda` y **clónalo** en el directorio actual, en un solo comando.",
+      "hints": [
+        "El comando es `gh repo create` con el nombre.",
+        "Hacen falta `--public` y `--clone` (`-c`)."
+      ],
+      "accepted": ["gh repo create tienda --public --clone"],
+      "output": "✓ Created repository ada/tienda on github.com\n  https://github.com/ada/tienda\nCloning into 'tienda'...",
+      "solution": {
+        "answer": "gh repo create tienda --public --clone",
+        "explanation": "`gh repo create` crea el repositorio; `--public` fija la visibilidad y `--clone` lo descarga en tu máquina."
+      }
+    },
+    {
+      "id": "gh-repo-fork",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Haz un fork de `biblioteca/proyecto` y **clónalo** a la vez.",
+      "hints": [
+        "El comando es `gh repo fork` seguido de `dueño/repo`.",
+        "Hay una opción para clonar el fork tras crearlo."
+      ],
+      "accepted": ["gh repo fork biblioteca/proyecto --clone"],
+      "output": "✓ Created fork ada/proyecto\nCloning into 'proyecto'...\n✓ Cloned fork\n! Repository biblioteca/proyecto set as the default repository.",
+      "solution": {
+        "answer": "gh repo fork biblioteca/proyecto --clone",
+        "explanation": "`gh repo fork --clone` crea el fork y lo clona, y deja configurados `origin` (tu fork) y `upstream` (el original)."
+      }
+    }
+  ]
+}
