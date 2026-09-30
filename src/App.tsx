@@ -14,6 +14,7 @@ const LessonPage = lazy(() => import('./pages/LessonPage').then((m) => ({ defaul
 const ExercisePage = lazy(() => import('./pages/ExercisePage').then((m) => ({ default: m.ExercisePage })))
 const ExamPage = lazy(() => import('./pages/ExamPage').then((m) => ({ default: m.ExamPage })))
 const ReviewPage = lazy(() => import('./pages/ReviewPage').then((m) => ({ default: m.ReviewPage })))
+const SimulatorPage = lazy(() => import('./pages/SimulatorPage').then((m) => ({ default: m.SimulatorPage })))
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then((m) => ({ default: m.SettingsPage })))
 
 /** El progreso se lee de IndexedDB de forma asíncrona: esperamos antes de pintar
@@ -57,6 +58,7 @@ export default function App() {
         <Route path="modulo/:trackId/:slug/ejercicio/:exerciseId" element={<ExercisePage />} />
         <Route path="modulo/:trackId/:slug/examen" element={<ExamPage />} />
         <Route path="repaso" element={<ReviewPage />} />
+        <Route path="simulador" element={<SimulatorPage />} />
         <Route path="ajustes" element={<SettingsPage />} />
         <Route path="*" element={<Placeholder title="Página no encontrada" phase="ninguna" />} />
       </Route>

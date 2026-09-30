@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import type { CliSpec } from '../content/schema'
 import { acceptCandidate, applyCompletion, complete } from '../engine/cli'
 
@@ -16,6 +16,8 @@ interface Props {
   /** Líneas ya ejecutadas que se muestran encima del prompt. */
   lines?: TermLine[]
   disabled?: boolean
+  /** Altura máxima para las líneas, con scroll que sigue a la última (simulador). */
+  scroll?: boolean
 }
 
 /**
@@ -23,8 +25,12 @@ interface Props {
  * al escribir "-" aparece la lista de flags con su descripción, ↑/↓ recorre la
  * lista o el historial y Esc la cierra.
  */
-export function Terminal({ spec, value, onChange, onSubmit, lines = [], disabled }: Props) {
+export function Terminal({ spec, value, onChange, onSubmit, lines = [], disabled, scroll }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
+  const linesRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (scroll && linesRef.current) linesRef.current.scrollTop = linesRef.current.scrollHeight
+  }, [scroll, lines.length])
   const history = useRef<string[]>([])
   const [historyIdx, setHistoryIdx] = useState<number | null>(null)
   const [listRequested, setListRequested] = useState(false)
@@ -104,15 +110,17 @@ export function Terminal({ spec, value, onChange, onSubmit, lines = [], disabled
       </div>
 
       <div className="space-y-0.5 p-3" onClick={() => inputRef.current?.focus()}>
-        {lines.map((l, i) => (
-          <pre
-            key={i}
-            className={`break-all whitespace-pre-wrap ${l.kind === 'err' ? 'text-red-300' : l.kind === 'out' ? 'text-slate-300' : 'text-slate-100'}`}
-          >
-            {l.kind === 'cmd' ? <span className="text-emerald-400">$ </span> : null}
-            {l.text}
-          </pre>
-        ))}
+        <div ref={linesRef} className={scroll ? 'max-h-64 space-y-0.5 overflow-y-auto' : 'space-y-0.5'}>
+          {lines.map((l, i) => (
+            <pre
+              key={i}
+              className={`break-all whitespace-pre-wrap ${l.kind === 'err' ? 'text-red-300' : l.kind === 'out' ? 'text-slate-300' : 'text-slate-100'}`}
+            >
+              {l.kind === 'cmd' ? <span className="text-emerald-400">$ </span> : null}
+              {l.text}
+            </pre>
+          ))}
+        </div>
 
         {!disabled && (
           <div className="flex items-center gap-2">

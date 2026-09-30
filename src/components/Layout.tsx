@@ -8,6 +8,7 @@ import { useProgress } from '../store/progressStore'
 const links = [
   { to: '/', label: 'Inicio' },
   { to: '/itinerarios', label: 'Itinerarios' },
+  { to: '/simulador', label: 'Simulador' },
   { to: '/repaso', label: 'Repaso' },
   { to: '/ajustes', label: 'Ajustes' },
 ]
