@@ -246,4 +246,12 @@ describe('git (contenido real)', () => {
     })
     expect(complete(git, 'git config se').candidates.map((c) => c.value)).toEqual(['set'])
   })
+
+  test('restore, reset y rm: cortos en mayúscula, revisiones y flags solo cortos', () => {
+    expect(sameGit('git restore -S notas.txt', 'git restore --staged notas.txt')).toBe(true)
+    expect(sameGit('git restore -s HEAD~1 app.py', 'git restore --source=HEAD~1 app.py')).toBe(true)
+    const reset = g('git reset --hard HEAD~1')
+    expect(reset.ok && reset.command).toMatchObject({ positionals: ['HEAD~1'], flags: { hard: 'true' } })
+    expect(sameGit('git rm -r --cached logs', 'git rm --cached -r logs')).toBe(true)
+  })
 })

@@ -1,0 +1,11 @@
+{
+  "cards": [
+    { "id": "diff-vs-staged", "front": "`git diff` frente a `git diff --staged`", "back": "`git diff`: working tree ↔ staging area (lo no preparado). `git diff --staged` (o `--cached`): staging area ↔ HEAD (lo que irá en el commit)." },
+    { "id": "head-tilde", "front": "¿Qué es `HEAD~2`?", "back": "El commit dos generaciones atrás desde HEAD, siguiendo el primer padre. `HEAD~` = `HEAD~1` = `HEAD^`." },
+    { "id": "gitignore-seguidos", "front": "¿Afecta `.gitignore` a los ficheros ya seguidos?", "back": "No. Hay que dejar de seguirlos con `git rm --cached <fichero>` y hacer commit." },
+    { "id": "gitignore-barras", "front": "`.gitignore`: ¿qué significan `dist/` y `/dist`?", "back": "`dist/`: solo directorios llamados dist, en cualquier nivel. `/dist`: solo en la carpeta del `.gitignore` (ficheros o directorios)." },
+    { "id": "restore-staged", "front": "Sacar un fichero de la staging area sin perder cambios", "back": "`git restore --staged <fichero>` (o `git reset <fichero>`)." },
+    { "id": "reset-modos", "front": "`git reset --soft`, `--mixed` y `--hard`", "back": "Los tres mueven HEAD. soft: nada más. mixed (por defecto): también la staging area. hard: también el working tree (descarta cambios)." },
+    { "id": "reset-vs-revert", "front": "`reset` frente a `revert`", "back": "`reset` mueve la rama atrás (reescribe la historia). `revert` crea un commit que deshace otro (la historia se conserva): lo seguro para commits compartidos." }
+  ]
+}

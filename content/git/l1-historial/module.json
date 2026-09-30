@@ -1,0 +1,8 @@
+{
+  "title": "Historial, .gitignore y deshacer cambios",
+  "summary": "Ver qué ha cambiado (diff y show), ignorar ficheros con .gitignore y deshacer cambios con restore, reset y revert.",
+  "level": 1,
+  "order": 2,
+  "xp": 100,
+  "prereqs": []
+}

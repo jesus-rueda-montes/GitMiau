@@ -21,7 +21,7 @@ Plan completo del contenido: qué módulos hay en cada itinerario y nivel, y qu�
 | Nivel | Módulo | Contenido |
 |---|---|---|
 | 1 | ✅ `l1-que-es-git` | Control de versiones, Git frente a GitHub, working tree, staging area y repositorio, commit y hash; `config`, `init`, `status`, `add`, `commit`, `log`. |
-| 1 | ⬜ `l1-historial` | `diff` (y `--staged`), `show`, `.gitignore`, deshacer cambios: `restore`, `restore --staged`, `reset` (soft, mixed, hard) y `revert`. |
+| 1 | ✅ `l1-historial` | `diff` (y `--staged`), `show`, `.gitignore`, deshacer cambios: `restore`, `restore --staged`, `reset` (soft, mixed, hard) y `revert`. |
 | 2 | ⬜ `l2-ramas` | Qué es una rama (un puntero), HEAD, `branch`, `switch`, merge fast-forward y de tres vías, conflictos y cómo resolverlos. |
 | 2 | ⬜ `l2-remotos` | `clone`, `remote`, `fetch` frente a `pull`, `push`, ramas de seguimiento (upstream), SSH frente a HTTPS. |
 | 3 | ⬜ `l3-rebase` | `rebase`, rebase interactivo (squash, reword, fixup), reescribir la historia y la regla de no reescribir lo publicado; `push --force-with-lease`. |

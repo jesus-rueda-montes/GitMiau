@@ -1,0 +1,194 @@
+{
+  "exercises": [
+    {
+      "id": "diff-vacio",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Modificas `app.py`, ejecutas `git add app.py` y después `git diff`. No sale nada. ¿Por qué?",
+      "hints": [
+        "Piensa en qué dos áreas compara `git diff` sin opciones.",
+        "Tus cambios ya no están solo en el working tree."
+      ],
+      "options": [
+        { "id": "a", "text": "Porque `git add` ha guardado los cambios en un commit", "correct": false, "explanation": "`git add` no crea commits: solo prepara." },
+        { "id": "b", "text": "Porque `git diff` compara el working tree con la staging area, y ya son iguales", "correct": true, "explanation": "Correcto: para ver lo preparado hay que usar `git diff --staged`." },
+        { "id": "c", "text": "Porque Git ha descartado los cambios", "correct": false, "explanation": "Los cambios siguen ahí, preparados para el próximo commit." },
+        { "id": "d", "text": "Porque `git diff` solo funciona con ficheros nuevos", "correct": false, "explanation": "Al contrario: `git diff` no muestra los ficheros untracked." }
+      ],
+      "solution": {
+        "answer": "Compara working tree con staging area",
+        "explanation": "Tras `git add`, el working tree y la staging area coinciden, así que `git diff` no muestra nada. `git diff --staged` compara la staging area con HEAD."
+      }
+    },
+    {
+      "id": "diff-staged",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Muestra los cambios que **entrarán en el próximo commit** (los que ya están preparados).",
+      "hints": [
+        "Es `git diff` con una opción.",
+        "La opción significa \"preparado\" en inglés (tiene un sinónimo, `--cached`)."
+      ],
+      "accepted": ["git diff --staged", "git diff --cached"],
+      "output": "diff --git a/app.py b/app.py\n@@ -1,3 +1,3 @@\n def precio_final(base):\n-    return base * 1.16\n+    return base * 1.21",
+      "solution": {
+        "answer": "git diff --staged",
+        "explanation": "`--staged` (sinónimo de `--cached`) compara la staging area con HEAD: exactamente lo que guardará `git commit`."
+      }
+    },
+    {
+      "id": "show-anterior",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Muestra el commit **anterior** a HEAD con un **resumen** de los ficheros que cambió (sin el diff completo).",
+      "hints": [
+        "El comando que enseña un commit es `git show`.",
+        "El padre de HEAD se escribe `HEAD~1`; el resumen por fichero es `--stat`."
+      ],
+      "accepted": ["git show HEAD~1 --stat", "git show HEAD~ --stat", "git show HEAD^ --stat", "git show HEAD^1 --stat"],
+      "output": "commit 3f2a9c1e...\nAuthor: Ada Lovelace <ada@example.com>\n\n    Añade el README\n\n README.md | 3 +++\n 1 file changed, 3 insertions(+)",
+      "solution": {
+        "answer": "git show HEAD~1 --stat",
+        "explanation": "`HEAD~1` (también `HEAD~` o `HEAD^`) es el padre de HEAD, y `--stat` resume los ficheros cambiados."
+      }
+    },
+    {
+      "id": "patron-directorio",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Qué línea de `.gitignore` ignora **solo los directorios** llamados `tmp`, estén en la carpeta que estén?",
+      "hints": [
+        "Una barra al final limita el patrón a directorios.",
+        "Una barra al principio lo ancla a la carpeta del `.gitignore`."
+      ],
+      "options": [
+        { "id": "a", "text": "`tmp/`", "correct": true, "explanation": "Correcto: la barra final lo limita a directorios y, sin barra al principio, vale para cualquier nivel." },
+        { "id": "b", "text": "`/tmp`", "correct": false, "explanation": "La barra inicial lo limita a la carpeta del `.gitignore`, y además incluye ficheros llamados `tmp`." },
+        { "id": "c", "text": "`tmp`", "correct": false, "explanation": "Ignora tanto ficheros como directorios llamados `tmp`." },
+        { "id": "d", "text": "`*.tmp`", "correct": false, "explanation": "Ignora ficheros cuyo nombre termina en `.tmp`." }
+      ],
+      "solution": {
+        "answer": "tmp/",
+        "explanation": "Barra final = solo directorios. Barra al principio o en medio = relativo a la carpeta del `.gitignore`; si no hay, vale en cualquier nivel."
+      }
+    },
+    {
+      "id": "ignore-ya-seguido",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "`config.env` ya estaba en varios commits. Lo añades al `.gitignore`, pero `git status` sigue mostrándolo como modificado. ¿Qué pasa?",
+      "hints": ["`.gitignore` solo actúa sobre un tipo de ficheros."],
+      "options": [
+        { "id": "a", "text": "El `.gitignore` tiene un error de sintaxis", "correct": false, "explanation": "Aunque el patrón sea correcto, pasaría lo mismo." },
+        { "id": "b", "text": "`.gitignore` no afecta a los ficheros que Git ya sigue; hay que usar `git rm --cached config.env`", "correct": true, "explanation": "Correcto: después de `git rm --cached` y un commit, el patrón empieza a funcionar." },
+        { "id": "c", "text": "Hay que borrar el fichero del disco", "correct": false, "explanation": "No hace falta: `git rm --cached` deja de seguirlo y lo conserva en tu disco." },
+        { "id": "d", "text": "El `.gitignore` solo se aplica tras hacer push", "correct": false, "explanation": "Se aplica en local, de inmediato, pero solo a ficheros untracked." }
+      ],
+      "solution": {
+        "answer": "Hay que dejar de seguirlo con git rm --cached",
+        "explanation": "`.gitignore` evita que los ficheros untracked se añadan. Uno ya seguido necesita `git rm --cached`; además, sigue en los commits anteriores."
+      }
+    },
+    {
+      "id": "rm-cached",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Deja de seguir el fichero `.env` en el repositorio **sin borrarlo de tu disco**.",
+      "hints": [
+        "El comando para quitar ficheros del repositorio es `git rm`.",
+        "Necesitas la opción que solo actúa sobre el índice (la staging area)."
+      ],
+      "accepted": ["git rm --cached .env"],
+      "output": "rm '.env'",
+      "solution": {
+        "answer": "git rm --cached .env",
+        "explanation": "`--cached` quita el fichero solo del índice: en el próximo commit deja de estar seguido, pero sigue en tu disco. Sin `--cached`, también lo borraría del disco."
+      }
+    },
+    {
+      "id": "restore-staged",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Has preparado `notas.txt` por error. Completa el comando para **sacarlo de la staging area** sin perder los cambios del fichero.",
+      "template": "git {{cmd}} --{{flag}} notas.txt",
+      "blanks": [
+        { "id": "cmd", "accepted": ["restore"] },
+        { "id": "flag", "accepted": ["staged"] }
+      ],
+      "hints": [
+        "El comando moderno para restaurar ficheros es `git restore`.",
+        "La opción indica que se restaura el área de lo preparado."
+      ],
+      "solution": {
+        "answer": "git restore --staged notas.txt",
+        "explanation": "`git restore --staged` restaura la staging area desde HEAD: el fichero deja de estar preparado, pero tus cambios siguen en él. Es lo contrario de `git add`."
+      }
+    },
+    {
+      "id": "modos-reset",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres deshacer el último commit (aún no compartido) pero conservar sus cambios **preparados** para rehacerlo. ¿Qué modo de `git reset` usas?",
+      "hints": [
+        "Solo debe moverse HEAD; nada más debe cambiar.",
+        "Es el modo más \"suave\"."
+      ],
+      "options": [
+        { "id": "a", "text": "`--soft`", "correct": true, "explanation": "Correcto: mueve HEAD y deja la staging area y el working tree como estaban." },
+        { "id": "b", "text": "`--mixed`", "correct": false, "explanation": "Conserva los cambios en el working tree, pero sin preparar." },
+        { "id": "c", "text": "`--hard`", "correct": false, "explanation": "Descartaría los cambios por completo." },
+        { "id": "d", "text": "Ninguno: hay que usar `git revert`", "correct": false, "explanation": "`revert` crea un commit nuevo; aquí se quiere rehacer un commit que nadie más tiene." }
+      ],
+      "solution": {
+        "answer": "--soft",
+        "explanation": "`--soft` solo mueve HEAD; `--mixed` (por defecto) además resetea la staging area; `--hard` resetea también el working tree."
+      }
+    },
+    {
+      "id": "reset-soft",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Deshaz el último commit dejando sus cambios **preparados** (staged).",
+      "hints": [
+        "El comando que mueve la rama es `git reset`.",
+        "Usa el modo que solo mueve HEAD y el commit padre: `HEAD~1`."
+      ],
+      "accepted": ["git reset --soft HEAD~1", "git reset --soft HEAD~", "git reset --soft HEAD^", "git reset --soft HEAD^1"],
+      "solution": {
+        "answer": "git reset --soft HEAD~1",
+        "explanation": "La rama vuelve al padre del último commit y los cambios de ese commit quedan en la staging area, listos para otro `git commit`."
+      }
+    },
+    {
+      "id": "revert-historia",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "`git revert <commit>` elimina ese commit de la historia.",
+      "hints": ["Piensa en la fe de erratas de la lección."],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "`revert` no borra nada: añade un commit nuevo con los cambios contrarios." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: la historia se conserva y crece con un commit que deshace el otro." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "Por eso `revert` es la forma segura de deshacer commits ya compartidos: no reescribe la historia de nadie."
+      }
+    },
+    {
+      "id": "revert-publicado",
+      "type": "command",
+      "cli": "git",
+      "prompt": "El commit `3f2a9c1`, ya publicado, introdujo un error. Deshazlo de forma segura **sin abrir el editor** del mensaje.",
+      "hints": [
+        "Para commits compartidos no se reescribe la historia: se usa `git revert`.",
+        "La opción para no abrir el editor es `--no-edit`."
+      ],
+      "accepted": ["git revert --no-edit 3f2a9c1"],
+      "output": "[main 7c41b0e] Revert \"Cambia el IVA al 16 %\"\n 1 file changed, 1 insertion(+), 1 deletion(-)",
+      "solution": {
+        "answer": "git revert --no-edit 3f2a9c1",
+        "explanation": "`git revert` crea un commit que invierte los cambios de `3f2a9c1`; `--no-edit` usa el mensaje por defecto (\"Revert ...\")."
+      }
+    }
+  ]
+}

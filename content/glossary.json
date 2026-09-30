@@ -29,6 +29,41 @@
       "term": "stdout",
       "definition": "Salida estándar: donde un programa escribe su resultado normal (stderr es la de errores).",
       "introducedIn": "fundamentos/f0-terminal-linux"
+    },
+    {
+      "term": "commit",
+      "definition": "Una foto del proyecto guardada en la historia de Git, con autor, fecha, mensaje y enlace a su commit padre.",
+      "introducedIn": "git/l1-que-es-git"
+    },
+    {
+      "term": "staging area",
+      "definition": "El área intermedia de Git (también llamada index) con los cambios que entrarán en el próximo commit.",
+      "introducedIn": "git/l1-que-es-git"
+    },
+    {
+      "term": "working tree",
+      "definition": "Los ficheros del proyecto tal como los ves y editas en tu carpeta.",
+      "introducedIn": "git/l1-que-es-git"
+    },
+    {
+      "term": "hash",
+      "definition": "Identificador de un commit: 40 caracteres hexadecimales calculados a partir de su contenido.",
+      "introducedIn": "git/l1-que-es-git"
+    },
+    {
+      "term": "HEAD",
+      "definition": "Referencia a tu posición actual: normalmente, la rama en la que estás y, a través de ella, su último commit.",
+      "introducedIn": "git/l1-que-es-git"
+    },
+    {
+      "term": "diff",
+      "definition": "Las diferencias línea a línea entre dos versiones: lo que se quita (-) y lo que se añade (+).",
+      "introducedIn": "git/l1-historial"
+    },
+    {
+      "term": "secreto",
+      "definition": "Dato que da acceso a algo (contraseña, token, clave de API). Nunca debe ir a un repositorio.",
+      "introducedIn": "git/l1-que-es-git"
     }
   ]
 }

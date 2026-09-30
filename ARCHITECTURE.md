@@ -12,8 +12,8 @@ Miau es una copia adaptada de Kubernetete (decisión M1 de [DECISIONS.md](DECISI
   - Motor: flags cortos agrupados con valor al final (`-am "msg"`), como en getopt.
   - Specs de `kubectl`, `terraform` y `ansible` como fixtures de test en `src/engine/__fixtures__/` (decisión M6).
   - Contenido piloto: `git/l1-que-es-git` (2 lecciones, 9 ejercicios: quiz, command y fill; 5 flashcards).
-  - Tests (Vitest), lint, build y e2e (Playwright, sobre los módulos de Fundamentos, decisión M12) en verde.
-- **En curso:** módulo `git/l1-historial` (ver el registro de avances).
+  - Tests (Vitest), lint, build y e2e (Playwright) en verde.
+- **Fase 1 de contenido (Git nivel 1): completada.** `git/l1-historial` (3 lecciones, 11 ejercicios, 7 flashcards). El e2e ya usa el itinerario de Git (decisión M12). Glosario de Git: commit, staging area, working tree, hash, HEAD, secreto, diff.
 - **Siguiente:** resto del temario según [TEMARIO.md](TEMARIO.md); la spec de `gh` al llegar al itinerario de GitHub.
 - **Fase posterior:** simulador de repositorio Git con grafo de commits (decisión M3).
 
@@ -24,6 +24,7 @@ Un paso por entrada, del más antiguo al más reciente. Cada paso termina con lo
 |---|---|---|
 | 2026-09-30 | Base de Miau | Copia adaptada de Kubernetete, piloto `git/l1-que-es-git`, documentación inicial. Commit `88d1a54`. |
 | 2026-09-30 | Spec de git para `l1-historial` | Añadidos `diff`, `show`, `restore`, `reset`, `revert`, `rm` y `check-ignore`, consultados en git-scm.com (también `gitrevisions` para `HEAD~1`, `HEAD^` y `HEAD:ruta`). Script de formato compacto de specs: una línea por flag. |
+| 2026-09-30 | Módulo `git/l1-historial` | Lecciones «Ver qué ha cambiado» (`diff`, `show`, `HEAD~n`), «Ignorar ficheros con .gitignore» y «Deshacer cambios» (`restore`, `reset`, `revert`, `commit --amend`). 11 ejercicios y 7 flashcards. Glosario de Git (7 términos). e2e pasado a `git/l1-que-es-git` → `git/l1-historial`. Tests del motor para `restore -S`, `reset --hard HEAD~1` y `rm -r`. Error detectado: un título de lección con `:` sin comillas rompe el frontmatter YAML (lo avisa el test de contenido). |
 
 ## Heredado de Kubernetete (sin cambios)
 - Motor de contenido: esquemas zod (`src/content/schema.ts`), parser de lecciones con las 7 secciones obligatorias (`lesson.ts`), `buildCatalog()` que acumula errores con la ruta del archivo (`loader.ts`).
@@ -90,6 +91,8 @@ e2e/                            # Playwright sobre el build de producción
 - Comandos y flags: solo los transcritos en `content/cli-specs/`, con la URL de origen en cada comando. Datos de producto (valores por defecto, versiones, límites de GitHub…): comprobados en la documentación oficial antes de escribirlos.
 - En los ejercicios `command`, `sameCommand` compara los valores de los flags tal cual: el enunciado debe fijar el texto exacto (p. ej. el mensaje del commit). Las comillas simples y dobles son equivalentes.
 - Glosario: el término se usa por primera vez en el módulo `introducedIn` de su itinerario (hay test). `trackOnly` limita el tooltip a su itinerario.
+- Frontmatter de las lecciones: si el título lleva `:`, va entre comillas (`title: "Deshacer cambios: restore…"`).
+- Bloques de código ```diff y ```gitignore: no tienen resaltado (se muestran como texto plano).
 
 ## Reglas de progreso
 - XP: lección leída +5, ejercicio resuelto por primera vez +10, examen aprobado por primera vez + el `xp` del módulo (Fundamentos 50, el resto 100).

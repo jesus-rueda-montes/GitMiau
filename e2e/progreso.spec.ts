@@ -11,9 +11,8 @@ type Exercise =
   | { id: string; type: 'fill'; blanks: { id: string; accepted: string[] }[] }
   | { id: string; type: 'editor' }
 
-// Cuando el itinerario de Git tenga dos módulos, conviene usarlo aquí.
-const MODULE = 'fundamentos/f0-terminal-linux'
-const NEXT = 'fundamentos/f0-yaml'
+const MODULE = 'git/l1-que-es-git'
+const NEXT = 'git/l1-historial'
 const exercises: Exercise[] = JSON.parse(readFileSync(`content/${MODULE}/exercises.json`, 'utf8')).exercises
 
 /** Responde correctamente la pregunta visible del examen usando las soluciones del contenido. */
@@ -38,11 +37,11 @@ test('leer, aprobar el examen, desbloquear el siguiente módulo y conservar el p
   const [nextTrack, nextSlug] = NEXT.split('/')
 
   // El siguiente módulo empieza bloqueado.
-  await page.goto(`/#/modulo/${nextTrack}/${nextSlug}/leccion/01-yaml`)
+  await page.goto(`/#/modulo/${nextTrack}/${nextSlug}/leccion/01-ver-cambios`)
   await expect(page.getByText('Módulo bloqueado')).toBeVisible()
 
   // 1. Leer la primera lección (el cuerpo se descarga bajo demanda).
-  await page.goto(`/#/modulo/${track}/${slug}/leccion/01-ficheros-y-permisos`)
+  await page.goto(`/#/modulo/${track}/${slug}/leccion/01-que-es-git`)
   await expect(page.getByRole('heading', { name: 'Qué problema resuelve' })).toBeVisible()
   await page.getByRole('button', { name: 'He terminado esta lección' }).click()
   await expect(page.getByText('✓ Lección completada')).toBeVisible()
@@ -62,11 +61,11 @@ test('leer, aprobar el examen, desbloquear el siguiente módulo y conservar el p
 
   // 3. El siguiente módulo ya está abierto.
   await page.getByRole('link', { name: /^Ir a «/ }).click()
-  await expect(page.getByRole('link', { name: /YAML paso a paso/ })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Ver qué ha cambiado/ })).toBeVisible()
 
   // 4. Tras recargar, el progreso sigue ahí (IndexedDB).
   await page.reload()
-  await expect(page.getByRole('link', { name: /YAML paso a paso/ })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Ver qué ha cambiado/ })).toBeVisible()
   await page.goto(`/#/modulo/${track}/${slug}`)
   await expect(page.getByText(/Mejor nota: 100%/)).toBeVisible()
   await expect(page.getByText('✓ Leída')).toBeVisible()
