@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "github-flow", "front": "Pasos de GitHub Flow", "back": "Rama desde main → commits → PR → revisión (más commits) → merge → borrar la rama. main siempre desplegable." },
+    { "id": "git-flow", "front": "Ramas de Git Flow", "back": "master y develop (permanentes); feature (develop→develop), release (develop→develop y master), hotfix (master→master y develop). Merges --no-ff." },
+    { "id": "cuando-gitflow", "front": "¿Cuándo usar Git Flow?", "back": "Software versionado con varias versiones mantenidas. Con entrega continua, su autor recomienda algo más simple (GitHub Flow)." },
+    { "id": "trunk", "front": "Trunk-based development", "back": "Todos integran en una rama (trunk) al menos a diario, con ramas muy cortas, feature flags y un CI sólido." },
+    { "id": "contribuir", "front": "Flujo fork & PR", "back": "Fork → origin (fork) y upstream (original) → rama → push a origin → PR al original → revisión → borrar rama." },
+    { "id": "sync", "front": "Mantener un fork al día", "back": "`git fetch upstream` + `git merge --ff-only upstream/main` + `git push origin main`; o Sync fork en la web, o `gh repo sync`." }
+  ]
+}

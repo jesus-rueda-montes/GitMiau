@@ -115,6 +115,16 @@
             { "name": "jq", "short": "q", "takesValue": true, "description": "Filtra el JSON con una expresión jq" },
             { "name": "template", "short": "t", "takesValue": true, "description": "Formatea el JSON con una plantilla de Go" }
           ]
+        },
+        {
+          "name": "sync",
+          "description": "Sincroniza un repositorio (tu fork o tu copia local) con su origen",
+          "args": [{ "name": "DESTINO" }],
+          "flags": [
+            { "name": "branch", "short": "b", "takesValue": true, "description": "Rama que se sincroniza (por defecto, la rama por defecto)" },
+            { "name": "source", "short": "s", "takesValue": true, "description": "Repositorio de origen (por defecto, el padre del fork)" },
+            { "name": "force", "takesValue": false, "description": "Hace un reset forzado en vez de un fast-forward" }
+          ]
         }
       ]
     },

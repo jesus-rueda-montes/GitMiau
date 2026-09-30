@@ -1,0 +1,160 @@
+{
+  "exercises": [
+    {
+      "id": "elegir-flujo",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un equipo de 6 personas mantiene una web que se despliega a producción **varias veces al día**. ¿Qué flujo de ramas encaja mejor?",
+      "hints": ["El propio autor de Git Flow opina sobre la entrega continua."],
+      "options": [
+        { "id": "a", "text": "GitHub Flow (o trunk-based)", "correct": true, "explanation": "Correcto: `main` siempre desplegable, ramas cortas y PR." },
+        { "id": "b", "text": "Git Flow, con `develop`, `release` y `hotfix`", "correct": false, "explanation": "Pensado para software versionado con varias versiones mantenidas; aquí sobra complejidad." },
+        { "id": "c", "text": "Una rama por persona que se fusiona al final de cada mes", "correct": false, "explanation": "Ramas largas = conflictos enormes e integración tardía." },
+        { "id": "d", "text": "Trabajar todos en `main` sin PRs ni revisión", "correct": false, "explanation": "Sin revisión ni CI, `main` se rompe." }
+      ],
+      "solution": {
+        "answer": "GitHub Flow",
+        "explanation": "Con entrega continua se busca un flujo simple: ramas cortas desde `main`, PR con revisión y CI, merge y despliegue."
+      }
+    },
+    {
+      "id": "hotfix-gitflow",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "En Git Flow, ¿de dónde sale una rama `hotfix-*` y en qué ramas se fusiona?",
+      "hints": ["Arregla algo que ya está en producción y no debe perderse en la próxima versión."],
+      "options": [
+        { "id": "a", "text": "Sale de `master` y se fusiona en `master` y en `develop`", "correct": true, "explanation": "Correcto: arregla producción y el arreglo llega también a lo que está en desarrollo." },
+        { "id": "b", "text": "Sale de `develop` y se fusiona en `develop`", "correct": false, "explanation": "Eso es una rama `feature`." },
+        { "id": "c", "text": "Sale de `develop` y se fusiona en `develop` y en `master`", "correct": false, "explanation": "Eso es una rama `release`." },
+        { "id": "d", "text": "Sale de `master` y solo se fusiona en `master`", "correct": false, "explanation": "El arreglo se perdería en la próxima versión, que sale de `develop`." }
+      ],
+      "solution": {
+        "answer": "De master, a master y develop",
+        "explanation": "feature: develop → develop. release: develop → develop y master. hotfix: master → master y develop."
+      }
+    },
+    {
+      "id": "nota-gitflow",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "El autor de Git Flow lo recomienda para cualquier tipo de proyecto, incluidas las aplicaciones web con entrega continua.",
+      "hints": ["En 2020 añadió una nota al artículo original."],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "Su nota de 2020 dice lo contrario." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: con entrega continua recomienda un flujo más simple, como GitHub Flow." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "Git Flow encaja con software versionado del que se mantienen varias versiones. Para entrega continua, su autor recomienda algo más simple."
+      }
+    },
+    {
+      "id": "trunk-based",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "¿Qué rasgos definen el **trunk-based development**? (Marca todos los correctos)",
+      "hints": ["Piensa en cuánto viven las ramas y cómo se oculta lo que no está terminado."],
+      "options": [
+        { "id": "a", "text": "Todo el equipo integra en una sola rama (trunk), al menos una vez al día", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Ramas de funcionalidad muy cortas, solo para revisión y CI", "correct": true, "explanation": "Correcto." },
+        { "id": "c", "text": "Feature flags para fusionar trabajo sin terminar sin que se vea", "correct": true, "explanation": "Correcto." },
+        { "id": "d", "text": "Una rama `develop` permanente además de `main`", "correct": false, "explanation": "Eso es Git Flow; trunk-based evita ramas largas." }
+      ],
+      "solution": {
+        "answer": "a, b y c",
+        "explanation": "Trunk-based: una rama principal, integración diaria, ramas cortas y feature flags. Exige un CI sólido."
+      }
+    },
+    {
+      "id": "antes-de-contribuir",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres proponer un cambio grande a un proyecto open source. ¿Qué haces **antes** de escribir código?",
+      "hints": ["El proyecto suele explicar cómo quiere recibir contribuciones."],
+      "options": [
+        { "id": "a", "text": "Leer `CONTRIBUTING.md` y comentarlo en una issue con los mantenedores", "correct": true, "explanation": "Correcto: así sabes si encaja y cómo hacerlo." },
+        { "id": "b", "text": "Hacer fork, programarlo todo y abrir un PR enorme", "correct": false, "explanation": "Puede que no encaje en el proyecto y pierdas el trabajo." },
+        { "id": "c", "text": "Pedir permiso de escritura en el repositorio original", "correct": false, "explanation": "No hace falta: para eso existe el flujo fork & PR." },
+        { "id": "d", "text": "Trabajar en el `main` de tu fork", "correct": false, "explanation": "Mala práctica: usa una rama por contribución." }
+      ],
+      "solution": {
+        "answer": "Leer CONTRIBUTING y hablarlo en una issue",
+        "explanation": "`CONTRIBUTING.md` explica las normas del proyecto, y comentar en la issue evita trabajar en algo que no se aceptará."
+      }
+    },
+    {
+      "id": "fetch-upstream",
+      "type": "command",
+      "cli": "git",
+      "prompt": "En el clon de tu fork, descarga las novedades del repositorio **original** (el remoto `upstream`), sin tocar tus ramas.",
+      "hints": [
+        "Descargar sin integrar es `git fetch`.",
+        "Indica el nombre del remoto."
+      ],
+      "accepted": ["git fetch upstream"],
+      "solution": {
+        "answer": "git fetch upstream",
+        "explanation": "`git fetch upstream` actualiza `upstream/main` y el resto de ramas de seguimiento del original, sin tocar tu trabajo."
+      }
+    },
+    {
+      "id": "merge-upstream",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Estás en tu `main`. Ponlo al día con `upstream/main` **solo si es un fast-forward** (sin commits de merge).",
+      "hints": [
+        "Es `git merge` con la rama de seguimiento del original.",
+        "La opción que solo acepta fast-forward es `--ff-only`."
+      ],
+      "accepted": ["git merge --ff-only upstream/main"],
+      "solution": {
+        "answer": "git merge --ff-only upstream/main",
+        "explanation": "Si tu `main` no tiene commits propios (como debe ser), es un fast-forward. Si falla, es que alguien trabajó en `main`: una señal de alarma."
+      }
+    },
+    {
+      "id": "gh-repo-sync",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Usa `gh` para sincronizar tu copia local con su repositorio padre (el original del fork).",
+      "hints": ["Es un subcomando de `gh repo` que significa \"sincronizar\"."],
+      "accepted": ["gh repo sync"],
+      "output": "✓ Synced the \"main\" branch from \"biblioteca/proyecto\" to local repository",
+      "solution": {
+        "answer": "gh repo sync",
+        "explanation": "Sin argumentos, `gh repo sync` actualiza la rama por defecto de tu repositorio local desde su padre con un fast-forward. Con `dueño/fork` sincroniza el fork remoto."
+      }
+    },
+    {
+      "id": "rebase-upstream",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Tu rama del PR se ha quedado atrás respecto al original. Completa el comando para reaplicar tus commits encima del `main` del original (ya descargado con `git fetch upstream`).",
+      "template": "git rebase {{base}}",
+      "blanks": [{ "id": "base", "accepted": ["upstream/main"] }],
+      "hints": ["Es la rama de seguimiento del `main` del remoto `upstream`."],
+      "solution": {
+        "answer": "git rebase upstream/main",
+        "explanation": "Como la rama es solo tuya, puedes hacer rebase sobre `upstream/main` y después `git push --force-with-lease` a tu fork; el PR se actualiza."
+      }
+    },
+    {
+      "id": "feature-flags",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Para qué sirven los **feature flags** en trunk-based development?",
+      "hints": ["Permiten integrar a diario algo que todavía no está terminado."],
+      "options": [
+        { "id": "a", "text": "Para fusionar en `main` trabajo sin terminar, manteniéndolo oculto hasta activarlo", "correct": true, "explanation": "Correcto: separan integrar el código de publicarlo para el usuario." },
+        { "id": "b", "text": "Para marcar en Git qué commits son funcionalidades", "correct": false, "explanation": "No son una función de Git: son interruptores en el código de la aplicación." },
+        { "id": "c", "text": "Para bloquear los merges hasta que haya aprobación", "correct": false, "explanation": "Eso es la protección de ramas." },
+        { "id": "d", "text": "Para etiquetar issues", "correct": false, "explanation": "Eso son las labels." }
+      ],
+      "solution": {
+        "answer": "Ocultar trabajo sin terminar ya integrado",
+        "explanation": "Un feature flag es un interruptor en el código: el trabajo llega a `main` a diario, pero el usuario no lo ve hasta que se activa."
+      }
+    }
+  ]
+}

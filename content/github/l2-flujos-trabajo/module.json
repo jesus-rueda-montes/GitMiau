@@ -1,0 +1,8 @@
+{
+  "title": "Flujos de trabajo con ramas",
+  "summary": "GitHub Flow, Git Flow y trunk-based development: cómo funciona cada uno, cuándo elegirlo, y el flujo fork & PR para contribuir a proyectos open source.",
+  "level": 2,
+  "order": 3,
+  "xp": 100,
+  "prereqs": []
+}

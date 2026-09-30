@@ -194,6 +194,21 @@
       "term": "issue form",
       "definition": "Plantilla de issue en YAML que la convierte en un formulario con campos (algunos obligatorios).",
       "introducedIn": "github/l2-issues-projects"
+    },
+    {
+      "term": "feature flag",
+      "definition": "Interruptor en el código que activa o desactiva una funcionalidad; permite fusionar trabajo sin terminar sin que el usuario lo vea.",
+      "introducedIn": "github/l2-flujos-trabajo"
+    },
+    {
+      "term": "entrega continua",
+      "definition": "Práctica de tener el software siempre listo para publicarse y publicarlo con frecuencia (en inglés, continuous delivery).",
+      "introducedIn": "github/l2-flujos-trabajo"
+    },
+    {
+      "term": "trunk",
+      "definition": "La rama principal en la que integra todo el equipo (normalmente main).",
+      "introducedIn": "github/l2-flujos-trabajo"
     }
   ]
 }
