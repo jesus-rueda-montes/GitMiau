@@ -104,6 +104,16 @@
       "term": "token",
       "definition": "Cadena secreta que sustituye a la contraseña para autenticarse en un servicio (p. ej. GitHub por HTTPS).",
       "introducedIn": "git/l2-remotos"
+    },
+    {
+      "term": "rebase",
+      "definition": "Reaplicar commits encima de otra base. Deja la historia lineal, pero crea commits nuevos (reescribe la historia).",
+      "introducedIn": "git/l2-remotos"
+    },
+    {
+      "term": "todo list",
+      "definition": "En un rebase interactivo, la lista editable de commits con la orden que se aplicará a cada uno.",
+      "introducedIn": "git/l3-rebase"
     }
   ]
 }

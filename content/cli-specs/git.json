@@ -116,6 +116,8 @@
         { "name": "message", "short": "m", "takesValue": true, "description": "Mensaje del commit" },
         { "name": "all", "short": "a", "takesValue": false, "description": "Prepara antes los ficheros seguidos que se han modificado o borrado" },
         { "name": "amend", "takesValue": false, "description": "Sustituye el último commit de la rama por uno nuevo" },
+        { "name": "fixup", "takesValue": true, "description": "Crea un commit \"fixup!\" para otro commit (se fusiona con rebase --autosquash)" },
+        { "name": "squash", "takesValue": true, "description": "Crea un commit \"squash!\" para otro commit (se fusiona con rebase --autosquash)" },
         { "name": "no-edit", "takesValue": false, "description": "Reutiliza el mensaje sin abrir el editor" },
         { "name": "edit", "short": "e", "takesValue": false, "description": "Abre el editor para retocar el mensaje" },
         { "name": "file", "short": "F", "takesValue": true, "description": "Lee el mensaje de un archivo" },

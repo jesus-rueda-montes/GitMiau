@@ -1,0 +1,8 @@
+{
+  "title": "Rebase y reescribir la historia",
+  "summary": "Qué hace git rebase, merge frente a rebase, rebase interactivo (squash, fixup, reword, drop) y la regla de no reescribir la historia publicada.",
+  "level": 3,
+  "order": 1,
+  "xp": 100,
+  "prereqs": []
+}

@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "rebase", "front": "¿Qué hace `git rebase main` estando en `feature`?", "back": "Reaplica los commits de `feature` que no están en `main` encima de su punta. Historia lineal y commits nuevos (otros hashes)." },
+    { "id": "merge-vs-rebase", "front": "Merge frente a rebase", "back": "Merge conserva la historia real (commits de merge) y es seguro en ramas compartidas. Rebase la deja lineal pero reescribe commits." },
+    { "id": "regla-oro", "front": "La regla de oro del rebase", "back": "No hagas rebase de commits que otros ya tienen. Solo en ramas propias; si ya estaba subida, `git push --force-with-lease`." },
+    { "id": "conflicto-rebase", "front": "Conflicto durante un rebase", "back": "Resolver → `git add` → `git rebase --continue`. También `--skip` (descartar ese commit) o `--abort` (cancelar todo)." },
+    { "id": "todo-list", "front": "Órdenes del rebase interactivo", "back": "pick (usar), reword (cambiar mensaje), edit (parar), squash (fundir y combinar mensajes), fixup (fundir y tirar mensaje), drop (eliminar)." },
+    { "id": "autosquash", "front": "`git commit --fixup` + `--autosquash`", "back": "`git commit --fixup=<commit>` crea `fixup! …`; `git rebase -i --autosquash <base>` lo coloca y lo marca solo." }
+  ]
+}

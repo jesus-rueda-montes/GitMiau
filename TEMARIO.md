@@ -24,7 +24,7 @@ Plan completo del contenido: qué módulos hay en cada itinerario y nivel, y qu�
 | 1 | ✅ `l1-historial` | `diff` (y `--staged`), `show`, `.gitignore`, deshacer cambios: `restore`, `restore --staged`, `reset` (soft, mixed, hard) y `revert`. |
 | 2 | ✅ `l2-ramas` | Qué es una rama (un puntero), HEAD, `branch`, `switch`, merge fast-forward y de tres vías, conflictos y cómo resolverlos. |
 | 2 | ✅ `l2-remotos` | `clone`, `remote`, `fetch` frente a `pull`, `push`, ramas de seguimiento (upstream), SSH frente a HTTPS. |
-| 3 | ⬜ `l3-rebase` | `rebase`, rebase interactivo (squash, reword, fixup), reescribir la historia y la regla de no reescribir lo publicado; `push --force-with-lease`. |
+| 3 | ✅ `l3-rebase` | `rebase`, rebase interactivo (squash, reword, fixup), reescribir la historia y la regla de no reescribir lo publicado; `push --force-with-lease`. |
 | 3 | ⬜ `l3-herramientas` | `stash`, `cherry-pick`, `tag` (ligeros y anotados), `reflog` para recuperar commits y `bisect` para encontrar el commit que rompió algo. |
 
 ## GitHub (la plataforma)

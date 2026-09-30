@@ -1,0 +1,164 @@
+{
+  "exercises": [
+    {
+      "id": "rebase-hashes",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Tras `git rebase main` en tu rama `feature`, los commits de `feature` tienen **hashes distintos** a los de antes. ¿Por qué?",
+      "hints": [
+        "El hash depende del contenido del commit… y de algo más que ha cambiado.",
+        "Piensa en qué enlace guarda cada commit."
+      ],
+      "options": [
+        { "id": "a", "text": "Porque rebase reaplica los commits sobre otra base: son commits nuevos con otro padre", "correct": true, "explanation": "Correcto: al cambiar el padre cambia el hash; son copias, no los originales." },
+        { "id": "b", "text": "Porque rebase comprime los commits", "correct": false, "explanation": "Rebase no comprime nada; reaplica commits." },
+        { "id": "c", "text": "Es un error: rebase no debería cambiar los hashes", "correct": false, "explanation": "Es el comportamiento esperado." },
+        { "id": "d", "text": "Porque rebase borra los mensajes de commit", "correct": false, "explanation": "Los mensajes se conservan (salvo que los cambies en un rebase interactivo)." }
+      ],
+      "solution": {
+        "answer": "Son commits nuevos con otro padre",
+        "explanation": "El hash de un commit depende también de su padre. Rebase crea copias (C', D') encima de la nueva base; por eso reescribe la historia."
+      }
+    },
+    {
+      "id": "rebase-main",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Estás en tu rama `feature/login`. Reaplica tus commits encima del último `main` local para dejar la historia lineal.",
+      "hints": [
+        "El comando es `git rebase`.",
+        "El argumento es la rama sobre la que quieres ponerte encima."
+      ],
+      "accepted": ["git rebase main"],
+      "output": "Successfully rebased and updated refs/heads/feature/login.",
+      "solution": {
+        "answer": "git rebase main",
+        "explanation": "`git rebase main` toma los commits de tu rama que no están en `main` y los reaplica encima de su punta."
+      }
+    },
+    {
+      "id": "regla-de-oro",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "Es buena idea hacer rebase de `main` (compartida por todo el equipo) para dejar su historia más limpia.",
+      "hints": ["Recuerda la regla de oro del rebase."],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "Reescribirías commits que todos tienen: sus historias dejarían de encajar con la tuya." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: no se hace rebase de commits que otros ya tienen." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "Rebase crea commits nuevos. En una rama compartida, todos los demás tendrían que rehacer su historia a mano. Rebase solo en ramas propias."
+      }
+    },
+    {
+      "id": "rebase-continue",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Un rebase se ha parado por un conflicto. Ya lo has resuelto y has hecho `git add`. Sigue con el resto del rebase.",
+      "hints": ["Es una opción del propio `git rebase` que significa \"continuar\"."],
+      "accepted": ["git rebase --continue"],
+      "solution": {
+        "answer": "git rebase --continue",
+        "explanation": "`--continue` crea el commit resuelto y sigue reaplicando los siguientes. `--skip` descartaría este commit y `--abort` cancelaría todo."
+      }
+    },
+    {
+      "id": "rebase-i",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Abre un rebase **interactivo** de los **3 últimos commits** para limpiarlos.",
+      "hints": [
+        "La opción de modo interactivo es `-i`.",
+        "Los 3 últimos commits son los posteriores a `HEAD~3`."
+      ],
+      "accepted": ["git rebase -i HEAD~3"],
+      "solution": {
+        "answer": "git rebase -i HEAD~3",
+        "explanation": "`-i` (`--interactive`) abre la lista de tareas con los commits posteriores a `HEAD~3`, es decir, los 3 últimos."
+      }
+    },
+    {
+      "id": "orden-todo",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "En la lista de tareas de `git rebase -i`, ¿qué commit aparece en la **primera línea**?",
+      "hints": ["Git ejecuta la lista de arriba abajo, reaplicando en orden cronológico."],
+      "options": [
+        { "id": "a", "text": "El más antiguo de los que se van a reaplicar", "correct": true, "explanation": "Correcto: al revés que `git log`." },
+        { "id": "b", "text": "El más reciente (HEAD)", "correct": false, "explanation": "Ese va abajo del todo." },
+        { "id": "c", "text": "El commit base que has indicado", "correct": false, "explanation": "La base no se incluye: se reaplica lo que va después de ella." },
+        { "id": "d", "text": "Depende de la configuración del editor", "correct": false, "explanation": "El orden lo decide Git, no el editor." }
+      ],
+      "solution": {
+        "answer": "El más antiguo",
+        "explanation": "La todo list va del más antiguo (arriba) al más reciente (abajo), porque Git la ejecuta en ese orden."
+      }
+    },
+    {
+      "id": "squash-fixup",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres fundir el commit «Arregla typo» con el anterior **sin conservar su mensaje**. ¿Qué orden pones delante en la todo list?",
+      "hints": ["Hay dos órdenes que funden; solo una descarta el mensaje."],
+      "options": [
+        { "id": "a", "text": "`fixup`", "correct": true, "explanation": "Correcto: funde el commit y descarta su mensaje." },
+        { "id": "b", "text": "`squash`", "correct": false, "explanation": "También funde, pero te deja combinar los mensajes." },
+        { "id": "c", "text": "`drop`", "correct": false, "explanation": "Eliminaría el commit y sus cambios." },
+        { "id": "d", "text": "`reword`", "correct": false, "explanation": "Solo cambia el mensaje; no funde nada." }
+      ],
+      "solution": {
+        "answer": "fixup",
+        "explanation": "`fixup` (`f`) funde el commit con el anterior y tira su mensaje; `squash` (`s`) los funde y te deja editar el mensaje combinado."
+      }
+    },
+    {
+      "id": "commit-fixup",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Has corregido un fallo que pertenece al commit `5b27e19`. Completa el comando que crea un commit de corrección que `--autosquash` sabrá fundir en él.",
+      "template": "git commit --{{flag}}=5b27e19",
+      "blanks": [{ "id": "flag", "accepted": ["fixup"] }],
+      "hints": ["Es la misma palabra que la orden de la todo list que funde y descarta el mensaje."],
+      "solution": {
+        "answer": "git commit --fixup=5b27e19",
+        "explanation": "`--fixup` crea un commit llamado `fixup! <mensaje de 5b27e19>`. Con `git rebase -i --autosquash`, Git lo coloca bajo ese commit y lo marca como fixup."
+      }
+    },
+    {
+      "id": "autosquash",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Haz un rebase interactivo de tu rama sobre `main` que coloque y marque **automáticamente** los commits `fixup!`.",
+      "hints": [
+        "Es `git rebase -i` con la base `main`.",
+        "Añade la opción que \"auto-squashea\"."
+      ],
+      "accepted": ["git rebase -i --autosquash main"],
+      "solution": {
+        "answer": "git rebase -i --autosquash main",
+        "explanation": "`--autosquash` mueve cada `fixup!`/`squash!` debajo del commit al que se refiere y le pone la orden correspondiente en la todo list."
+      }
+    },
+    {
+      "id": "push-tras-rebase",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Has hecho rebase de **tu** rama `feature/login`, que ya habías subido. `git push` es rechazado. ¿Qué haces?",
+      "hints": [
+        "Los commits han cambiado: el push no puede ser un fast-forward.",
+        "Hay que forzar, pero de la forma segura."
+      ],
+      "options": [
+        { "id": "a", "text": "`git push --force-with-lease`", "correct": true, "explanation": "Correcto: fuerza solo si nadie ha subido nada a la rama mientras tanto." },
+        { "id": "b", "text": "`git pull` y después `git push`", "correct": false, "explanation": "Mezclarías la versión antigua de tus commits con la nueva y duplicarías commits." },
+        { "id": "c", "text": "`git push --force`", "correct": false, "explanation": "Funciona, pero borraría sin avisar lo que otra persona hubiera subido a la rama." },
+        { "id": "d", "text": "Borrar la rama remota y crearla de nuevo", "correct": false, "explanation": "Innecesario, y cerraría los Pull Requests abiertos desde ella." }
+      ],
+      "solution": {
+        "answer": "git push --force-with-lease",
+        "explanation": "Tras reescribir una rama propia ya subida hay que forzar el push; `--force-with-lease` lo hace sin riesgo de pisar trabajo ajeno."
+      }
+    }
+  ]
+}
