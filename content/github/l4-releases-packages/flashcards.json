@@ -1,0 +1,11 @@
+{
+  "cards": [
+    { "id": "semver", "front": "SemVer: MAJOR.MINOR.PATCH", "back": "MAJOR: cambios incompatibles. MINOR: funcionalidad compatible. PATCH: correcciones compatibles. Al subir uno, los de la derecha vuelven a 0." },
+    { "id": "semver-pre", "front": "SemVer: pre-releases y `0.y.z`", "back": "Pre-release con guion (`1.0.0-rc.1`), anterior a `1.0.0`. `0.y.z` es desarrollo inicial: todo puede cambiar." },
+    { "id": "release", "front": "¿Qué es una release de GitHub?", "back": "Una entrega basada en un tag: notas, ficheros adjuntos (assets) y los archivos zip/tar.gz del código. Puede ser draft, pre-release o Latest." },
+    { "id": "release-notes", "front": "Notas de release generadas", "back": "PRs fusionados, contribuidores y enlace al changelog. Se agrupan por labels con `.github/release.yml` (`changelog.categories`)." },
+    { "id": "gh-release", "front": "Crear una release con `gh`", "back": "`gh release create v1.5.0 --generate-notes` (`-F notas.md`, `--prerelease`, `--verify-tag`, ficheros como argumentos)." },
+    { "id": "ghcr", "front": "Container registry de GitHub", "back": "`ghcr.io/PROPIETARIO/IMAGEN:TAG`. Privado por defecto; se vincula al repo con `org.opencontainers.image.source`." },
+    { "id": "packages-auth", "front": "Autenticarse en GitHub Packages", "back": "En Actions: `GITHUB_TOKEN` con `permissions: packages: write`. Fuera: token classic con `read:packages`/`write:packages`." }
+  ]
+}

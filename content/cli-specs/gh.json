@@ -636,6 +636,100 @@
           ]
         }
       ]
+    },
+    {
+      "name": "release",
+      "description": "Gestiona las releases de un repositorio",
+      "source": "https://cli.github.com/manual/gh_release",
+      "subcommands": [
+        {
+          "name": "create",
+          "aliases": [
+            "new"
+          ],
+          "description": "Crea una release (y el tag, si no existe)",
+          "args": [{ "name": "TAG" }, { "name": "FICHERO" }],
+          "flags": [
+            { "name": "discussion-category", "takesValue": true, "description": "Abre una discussion en esa categoría" },
+            { "name": "draft", "short": "d", "takesValue": false, "description": "Guarda la release como borrador" },
+            { "name": "fail-on-no-commits", "takesValue": false, "description": "Falla si no hay commits desde la última release" },
+            { "name": "generate-notes", "takesValue": false, "description": "Genera el título y las notas automáticamente" },
+            { "name": "latest", "takesValue": false, "description": "La marca como «Latest» (con --latest=false, no)" },
+            { "name": "notes", "short": "n", "takesValue": true, "description": "Notas de la release" },
+            { "name": "notes-file", "short": "F", "takesValue": true, "description": "Lee las notas de un fichero («-» para stdin)" },
+            { "name": "notes-from-tag", "takesValue": false, "description": "Usa como notas el mensaje del tag anotado (o del commit)" },
+            { "name": "notes-start-tag", "takesValue": true, "description": "Tag desde el que se generan las notas" },
+            { "name": "prerelease", "short": "p", "takesValue": false, "description": "La marca como prerelease" },
+            { "name": "target", "takesValue": true, "description": "Rama o SHA de commit para crear el tag (por defecto, la rama principal)" },
+            { "name": "title", "short": "t", "takesValue": true, "description": "Título de la release" },
+            { "name": "verify-tag", "takesValue": false, "description": "Aborta si el tag no existe ya en el remoto" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "list",
+          "aliases": [
+            "ls"
+          ],
+          "description": "Lista las releases",
+          "flags": [
+            { "name": "exclude-drafts", "takesValue": false, "description": "Excluye los borradores" },
+            { "name": "exclude-pre-releases", "takesValue": false, "description": "Excluye las prereleases" },
+            { "name": "limit", "short": "L", "takesValue": true, "description": "Número máximo de resultados (por defecto, 30)" },
+            { "name": "order", "short": "O", "values": ["asc", "desc"], "strict": true, "takesValue": true, "description": "Orden: asc o desc (por defecto, desc)" },
+            { "name": "jq", "short": "q", "takesValue": true, "description": "Filtra la salida JSON con una expresión jq" },
+            { "name": "json", "takesValue": true, "description": "Salida JSON con los campos indicados" },
+            { "name": "template", "short": "t", "takesValue": true, "description": "Formatea la salida JSON con una plantilla de Go" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "view",
+          "description": "Muestra una release (sin tag, la última)",
+          "args": [{ "name": "TAG" }],
+          "flags": [
+            { "name": "jq", "short": "q", "takesValue": true, "description": "Filtra la salida JSON con una expresión jq" },
+            { "name": "json", "takesValue": true, "description": "Salida JSON con los campos indicados" },
+            { "name": "template", "short": "t", "takesValue": true, "description": "Formatea la salida JSON con una plantilla de Go" },
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre la release en el navegador" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "download",
+          "description": "Descarga los ficheros de una release (sin tag, de la última)",
+          "args": [{ "name": "TAG" }],
+          "flags": [
+            { "name": "archive", "short": "A", "values": ["zip", "tar.gz"], "strict": true, "takesValue": true, "description": "Descarga el código fuente: zip o tar.gz" },
+            { "name": "dir", "short": "D", "takesValue": true, "description": "Directorio de descarga (por defecto, «.»)" },
+            { "name": "output", "short": "O", "takesValue": true, "description": "Guarda un único fichero con ese nombre («-» para stdout)" },
+            { "name": "pattern", "short": "p", "takesValue": true, "description": "Descarga los ficheros que coinciden con un patrón glob" },
+            { "name": "allow-escape-sequences", "takesValue": false, "description": "Permite secuencias de escape de la terminal en stdout" },
+            { "name": "clobber", "takesValue": false, "description": "Sobrescribe los ficheros que ya existen" },
+            { "name": "skip-existing", "takesValue": false, "description": "No descarga los ficheros que ya existen" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "upload",
+          "description": "Sube ficheros a una release",
+          "args": [{ "name": "TAG" }, { "name": "FICHERO" }],
+          "flags": [
+            { "name": "clobber", "takesValue": false, "description": "Borra y vuelve a subir los ficheros con el mismo nombre" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "delete",
+          "description": "Borra una release",
+          "args": [{ "name": "TAG" }],
+          "flags": [
+            { "name": "cleanup-tag", "takesValue": false, "description": "Borra también el tag" },
+            { "name": "yes", "short": "y", "takesValue": false, "description": "No pide confirmación" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        }
+      ]
     }
   ]
 }

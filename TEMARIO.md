@@ -39,7 +39,7 @@ Plan completo del contenido: qué módulos hay en cada itinerario y nivel, y qu�
 | 3 | ✅ `l3-actions-avanzado` | Matrix, cache, artifacts, secrets y variables, environments, reusable workflows y OIDC hacia la nube. |
 | 3 | ✅ `l3-proteccion` | Branch protection y rulesets, CODEOWNERS, required reviews y required status checks. |
 | 4 | ✅ `l4-seguridad` | Dependabot, code scanning, secret scanning y push protection, tokens fine-grained y GitHub Apps. |
-| 4 | ⬜ `l4-releases-packages` | Tags y releases, SemVer, changelogs, GitHub Packages y GitHub Container Registry (GHCR). |
+| 4 | ✅ `l4-releases-packages` | Tags y releases, SemVer, changelogs, GitHub Packages y GitHub Container Registry (GHCR). |
 | 4 | ⬜ `l4-organizaciones` | Organizaciones, teams, roles y permisos; nociones de la API REST/GraphQL y webhooks. |
 | 5 | ⬜ `l5-troubleshooting` | Detached HEAD, push rechazado, historia «perdida» (reflog), secretos subidos por error y workflows que fallan. |
 | 5 | ⬜ `l5-entrevista` | Preguntas de entrevista de ambos itinerarios (merge frente a rebase, estrategias de ramas, CI/CD) y escenarios. |

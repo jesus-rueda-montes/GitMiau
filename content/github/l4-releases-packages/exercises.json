@@ -1,0 +1,247 @@
+{
+  "exercises": [
+    {
+      "id": "semver-minor",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "La versión actual es `2.7.3`. La próxima release **añade una opción nueva** sin romper nada de lo que ya existía. ¿Qué versión le corresponde?",
+      "hints": [
+        "Funcionalidad nueva y compatible: sube el número del medio.",
+        "¿Qué pasa con el número de la derecha?"
+      ],
+      "options": [
+        { "id": "a", "text": "`2.8.0`", "correct": true, "explanation": "Correcto: MINOR sube y PATCH vuelve a 0." },
+        { "id": "b", "text": "`2.8.3`", "correct": false, "explanation": "Al subir MINOR, PATCH vuelve a 0." },
+        { "id": "c", "text": "`2.7.4`", "correct": false, "explanation": "PATCH es solo para correcciones." },
+        { "id": "d", "text": "`3.0.0`", "correct": false, "explanation": "MAJOR es para cambios incompatibles." }
+      ],
+      "solution": {
+        "answer": "2.8.0",
+        "explanation": "Funcionalidad compatible = MINOR. Al subir un número, los de su derecha vuelven a 0."
+      }
+    },
+    {
+      "id": "semver-major",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Versión `1.9.4`. La próxima release **elimina una función pública** que otros proyectos usan. ¿Qué versión le corresponde?",
+      "hints": [
+        "Quien la use y actualice verá su código roto."
+      ],
+      "options": [
+        { "id": "a", "text": "`2.0.0`", "correct": true, "explanation": "Correcto: cambio incompatible = MAJOR." },
+        { "id": "b", "text": "`1.10.0`", "correct": false, "explanation": "MINOR es para cambios compatibles." },
+        { "id": "c", "text": "`2.9.4`", "correct": false, "explanation": "MINOR y PATCH vuelven a 0." },
+        { "id": "d", "text": "`1.9.5`", "correct": false, "explanation": "PATCH es para correcciones compatibles." }
+      ],
+      "solution": {
+        "answer": "2.0.0",
+        "explanation": "Eliminar algo público es incompatible: sube MAJOR y los demás vuelven a 0."
+      }
+    },
+    {
+      "id": "semver-prerelease",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Ordena según SemVer: ¿cuál es la versión **más antigua**?",
+      "hints": [
+        "Una pre-release va antes que la versión final con el mismo número."
+      ],
+      "options": [
+        { "id": "a", "text": "`1.0.0-rc.1`", "correct": true, "explanation": "Correcto: es anterior a `1.0.0`." },
+        { "id": "b", "text": "`1.0.0`", "correct": false, "explanation": "La pre-release `1.0.0-rc.1` va antes." },
+        { "id": "c", "text": "`1.0.1`", "correct": false, "explanation": "Es posterior a `1.0.0`." }
+      ],
+      "solution": {
+        "answer": "1.0.0-rc.1",
+        "explanation": "Las pre-releases (con guion) tienen menos precedencia que la versión normal: `1.0.0-rc.1` < `1.0.0` < `1.0.1`."
+      }
+    },
+    {
+      "id": "tag-vs-release",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "¿Qué añade una **release** de GitHub a un tag de Git? (Marca todos los correctos)",
+      "hints": [
+        "El tag solo marca un commit; la release es lo que ve quien descarga."
+      ],
+      "options": [
+        { "id": "a", "text": "Notas de la versión", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Ficheros adjuntos (assets), como binarios", "correct": true, "explanation": "Correcto." },
+        { "id": "c", "text": "Archivos zip y tar.gz del código fuente en ese tag", "correct": true, "explanation": "Correcto: GitHub los añade automáticamente." },
+        { "id": "d", "text": "Una rama nueva con el código de la versión", "correct": false, "explanation": "Una release no crea ramas." }
+      ],
+      "solution": {
+        "answer": "Notas, assets y código fuente",
+        "explanation": "Una release se basa en un tag y añade notas, ficheros adjuntos y los archivos del código fuente."
+      }
+    },
+    {
+      "id": "release-yml",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "En este `.github/release.yml`, añade **al principio** de `categories` una categoría titulada `Cambios incompatibles` para los PRs con la label `breaking-change`, sin quitar las otras.",
+      "starter": "changelog:\n  categories:\n    - title: Novedades\n      labels:\n        - enhancement\n    - title: Otros cambios\n      labels:\n        - \"*\"\n",
+      "assertions": [
+        { "path": "changelog.categories", "op": "count", "value": 3, "message": "categories tiene 3 categorías" },
+        { "path": "changelog.categories[0].title", "op": "equals", "value": "Cambios incompatibles", "message": "La primera categoría se titula «Cambios incompatibles»" },
+        { "path": "changelog.categories[0].labels", "op": "equals", "value": ["breaking-change"], "message": "La primera categoría agrupa la label breaking-change (en una lista)" },
+        { "path": "changelog.categories[2].labels", "op": "equals", "value": ["*"], "message": "La última categoría sigue recogiendo el resto con \"*\"" }
+      ],
+      "hints": [
+        "Cada categoría es un elemento de la lista con `title` y `labels`.",
+        "`labels` es una lista, aunque tenga un solo elemento."
+      ],
+      "solution": {
+        "answer": "changelog:\n  categories:\n    - title: Cambios incompatibles\n      labels:\n        - breaking-change\n    - title: Novedades\n      labels:\n        - enhancement\n    - title: Otros cambios\n      labels:\n        - \"*\"\n",
+        "explanation": "Las categorías aparecen en las notas en el orden de la lista; la categoría con `\"*\"` va al final para recoger lo que no encaja en las anteriores."
+      }
+    },
+    {
+      "id": "gh-release-create",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Crea la release `v1.5.0` con las **notas generadas automáticamente** por GitHub.",
+      "hints": [
+        "Es `gh release` con el subcomando para crear.",
+        "El flag es «generar notas» en inglés, con guiones."
+      ],
+      "accepted": [
+        "gh release create v1.5.0 --generate-notes"
+      ],
+      "solution": {
+        "answer": "gh release create v1.5.0 --generate-notes",
+        "explanation": "Las notas incluyen los PRs fusionados, los contribuidores y el enlace al changelog. Si el tag no existe, se crea a partir de la rama por defecto."
+      }
+    },
+    {
+      "id": "gh-release-prerelease",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Crea la release `v2.0.0-rc.1` marcada como **pre-release**, con las notas del fichero `notas.md`.",
+      "hints": [
+        "Hay un flag para marcarla como pre-release (`-p`).",
+        "Las notas de un fichero se pasan con `--notes-file` (o `-F`)."
+      ],
+      "accepted": [
+        "gh release create v2.0.0-rc.1 --prerelease --notes-file notas.md",
+        "gh release create v2.0.0-rc.1 -p -F notas.md"
+      ],
+      "solution": {
+        "answer": "gh release create v2.0.0-rc.1 --prerelease --notes-file notas.md",
+        "explanation": "Una pre-release no se marca como Latest, así que los usuarios no la reciben como la versión estable."
+      }
+    },
+    {
+      "id": "gh-release-download",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Descarga de la release `v1.5.0` solo los ficheros que terminan en `.zip`.",
+      "hints": [
+        "Es `gh release download` con el tag.",
+        "Filtra con un patrón: `--pattern` (o `-p`). Pon el patrón entre comillas."
+      ],
+      "accepted": [
+        "gh release download v1.5.0 --pattern \"*.zip\"",
+        "gh release download v1.5.0 -p \"*.zip\""
+      ],
+      "solution": {
+        "answer": "gh release download v1.5.0 --pattern \"*.zip\"",
+        "explanation": "Las comillas evitan que la shell expanda `*.zip` con los ficheros de tu directorio."
+      }
+    },
+    {
+      "id": "gh-release-view",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Muestra la **última** release del repositorio actual.",
+      "hints": [
+        "Sin tag, el subcomando para ver muestra la última."
+      ],
+      "accepted": [
+        "gh release view"
+      ],
+      "solution": {
+        "answer": "gh release view",
+        "explanation": "Sin tag, `gh release view` muestra la última release; con un tag, esa en concreto."
+      }
+    },
+    {
+      "id": "ghcr-nombre",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "La organización `mi-org` publica la imagen `tienda`, versión `1.5.0`, en el Container registry de GitHub. ¿Cuál es su nombre completo?",
+      "hints": [
+        "El dominio del registro empieza por «gh» y acaba en «.io»."
+      ],
+      "options": [
+        { "id": "a", "text": "`ghcr.io/mi-org/tienda:1.5.0`", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "`github.com/mi-org/tienda:1.5.0`", "correct": false, "explanation": "github.com no es el registro de contenedores." },
+        { "id": "c", "text": "`docker.io/mi-org/tienda:1.5.0`", "correct": false, "explanation": "Ese es Docker Hub." },
+        { "id": "d", "text": "`ghcr.io/tienda:1.5.0`", "correct": false, "explanation": "Falta el propietario." }
+      ],
+      "solution": {
+        "answer": "ghcr.io/mi-org/tienda:1.5.0",
+        "explanation": "Formato: `ghcr.io/PROPIETARIO/IMAGEN:TAG`."
+      }
+    },
+    {
+      "id": "ghcr-auth",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un workflow de Actions publica una imagen en `ghcr.io` y falla con un error de permisos. Usa `GITHUB_TOKEN` para el login. ¿Qué falta, probablemente?",
+      "hints": [
+        "El `GITHUB_TOKEN` solo tiene los permisos que le das."
+      ],
+      "options": [
+        { "id": "a", "text": "`permissions: packages: write` en el workflow", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Crear un token fine-grained y guardarlo como secret", "correct": false, "explanation": "No hace falta: el `GITHUB_TOKEN` sirve si tiene el permiso." },
+        { "id": "c", "text": "Hacer público el repositorio", "correct": false, "explanation": "La visibilidad no es el problema." },
+        { "id": "d", "text": "Usar Docker Hub en su lugar", "correct": false, "explanation": "No resuelve el problema de permisos." }
+      ],
+      "solution": {
+        "answer": "packages: write",
+        "explanation": "Para publicar en GitHub Packages desde Actions, el `GITHUB_TOKEN` necesita `packages: write`."
+      }
+    },
+    {
+      "id": "workflow-publicar",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "Completa el workflow para que: 1) se ejecute **solo al subir tags** que empiezan por `v` (`push` con `tags: [\"v*\"]`) y 2) el `GITHUB_TOKEN` tenga `contents: read` y `packages: write`.",
+      "starter": "name: Publicar imagen\non:\n  push:\njobs:\n  imagen:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - run: echo \"${{ secrets.GITHUB_TOKEN }}\" | docker login ghcr.io -u ${{ github.actor }} --password-stdin\n      - run: docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} . && docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}\n",
+      "assertions": [
+        { "path": "on.push.tags", "op": "equals", "value": ["v*"], "message": "on.push.tags es la lista [\"v*\"]" },
+        { "path": "on.push.branches", "op": "absent", "message": "No se filtra por ramas: solo tags" },
+        { "path": "permissions.contents", "op": "equals", "value": "read", "message": "permissions.contents: read" },
+        { "path": "permissions.packages", "op": "equals", "value": "write", "message": "permissions.packages: write" },
+        { "path": "jobs.imagen.steps", "op": "count", "value": 3, "message": "El job conserva sus 3 steps" }
+      ],
+      "hints": [
+        "`tags` va dentro de `push`, como una lista.",
+        "`permissions` va al nivel superior, junto a `on` y `jobs`."
+      ],
+      "solution": {
+        "answer": "name: Publicar imagen\non:\n  push:\n    tags:\n      - \"v*\"\npermissions:\n  contents: read\n  packages: write\njobs:\n  imagen:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - run: echo \"${{ secrets.GITHUB_TOKEN }}\" | docker login ghcr.io -u ${{ github.actor }} --password-stdin\n      - run: docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} . && docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}\n",
+        "explanation": "Con solo `tags`, el workflow no se ejecuta en los pushes a ramas. `packages: write` permite publicar la imagen con el `GITHUB_TOKEN`."
+      }
+    },
+    {
+      "id": "paquete-privado",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "Al publicar por primera vez una imagen en `ghcr.io`, es **pública** por defecto.",
+      "hints": [
+        "Lo seguro por defecto."
+      ],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "Es al revés." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: es privada por defecto." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "Un paquete nuevo es privado; se hace público desde sus ajustes."
+      }
+    }
+  ]
+}

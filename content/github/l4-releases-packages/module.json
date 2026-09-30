@@ -1,0 +1,8 @@
+{
+  "title": "Releases y paquetes",
+  "summary": "Semantic Versioning, releases a partir de tags, notas generadas y changelog, gh release, GitHub Packages y el Container registry (ghcr.io).",
+  "level": 4,
+  "order": 2,
+  "xp": 120,
+  "prereqs": []
+}

@@ -319,6 +319,31 @@
       "term": "mínimo privilegio",
       "definition": "Principio de dar a cada persona o sistema solo los permisos que necesita, durante el tiempo que los necesita.",
       "introducedIn": "github/l1-repos-cuenta"
+    },
+    {
+      "term": "SemVer",
+      "definition": "Semantic Versioning: versiones MAJOR.MINOR.PATCH según el tipo de cambio (incompatible, funcionalidad compatible, corrección).",
+      "introducedIn": "github/l4-releases-packages"
+    },
+    {
+      "term": "pre-release",
+      "definition": "Versión previa a la final (1.0.0-rc.1); en GitHub, una release marcada como no estable.",
+      "introducedIn": "github/l4-releases-packages"
+    },
+    {
+      "term": "changelog",
+      "definition": "Registro de los cambios de cada versión.",
+      "introducedIn": "github/l4-releases-packages"
+    },
+    {
+      "term": "GitHub Packages",
+      "definition": "Servicio de GitHub para publicar paquetes (npm, Maven, NuGet…) e imágenes de contenedor.",
+      "introducedIn": "github/l4-releases-packages"
+    },
+    {
+      "term": "Container registry",
+      "definition": "Registro de GitHub Packages para imágenes Docker y OCI, en el dominio ghcr.io.",
+      "introducedIn": "github/l4-releases-packages"
     }
   ]
 }

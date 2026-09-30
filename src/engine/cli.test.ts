@@ -244,6 +244,13 @@ describe('gh (contenido real)', () => {
     expect(sameGh('gh secret remove NPM_TOKEN', 'gh secret delete NPM_TOKEN')).toBe(true)
     expect(p('gh secret set NPM_TOKEN --app npm')).toEqual({ ok: false, errors: [expect.stringMatching(/valor no válido para --app/)] })
   })
+
+  test('releases: alias, ficheros como argumentos y valores estrictos', () => {
+    expect(sameGh('gh release new v2.0.0-rc.1 -p -F notas.md', 'gh release create v2.0.0-rc.1 --prerelease --notes-file notas.md')).toBe(true)
+    expect(sameGh('gh release download v1.5.0 -p "*.zip"', "gh release download v1.5.0 --pattern '*.zip'")).toBe(true)
+    expect(p('gh release create v1.2.0 ./dist/app.tgz --generate-notes').ok).toBe(true)
+    expect(p('gh release download -A rar')).toEqual({ ok: false, errors: [expect.stringMatching(/valor no válido para --archive/)] })
+  })
 })
 
 describe('git (contenido real)', () => {
