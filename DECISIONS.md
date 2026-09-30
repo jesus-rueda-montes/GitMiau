@@ -75,5 +75,6 @@ Numeración original. Se han quitado las que solo aplicaban a Kubernetes, Terraf
 
 ## Pendiente de decidir
 - **Versiones de las GitHub Actions** del workflow (`checkout@v4`, `setup-node@v4`, `upload-pages-artifact@v3`, `deploy-pages@v4`): el CI de GitMiau avisa de que usan Node.js 20, obsoleto en GitHub Actions. Hay que comprobar en la documentación oficial qué versiones mayores existen antes de cambiarlas (afecta también a Kubernetete). **Aplazado por el usuario** (2026-09-30).
+- **Tamaño del chunk principal** (502 kB, aviso de Vite a partir de 500 kB): se puede aceptar (como en Kubernetete), subir el límite del aviso o cargar también las flashcards bajo demanda. Se decidirá con el usuario.
 - **GitHub Pages**: el usuario tiene que activar *Settings → Pages → Source: GitHub Actions* en GitMiau; mientras tanto, el job `deploy` falla (el `build` pasa).
 - **Simulador de repositorio Git** (decisión M3): modelo de datos, qué comandos simula y cómo se dibuja el grafo. Se decidirá con el usuario al empezar esa fase.
