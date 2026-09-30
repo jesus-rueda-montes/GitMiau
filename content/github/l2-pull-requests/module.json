@@ -1,0 +1,8 @@
+{
+  "title": "Pull Requests",
+  "summary": "Abrir un Pull Request, borradores y enlaces a issues, revisar (comentar, aprobar, pedir cambios) y fusionar con merge commit, squash o rebase, desde la web y con gh pr.",
+  "level": 2,
+  "order": 1,
+  "xp": 100,
+  "prereqs": []
+}

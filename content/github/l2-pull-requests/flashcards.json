@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "pr", "front": "¿Qué es un Pull Request?", "back": "La propuesta de fusionar una rama (head) en otra (base), con revisión, conversación y checks. Cada push a la rama lo actualiza." },
+    { "id": "closes", "front": "Cerrar una issue al fusionar un PR", "back": "`Closes #42` (o fixes/resolves…) en la descripción. Solo si el PR va a la rama por defecto." },
+    { "id": "draft", "front": "¿Qué es un draft PR?", "back": "Un PR borrador: trabajo en curso para recibir opiniones. No se puede fusionar hasta marcarlo como Ready for review (`gh pr ready`)." },
+    { "id": "revisiones", "front": "Tipos de revisión de un PR", "back": "Comment (opinión), Approve (listo) y Request changes (hay que arreglar algo). El autor no puede aprobar su propio PR." },
+    { "id": "metodos-merge", "front": "Merge commit, squash y rebase and merge", "back": "Merge commit: todos los commits + uno de merge. Squash: un solo commit. Rebase: reaplica los commits sin merge (SHA nuevos)." },
+    { "id": "gh-pr", "front": "Comandos de `gh pr` más usados", "back": "`create`, `list`, `status`, `checkout`, `view`, `diff`, `review --approve`, `merge --squash --delete-branch`." }
+  ]
+}

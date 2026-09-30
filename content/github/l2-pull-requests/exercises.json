@@ -1,0 +1,179 @@
+{
+  "exercises": [
+    {
+      "id": "pr-se-actualiza",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "Si el revisor te pide cambios, tienes que cerrar el PR y abrir uno nuevo con las correcciones.",
+      "hints": ["Un PR compara ramas, no commits sueltos."],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "No hace falta: el PR sigue a tu rama." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: haces commit y push a la misma rama y el PR se actualiza solo." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "Mientras el PR está abierto, cada push a la rama head lo actualiza, y la conversación y la revisión se conservan."
+      }
+    },
+    {
+      "id": "palabras-clave",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "Un PR va a `main` (la rama por defecto). ¿Qué frases en su descripción **cierran la issue #42** al fusionarlo? (Marca todas las correctas)",
+      "hints": [
+        "Las palabras válidas son variantes de close, fix y resolve.",
+        "Se admiten mayúsculas y dos puntos."
+      ],
+      "options": [
+        { "id": "a", "text": "`Closes #42`", "correct": true, "explanation": "Correcto: `closes` es una palabra clave." },
+        { "id": "b", "text": "`fixes #42`", "correct": true, "explanation": "Correcto: `fixes` también vale." },
+        { "id": "c", "text": "`Relacionado con #42`", "correct": false, "explanation": "Solo enlaza la issue; no la cierra." },
+        { "id": "d", "text": "`Resolves: #42`", "correct": true, "explanation": "Correcto: se admiten los dos puntos." }
+      ],
+      "solution": {
+        "answer": "Closes #42, fixes #42 y Resolves: #42",
+        "explanation": "Palabras clave: close(s/d), fix(es/ed), resolve(s/d), seguidas de `#número` (o `dueño/repo#número` para otro repo)."
+      }
+    },
+    {
+      "id": "closes-otra-rama",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un PR con `Closes #42` en la descripción va a la rama `develop`, que **no** es la rama por defecto. ¿Qué pasa con la issue al fusionarlo?",
+      "hints": ["Las palabras clave tienen una condición sobre la rama de destino."],
+      "options": [
+        { "id": "a", "text": "Se cierra igualmente", "correct": false, "explanation": "Solo pasa si el PR va a la rama por defecto." },
+        { "id": "b", "text": "No pasa nada: hacia otras ramas las palabras clave se ignoran", "correct": true, "explanation": "Correcto: ni se enlaza ni se cierra." },
+        { "id": "c", "text": "Se cierra cuando `develop` se fusione en `main`", "correct": false, "explanation": "GitHub no lo encadena así." },
+        { "id": "d", "text": "GitHub impide fusionar el PR", "correct": false, "explanation": "El PR se puede fusionar con normalidad." }
+      ],
+      "solution": {
+        "answer": "Se ignoran",
+        "explanation": "Las palabras clave para cerrar issues solo funcionan en PRs hacia la rama por defecto del repositorio."
+      }
+    },
+    {
+      "id": "gh-pr-create",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Crea el PR de la rama actual con el título `Añade login con email` y la descripción `Closes #42`.",
+      "hints": [
+        "El comando es `gh pr create`.",
+        "Usa `--title` (`-t`) y `--body` (`-b`), con comillas cuando haya espacios."
+      ],
+      "accepted": ["gh pr create --title \"Añade login con email\" --body \"Closes #42\""],
+      "output": "Creating pull request for feature/login into main in ada/tienda\n\nhttps://github.com/ada/tienda/pull/57",
+      "solution": {
+        "answer": "gh pr create --title \"Añade login con email\" --body \"Closes #42\"",
+        "explanation": "`gh pr create` abre el PR de la rama actual hacia la rama por defecto; `--title` y `--body` evitan el modo interactivo."
+      }
+    },
+    {
+      "id": "gh-pr-draft",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Crea un PR como **borrador**, tomando el título y la descripción **de los commits**.",
+      "hints": [
+        "Sigue siendo `gh pr create`.",
+        "Una opción rellena desde los commits (`--fill`) y otra lo marca como borrador."
+      ],
+      "accepted": ["gh pr create --fill --draft"],
+      "solution": {
+        "answer": "gh pr create --fill --draft",
+        "explanation": "`--fill` usa los commits para el título y la descripción, y `--draft` (`-d`) lo crea como borrador: no se podrá fusionar hasta marcarlo como listo."
+      }
+    },
+    {
+      "id": "gh-pr-checkout",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Te piden revisar el PR **58**. Descarga su rama y cambia a ella para probarlo en local.",
+      "hints": ["Es un subcomando de `gh pr` con el mismo nombre que el comando clásico de Git para cambiar de rama."],
+      "accepted": ["gh pr checkout 58"],
+      "output": "Switched to branch 'fix/redondeo'",
+      "solution": {
+        "answer": "gh pr checkout 58",
+        "explanation": "`gh pr checkout` (alias `co`) descarga la rama del PR, aunque venga de un fork, y cambia a ella."
+      }
+    },
+    {
+      "id": "tipo-revision",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Revisas un PR y ves que falta validar un caso: **no debe fusionarse** hasta que lo arreglen. ¿Qué tipo de revisión envías?",
+      "hints": ["Hay un tipo pensado para bloquear hasta que se resuelva algo."],
+      "options": [
+        { "id": "a", "text": "Request changes", "correct": true, "explanation": "Correcto: indica que hay que resolver algo antes de fusionar." },
+        { "id": "b", "text": "Approve", "correct": false, "explanation": "Diría que está listo para fusionarse." },
+        { "id": "c", "text": "Comment", "correct": false, "explanation": "Es solo una opinión, sin bloquear ni aprobar." },
+        { "id": "d", "text": "Cerrar el PR", "correct": false, "explanation": "Descartaría el trabajo en vez de pedir que se corrija." }
+      ],
+      "solution": {
+        "answer": "Request changes",
+        "explanation": "Comment = opinión; Approve = listo; Request changes = hay que arreglar algo antes de fusionar."
+      }
+    },
+    {
+      "id": "gh-pr-approve",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Aprueba el PR **57**.",
+      "hints": [
+        "El subcomando para revisar es `gh pr review`.",
+        "La opción para aprobar es `--approve` (`-a`)."
+      ],
+      "accepted": ["gh pr review 57 --approve"],
+      "output": "✓ Approved pull request ada/tienda#57",
+      "solution": {
+        "answer": "gh pr review 57 --approve",
+        "explanation": "`gh pr review` envía una revisión: `--approve`, `--request-changes` o `--comment`, con `--body` para el texto."
+      }
+    },
+    {
+      "id": "metodo-merge",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Tu equipo quiere que **cada PR quede como un único commit** en `main`, fácil de revertir. ¿Qué método de merge elige?",
+      "hints": ["Uno de los métodos \"aplasta\" los commits."],
+      "options": [
+        { "id": "a", "text": "Squash and merge", "correct": true, "explanation": "Correcto: junta todos los commits del PR en uno." },
+        { "id": "b", "text": "Create a merge commit", "correct": false, "explanation": "Conserva todos los commits más uno de merge." },
+        { "id": "c", "text": "Rebase and merge", "correct": false, "explanation": "Reaplica cada commit por separado, sin juntarlos." },
+        { "id": "d", "text": "Da igual: los tres dejan un solo commit", "correct": false, "explanation": "Solo squash deja uno." }
+      ],
+      "solution": {
+        "answer": "Squash and merge",
+        "explanation": "Squash deja un commit por PR; merge commit, la historia completa más el merge; rebase, historia lineal con los commits reaplicados (SHA nuevos)."
+      }
+    },
+    {
+      "id": "gh-pr-merge",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Fusiona el PR **57** con **squash** y **borra la rama** después.",
+      "hints": [
+        "El subcomando es `gh pr merge`.",
+        "`--squash` (`-s`) y `--delete-branch` (`-d`)."
+      ],
+      "accepted": ["gh pr merge 57 --squash --delete-branch"],
+      "output": "✓ Squashed and merged pull request ada/tienda#57 (Añade login con email)\n✓ Deleted local branch feature/login and switched to branch main\n✓ Deleted remote branch feature/login",
+      "solution": {
+        "answer": "gh pr merge 57 --squash --delete-branch",
+        "explanation": "`--squash` junta los commits en uno y `--delete-branch` borra la rama local y la remota tras fusionar."
+      }
+    },
+    {
+      "id": "gh-pr-list-merged",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Completa el comando para listar los PRs **ya fusionados** del repositorio.",
+      "template": "gh pr list --{{flag}} merged",
+      "blanks": [{ "id": "flag", "accepted": ["state"] }],
+      "hints": ["La opción filtra por \"estado\" (open, closed, merged o all)."],
+      "solution": {
+        "answer": "gh pr list --state merged",
+        "explanation": "`gh pr list` muestra los abiertos por defecto; `--state` (`-s`) acepta open, closed, merged o all."
+      }
+    }
+  ]
+}

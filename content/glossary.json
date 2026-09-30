@@ -154,6 +154,26 @@
       "term": "clave SSH",
       "definition": "Par de claves (privada y pública) para autenticarte sin contraseña; la pública se registra en GitHub.",
       "introducedIn": "github/l1-repos-cuenta"
+    },
+    {
+      "term": "Pull Request",
+      "definition": "Propuesta de fusionar una rama en otra en GitHub, con revisión de código, conversación y comprobaciones automáticas.",
+      "introducedIn": "github/l1-repos-cuenta"
+    },
+    {
+      "term": "draft",
+      "definition": "Pull Request en borrador: se comparte para recibir opiniones, pero no se puede fusionar hasta marcarlo como listo.",
+      "introducedIn": "github/l2-pull-requests"
+    },
+    {
+      "term": "squash",
+      "definition": "Juntar varios commits en uno solo.",
+      "introducedIn": "github/l2-pull-requests"
+    },
+    {
+      "term": "auto-merge",
+      "definition": "Opción de un PR para que se fusione solo en cuanto cumpla los requisitos de la rama (aprobaciones, checks).",
+      "introducedIn": "github/l2-pull-requests"
     }
   ]
 }

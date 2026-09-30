@@ -32,7 +32,7 @@ Plan completo del contenido: qué módulos hay en cada itinerario y nivel, y qu�
 | Nivel | Módulo | Contenido |
 |---|---|---|
 | 1 | ✅ `l1-repos-cuenta` | Repositorios públicos y privados, README, licencias, forks y stars; autenticación (SSH, tokens) y la CLI `gh`. Requiere `git/l2-remotos`. |
-| 2 | ⬜ `l2-pull-requests` | Flujo de un Pull Request, draft, reviews y comentarios, estrategias de merge (merge commit, squash, rebase), `gh pr`. |
+| 2 | ✅ `l2-pull-requests` | Flujo de un Pull Request, draft, reviews y comentarios, estrategias de merge (merge commit, squash, rebase), `gh pr`. |
 | 2 | ⬜ `l2-issues-projects` | Issues, labels, milestones, plantillas, GitHub Projects y cerrar issues desde commits o PRs. |
 | 2 | ⬜ `l2-flujos-trabajo` | GitHub Flow, Git Flow, trunk-based development y fork & PR en proyectos open source. |
 | 3 | ⬜ `l3-actions-basico` | Workflows, events, jobs, steps, runners, actions del Marketplace y `GITHUB_TOKEN`. |

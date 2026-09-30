@@ -117,6 +117,167 @@
           ]
         }
       ]
+    },
+    {
+      "name": "pr",
+      "description": "Trabaja con Pull Requests",
+      "source": "https://cli.github.com/manual/gh_pr",
+      "subcommands": [
+        {
+          "name": "create",
+          "description": "Crea un Pull Request",
+          "flags": [
+            { "name": "title", "short": "t", "takesValue": true, "description": "Título del PR" },
+            { "name": "body", "short": "b", "takesValue": true, "description": "Descripción del PR" },
+            { "name": "body-file", "short": "F", "takesValue": true, "description": "Lee la descripción de un fichero (\"-\" para la entrada estándar)" },
+            { "name": "base", "short": "B", "takesValue": true, "description": "Rama en la que se quiere fusionar" },
+            { "name": "head", "short": "H", "takesValue": true, "description": "Rama que contiene los commits" },
+            { "name": "draft", "short": "d", "takesValue": false, "description": "Lo crea como borrador (draft)" },
+            { "name": "fill", "short": "f", "takesValue": false, "description": "Usa los commits para el título y la descripción" },
+            { "name": "reviewer", "short": "r", "takesValue": true, "description": "Pide revisión a personas o equipos" },
+            { "name": "assignee", "short": "a", "takesValue": true, "description": "Asigna a personas (\"@me\" para ti)" },
+            { "name": "label", "short": "l", "takesValue": true, "description": "Añade etiquetas" },
+            { "name": "milestone", "short": "m", "takesValue": true, "description": "Lo añade a un milestone" },
+            { "name": "project", "short": "p", "takesValue": true, "description": "Lo añade a un proyecto" },
+            { "name": "template", "short": "T", "takesValue": true, "description": "Usa una plantilla para la descripción" },
+            { "name": "editor", "short": "e", "takesValue": false, "description": "Abre el editor para el título y la descripción" },
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre el navegador para crearlo" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "list",
+          "aliases": [
+            "ls"
+          ],
+          "description": "Lista los Pull Requests (por defecto, los abiertos)",
+          "flags": [
+            { "name": "state", "short": "s", "values": ["open", "closed", "merged", "all"], "strict": true, "takesValue": true, "description": "Estado: open, closed, merged o all" },
+            { "name": "author", "short": "A", "takesValue": true, "description": "Filtra por autor" },
+            { "name": "assignee", "short": "a", "takesValue": true, "description": "Filtra por asignado" },
+            { "name": "label", "short": "l", "takesValue": true, "description": "Filtra por etiqueta" },
+            { "name": "base", "short": "B", "takesValue": true, "description": "Filtra por rama de destino" },
+            { "name": "head", "short": "H", "takesValue": true, "description": "Filtra por rama de origen" },
+            { "name": "draft", "short": "d", "takesValue": false, "description": "Filtra por borradores" },
+            { "name": "search", "short": "S", "takesValue": true, "description": "Búsqueda avanzada" },
+            { "name": "limit", "short": "L", "takesValue": true, "description": "Número máximo de resultados (por defecto, 30)" },
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre la lista en el navegador" },
+            { "name": "json", "takesValue": true, "description": "Salida JSON con los campos indicados" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "view",
+          "description": "Muestra un PR (sin argumento, el de la rama actual)",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "comments", "short": "c", "takesValue": false, "description": "Muestra los comentarios" },
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre el PR en el navegador" },
+            { "name": "json", "takesValue": true, "description": "Salida JSON con los campos indicados" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "checkout",
+          "aliases": [
+            "co"
+          ],
+          "description": "Descarga la rama de un PR y cambia a ella",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "branch", "short": "b", "takesValue": true, "description": "Nombre de la rama local" },
+            { "name": "force", "short": "f", "takesValue": false, "description": "Resetea la rama local al último estado del PR" },
+            { "name": "detach", "takesValue": false, "description": "Cambia en detached HEAD" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "diff",
+          "description": "Muestra los cambios de un PR",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "status",
+          "description": "Estado de tus PRs y de los que esperan tu revisión",
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "checks",
+          "description": "Muestra el resultado de los checks (CI) de un PR",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "review",
+          "description": "Añade una revisión a un PR",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "approve", "short": "a", "takesValue": false, "description": "Aprueba el PR" },
+            { "name": "comment", "short": "c", "takesValue": false, "description": "Deja una revisión con comentario, sin aprobar ni pedir cambios" },
+            { "name": "request-changes", "short": "r", "takesValue": false, "description": "Pide cambios" },
+            { "name": "body", "short": "b", "takesValue": true, "description": "Texto de la revisión" },
+            { "name": "body-file", "short": "F", "takesValue": true, "description": "Lee el texto de un fichero" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "merge",
+          "description": "Fusiona un PR (sin argumento, el de la rama actual)",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "merge", "short": "m", "takesValue": false, "description": "Commit de merge" },
+            { "name": "squash", "short": "s", "takesValue": false, "description": "Junta los commits en uno y lo fusiona" },
+            { "name": "rebase", "short": "r", "takesValue": false, "description": "Reaplica los commits sobre la rama base" },
+            { "name": "delete-branch", "short": "d", "takesValue": false, "description": "Borra la rama local y la remota después" },
+            { "name": "auto", "takesValue": false, "description": "Activa el auto-merge: se fusiona al cumplirse los requisitos" },
+            { "name": "disable-auto", "takesValue": false, "description": "Desactiva el auto-merge" },
+            { "name": "admin", "takesValue": false, "description": "Usa privilegios de administrador para saltarse los requisitos" },
+            { "name": "subject", "short": "t", "takesValue": true, "description": "Asunto del commit de merge" },
+            { "name": "body", "short": "b", "takesValue": true, "description": "Cuerpo del commit de merge" },
+            { "name": "match-head-commit", "takesValue": true, "description": "Solo fusiona si el último commit es el indicado" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "ready",
+          "description": "Marca un PR borrador como listo para revisión",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "close",
+          "description": "Cierra un PR sin fusionarlo",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "reopen",
+          "description": "Reabre un PR cerrado",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "comment",
+          "description": "Añade un comentario a un PR",
+          "args": [{ "name": "PR" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        }
+      ]
     }
   ]
 }
