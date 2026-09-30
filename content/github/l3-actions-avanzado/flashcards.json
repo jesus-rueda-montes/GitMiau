@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "matrix", "front": "Matrix en GitHub Actions", "back": "`strategy.matrix`: un job por combinación (máx. 256). `fail-fast` es true por defecto; `include`/`exclude`; `max-parallel`." },
+    { "id": "cache", "front": "`actions/cache`: claves", "back": "`path` + `key` (con `hashFiles` del lockfile) + `restore-keys` (prefijos). 10 GB por repo; se borra lo no usado en 7 días." },
+    { "id": "artifacts", "front": "Cache frente a artifacts", "back": "Cache: acelerar ejecuciones futuras (regenerable). Artifacts: resultados de una ejecución para descargar o pasar a otro job (90 días por defecto)." },
+    { "id": "secrets", "front": "Secrets en Actions", "back": "`secrets.X`, a nivel de organización, repo o environment; ocultos en los logs; no llegan a PRs desde forks (salvo GITHUB_TOKEN). Lo no sensible, en `vars.X`." },
+    { "id": "environment", "front": "¿Qué aporta un environment?", "back": "Reglas de protección (revisores, wait timer, ramas permitidas) y secrets propios, disponibles solo cuando se cumplen las reglas." },
+    { "id": "reusable-oidc", "front": "Reusable workflows y OIDC", "back": "Reusable: `on: workflow_call`, llamado con `jobs.<id>.uses` y `secrets: inherit`. OIDC: `id-token: write` → credenciales temporales de la nube, sin claves guardadas." }
+  ]
+}

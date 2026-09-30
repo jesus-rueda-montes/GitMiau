@@ -239,6 +239,31 @@
       "term": "cron",
       "definition": "Formato de cinco campos (minuto, hora, día del mes, mes, día de la semana) para programar tareas periódicas.",
       "introducedIn": "github/l3-actions-basico"
+    },
+    {
+      "term": "matrix",
+      "definition": "Estrategia de GitHub Actions que crea un job por cada combinación de variables (versiones, sistemas…).",
+      "introducedIn": "github/l3-actions-avanzado"
+    },
+    {
+      "term": "artifact",
+      "definition": "Fichero que produce un job y se guarda con la ejecución, para descargarlo o pasarlo a otro job.",
+      "introducedIn": "github/l3-actions-basico"
+    },
+    {
+      "term": "environment",
+      "definition": "Entorno de despliegue en GitHub (p. ej. production) con reglas de protección y secrets propios.",
+      "introducedIn": "github/l3-actions-avanzado"
+    },
+    {
+      "term": "OIDC",
+      "definition": "OpenID Connect: el workflow demuestra su identidad a la nube con un token de GitHub y recibe credenciales temporales.",
+      "introducedIn": "github/l3-actions-avanzado"
+    },
+    {
+      "term": "JWT",
+      "definition": "JSON Web Token: token firmado que contiene datos (claims) sobre quién lo presenta.",
+      "introducedIn": "github/l3-actions-avanzado"
     }
   ]
 }

@@ -36,7 +36,7 @@ Plan completo del contenido: qué módulos hay en cada itinerario y nivel, y qu�
 | 2 | ✅ `l2-issues-projects` | Issues, labels, milestones, plantillas, GitHub Projects y cerrar issues desde commits o PRs. |
 | 2 | ✅ `l2-flujos-trabajo` | GitHub Flow, Git Flow, trunk-based development y fork & PR en proyectos open source. |
 | 3 | ✅ `l3-actions-basico` | Workflows, events, jobs, steps, runners, actions del Marketplace y `GITHUB_TOKEN`. |
-| 3 | ⬜ `l3-actions-avanzado` | Matrix, cache, artifacts, secrets y variables, environments, reusable workflows y OIDC hacia la nube. |
+| 3 | ✅ `l3-actions-avanzado` | Matrix, cache, artifacts, secrets y variables, environments, reusable workflows y OIDC hacia la nube. |
 | 3 | ⬜ `l3-proteccion` | Branch protection y rulesets, CODEOWNERS, required reviews y required status checks. |
 | 4 | ⬜ `l4-seguridad` | Dependabot, code scanning, secret scanning y push protection, tokens fine-grained y GitHub Apps. |
 | 4 | ⬜ `l4-releases-packages` | Tags y releases, SemVer, changelogs, GitHub Packages y GitHub Container Registry (GHCR). |

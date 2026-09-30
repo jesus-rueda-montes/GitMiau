@@ -1,0 +1,8 @@
+{
+  "title": "GitHub Actions: nivel avanzado",
+  "summary": "Matrix, cache y artifacts; secrets, variables y environments; concurrency, reusable workflows y OIDC para desplegar en la nube sin credenciales guardadas.",
+  "level": 3,
+  "order": 2,
+  "xp": 100,
+  "prereqs": []
+}

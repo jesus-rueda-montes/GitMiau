@@ -1,0 +1,207 @@
+{
+  "exercises": [
+    {
+      "id": "matrix-combinaciones",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Una matrix tiene `node: [20, 22, 24]` y `os: [ubuntu-latest, windows-latest]`, sin `include` ni `exclude`. ¿Cuántos jobs genera?",
+      "hints": ["Se crea un job por cada combinación de valores."],
+      "options": [
+        { "id": "a", "text": "6", "correct": true, "explanation": "Correcto: 3 × 2." },
+        { "id": "b", "text": "5", "correct": false, "explanation": "No se suman: se multiplican las listas." },
+        { "id": "c", "text": "2", "correct": false, "explanation": "Serían solo los sistemas operativos." },
+        { "id": "d", "text": "1, que prueba todas las versiones seguidas", "correct": false, "explanation": "Cada combinación es un job independiente, en paralelo." }
+      ],
+      "solution": {
+        "answer": "6",
+        "explanation": "Una matrix crea un job por cada combinación (3 versiones × 2 sistemas = 6), con un máximo de 256 por ejecución."
+      }
+    },
+    {
+      "id": "fail-fast-defecto",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "Por defecto, si un job de una matrix falla, los demás jobs de la matrix siguen ejecutándose hasta el final.",
+      "hints": ["Mira el valor por defecto de `fail-fast`."],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "`fail-fast` es `true` por defecto: se cancelan." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: se cancelan los que están en curso o en cola, salvo con `fail-fast: false`." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "`strategy.fail-fast` vale `true` por defecto. Si quieres ver el resultado de todas las combinaciones, ponlo a `false`."
+      }
+    },
+    {
+      "id": "matrix-editor",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "Completa el job `test` para que se ejecute con una **matrix** de Node `20`, `22` y `24`, que **no cancele** el resto si falla una versión, y que `setup-node` use la versión de cada combinación.",
+      "starter": "name: CI\non: [push]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - uses: actions/setup-node@v7\n        with:\n          node-version: 24\n      - run: npm ci && npm test\n",
+      "assertions": [
+        { "path": "jobs.test.strategy.matrix.node", "op": "oneOf", "value": [[20, 22, 24], ["20", "22", "24"]], "message": "jobs.test.strategy.matrix.node es la lista 20, 22, 24" },
+        { "path": "jobs.test.strategy.fail-fast", "op": "equals", "value": false, "message": "strategy.fail-fast: false (booleano)" },
+        { "path": "jobs.test.steps[1].with.node-version", "op": "matches", "value": "^\\$\\{\\{\\s*matrix\\.node\\s*\\}\\}$", "message": "setup-node usa node-version: ${{ matrix.node }}" },
+        { "path": "jobs.test.runs-on", "op": "equals", "value": "ubuntu-latest", "message": "El job sigue en ubuntu-latest" }
+      ],
+      "hints": [
+        "`strategy` va dentro del job, al mismo nivel que `runs-on` y `steps`.",
+        "Dentro de `strategy`: `fail-fast: false` y `matrix:` con `node: [20, 22, 24]`.",
+        "La versión de cada combinación se lee con la expresión `${{ matrix.node }}`; ponla entre comillas o tal cual."
+      ],
+      "solution": {
+        "answer": "name: CI\non: [push]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    strategy:\n      fail-fast: false\n      matrix:\n        node: [20, 22, 24]\n    steps:\n      - uses: actions/checkout@v7\n      - uses: actions/setup-node@v7\n        with:\n          node-version: ${{ matrix.node }}\n      - run: npm ci && npm test\n",
+        "explanation": "La matrix crea 3 jobs; en cada uno, `${{ matrix.node }}` vale 20, 22 o 24. Con `fail-fast: false`, un fallo no cancela las demás versiones."
+      }
+    },
+    {
+      "id": "cache-hashfiles",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Por qué se suele incluir `hashFiles('**/package-lock.json')` en la `key` de `actions/cache`?",
+      "hints": ["Piensa en qué pasa cuando cambian las dependencias."],
+      "options": [
+        { "id": "a", "text": "Para que la clave cambie cuando cambian las dependencias y no se restaure una caché desactualizada", "correct": true, "explanation": "Correcto: otra lockfile, otro hash, otra caché." },
+        { "id": "b", "text": "Para cifrar la caché", "correct": false, "explanation": "`hashFiles` calcula un resumen del contenido; no cifra nada." },
+        { "id": "c", "text": "Porque `key` solo admite hashes", "correct": false, "explanation": "`key` es un texto libre (hasta 512 caracteres)." },
+        { "id": "d", "text": "Para que la caché no caduque nunca", "correct": false, "explanation": "Las entradas sin uso en 7 días se borran igualmente." }
+      ],
+      "solution": {
+        "answer": "Invalidar la caché al cambiar las dependencias",
+        "explanation": "Con el hash del lockfile en la clave, cada conjunto de dependencias tiene su caché; `restore-keys` permite aprovechar una parecida si no hay coincidencia exacta."
+      }
+    },
+    {
+      "id": "cache-vs-artifact",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "El job `build` genera `dist/` y el job `deploy` (con `needs: build`) lo necesita. ¿Cómo se lo pasas?",
+      "hints": ["Cada job va en una máquina distinta, y la caché no está garantizada."],
+      "options": [
+        { "id": "a", "text": "`upload-artifact` en build y `download-artifact` en deploy", "correct": true, "explanation": "Correcto: los artifacts sirven para pasar resultados entre jobs." },
+        { "id": "b", "text": "No hace falta: los jobs comparten el disco", "correct": false, "explanation": "Cada job empieza en un runner nuevo y vacío." },
+        { "id": "c", "text": "Con `actions/cache`", "correct": false, "explanation": "La caché es para acelerar con cosas regenerables y puede no estar." },
+        { "id": "d", "text": "Haciendo commit de `dist/` al repositorio", "correct": false, "explanation": "Ensucia la historia con ficheros generados." }
+      ],
+      "solution": {
+        "answer": "Artifacts",
+        "explanation": "Los artifacts se guardan con la ejecución (90 días por defecto) y se pueden descargar en otro job o desde la web."
+      }
+    },
+    {
+      "id": "gh-run-download",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Descarga a tu máquina los artifacts de la ejecución `123456`.",
+      "hints": ["Es un subcomando de `gh run` que significa \"descargar\"."],
+      "accepted": ["gh run download 123456"],
+      "solution": {
+        "answer": "gh run download 123456",
+        "explanation": "`gh run download` baja los artifacts de una ejecución (por ejemplo, un informe de tests o el build)."
+      }
+    },
+    {
+      "id": "deploy-environment",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "Haz que el job `deploy` use el environment **`production`** (para que pida aprobación) y que el step reciba el secret **`DEPLOY_TOKEN`** como variable de entorno `DEPLOY_TOKEN`. Además, evita dos despliegues a la vez con `concurrency` y el grupo `deploy-production`.",
+      "starter": "name: Deploy\non:\n  push:\n    branches: [main]\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - run: ./desplegar.sh\n",
+      "assertions": [
+        { "path": "jobs.deploy.environment", "op": "oneOf", "value": ["production", { "name": "production" }], "message": "El job deploy tiene environment: production" },
+        { "path": "jobs.deploy.steps[0].env.DEPLOY_TOKEN", "op": "matches", "value": "^\\$\\{\\{\\s*secrets\\.DEPLOY_TOKEN\\s*\\}\\}$", "message": "El step tiene env: DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}" },
+        { "path": "concurrency", "op": "exists", "message": "Hay un bloque concurrency (en el workflow o en el job)" },
+        { "path": "concurrency.group", "op": "equals", "value": "deploy-production", "message": "concurrency.group es deploy-production (a nivel de workflow)" }
+      ],
+      "hints": [
+        "`environment` va dentro del job, al mismo nivel que `runs-on`.",
+        "`env` va dentro del step, al mismo nivel que `run`, y el valor es `${{ secrets.DEPLOY_TOKEN }}`.",
+        "`concurrency:` va al nivel superior, con `group: deploy-production` dentro."
+      ],
+      "solution": {
+        "answer": "name: Deploy\non:\n  push:\n    branches: [main]\nconcurrency:\n  group: deploy-production\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    environment: production\n    steps:\n      - run: ./desplegar.sh\n        env:\n          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}\n",
+        "explanation": "`environment: production` aplica sus reglas de protección (revisores, ramas) y da acceso a sus secrets. El secret se pasa por `env`, y `concurrency` impide dos despliegues simultáneos."
+      }
+    },
+    {
+      "id": "secrets-fork",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Alguien abre un PR **desde un fork** y se ejecuta tu workflow `on: pull_request`. ¿Tiene acceso a `secrets.API_KEY`?",
+      "hints": ["El código del PR lo controla una persona ajena al proyecto."],
+      "options": [
+        { "id": "a", "text": "No: salvo el GITHUB_TOKEN, los secrets no se pasan al runner en workflows disparados desde un fork", "correct": true, "explanation": "Correcto: es una protección de GitHub." },
+        { "id": "b", "text": "Sí, como cualquier otro workflow del repo", "correct": false, "explanation": "Podría imprimirlos o enviarlos fuera." },
+        { "id": "c", "text": "Sí, pero ocultos en los logs, así que es seguro", "correct": false, "explanation": "El ocultado no impide enviarlos a otro sitio; por eso no se pasan." },
+        { "id": "d", "text": "Solo si el fork es de una persona con estrella en el repo", "correct": false, "explanation": "Las stars no dan ningún permiso." }
+      ],
+      "solution": {
+        "answer": "No",
+        "explanation": "Con la excepción del GITHUB_TOKEN, GitHub no pasa los secrets al runner cuando el workflow lo dispara un fork."
+      }
+    },
+    {
+      "id": "vars-vs-secrets",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Necesitas guardar la región de despliegue (`eu-west-1`), que no es un dato sensible. ¿Dónde la pones y cómo la lees?",
+      "hints": ["Hay un contexto pensado para configuración no sensible."],
+      "options": [
+        { "id": "a", "text": "Como configuration variable, leída con `${{ vars.REGION }}`", "correct": true, "explanation": "Correcto: las variables son para configuración no sensible." },
+        { "id": "b", "text": "Como secret, con `${{ secrets.REGION }}`", "correct": false, "explanation": "Funcionaría, pero los secrets son para datos sensibles y se ocultan en los logs sin necesidad." },
+        { "id": "c", "text": "Escrita en el código del script", "correct": false, "explanation": "Cambiarla exigiría un commit; mejor como variable." },
+        { "id": "d", "text": "En `GITHUB_TOKEN`", "correct": false, "explanation": "Es un token de autenticación, no un almacén de configuración." }
+      ],
+      "solution": {
+        "answer": "vars.REGION",
+        "explanation": "Configuration variables (`vars`) para lo no sensible; secrets (`secrets`) para credenciales. Ambas existen a nivel de organización, repo y environment."
+      }
+    },
+    {
+      "id": "oidc-permiso",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Tu workflow despliega en la nube con OIDC, pero el login falla porque no puede obtener el token de identidad. ¿Qué permiso falta?",
+      "hints": ["El token que se pide es un «ID token»."],
+      "options": [
+        { "id": "a", "text": "`id-token: write`", "correct": true, "explanation": "Correcto: permite al workflow pedir el token OIDC a GitHub." },
+        { "id": "b", "text": "`contents: write`", "correct": false, "explanation": "Es para escribir en el repositorio." },
+        { "id": "c", "text": "`secrets: read`", "correct": false, "explanation": "No es un permiso del GITHUB_TOKEN." },
+        { "id": "d", "text": "`deployments: write`", "correct": false, "explanation": "Gestiona despliegues de GitHub, no el token OIDC." }
+      ],
+      "solution": {
+        "answer": "id-token: write",
+        "explanation": "Con `permissions: id-token: write`, el workflow obtiene un JWT de GitHub que la nube cambia por credenciales temporales si cumple su política de confianza."
+      }
+    },
+    {
+      "id": "reusable-uses",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Dónde se escribe `uses: mi-org/plantillas/.github/workflows/ci.yml@v1` para llamar a un **reusable workflow**?",
+      "hints": ["Un reusable workflow sustituye a un job entero, no a un paso."],
+      "options": [
+        { "id": "a", "text": "A nivel de job: `jobs.ci.uses`", "correct": true, "explanation": "Correcto: el job entero lo ejecuta el workflow reutilizable." },
+        { "id": "b", "text": "Dentro de `steps`, como una action", "correct": false, "explanation": "Así se usan las actions, no los reusable workflows." },
+        { "id": "c", "text": "En `on:`", "correct": false, "explanation": "`on: workflow_call` va en el reutilizable, no en quien lo llama." },
+        { "id": "d", "text": "En `permissions`", "correct": false, "explanation": "No tiene relación." }
+      ],
+      "solution": {
+        "answer": "jobs.<id>.uses",
+        "explanation": "El reutilizable declara `on: workflow_call`; quien lo usa lo llama con `jobs.<id>.uses`, más `with` para las entradas y `secrets` para los secretos."
+      }
+    },
+    {
+      "id": "secrets-inherit",
+      "type": "fill",
+      "language": "yaml",
+      "prompt": "Completa la llamada al reusable workflow para que reciba **todos los secrets** del workflow que lo llama.",
+      "template": "jobs:\n  ci:\n    uses: ./.github/workflows/ci-node.yml\n    secrets: {{valor}}",
+      "blanks": [{ "id": "valor", "accepted": ["inherit"] }],
+      "hints": ["En inglés, \"heredar\"."],
+      "solution": {
+        "answer": "inherit",
+        "explanation": "`secrets: inherit` pasa implícitamente todos los secrets. Sin esto, el reusable workflow no recibe ninguno salvo que los pases uno a uno."
+      }
+    }
+  ]
+}
