@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "rama", "front": "¿Qué es una rama?", "back": "Un puntero móvil con nombre a un commit. Avanza con cada commit nuevo; crearla no copia ficheros." },
+    { "id": "branch-vs-switch", "front": "`git branch x` frente a `git switch -c x`", "back": "`git branch x` solo crea la rama. `git switch -c x` la crea y cambia a ella (la forma clásica es `git checkout -b x`)." },
+    { "id": "detached", "front": "¿Qué es un detached HEAD?", "back": "HEAD apunta a un commit, no a una rama. Los commits que hagas no quedan en ninguna rama salvo que crees una (`git switch -c nombre`)." },
+    { "id": "borrar-rama-forzado", "front": "`git branch -d` frente a `-D`", "back": "`-d` borra solo ramas ya fusionadas. `-D` (= `--delete --force`) borra aunque no lo estén." },
+    { "id": "ff", "front": "¿Qué es un merge fast-forward?", "back": "La rama de destino no ha avanzado: Git solo mueve el puntero, sin commit de merge. `--no-ff` lo evita." },
+    { "id": "conflicto", "front": "Pasos para resolver un conflicto de merge", "back": "Editar el fichero y quitar las marcas → `git add fichero` → `git commit` o `git merge --continue`. Cancelar: `git merge --abort`." }
+  ]
+}

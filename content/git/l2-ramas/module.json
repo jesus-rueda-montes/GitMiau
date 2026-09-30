@@ -1,0 +1,8 @@
+{
+  "title": "Ramas y merge",
+  "summary": "Qué es una rama, cómo crearlas y cambiar entre ellas, fusionarlas con merge (fast-forward y de tres vías) y resolver conflictos.",
+  "level": 2,
+  "order": 1,
+  "xp": 100,
+  "prereqs": []
+}

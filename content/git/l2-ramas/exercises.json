@@ -1,0 +1,177 @@
+{
+  "exercises": [
+    {
+      "id": "rama-puntero",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Qué es exactamente una rama en Git?",
+      "hints": [
+        "Piensa en por qué crear una rama es instantáneo aunque el proyecto sea enorme.",
+        "Recuerda la analogía del marcapáginas."
+      ],
+      "options": [
+        { "id": "a", "text": "Una copia completa de los ficheros del proyecto", "correct": false, "explanation": "Git no copia ficheros al crear una rama: por eso es instantáneo." },
+        { "id": "b", "text": "Un puntero con nombre a un commit, que avanza con cada commit nuevo", "correct": true, "explanation": "Correcto: una rama solo guarda a qué commit apunta." },
+        { "id": "c", "text": "Una carpeta dentro del repositorio", "correct": false, "explanation": "Las ramas no son carpetas del working tree." },
+        { "id": "d", "text": "Un repositorio independiente enlazado al original", "correct": false, "explanation": "Eso se parece más a un fork o un clon." }
+      ],
+      "solution": {
+        "answer": "Un puntero a un commit",
+        "explanation": "Una rama es una referencia móvil a un commit. HEAD apunta a la rama actual y, al hacer commit, la rama avanza al commit nuevo."
+      }
+    },
+    {
+      "id": "crear-y-cambiar",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "¿Qué comandos **crean** la rama `feature/login` **y cambian** a ella? (Marca todos los correctos)",
+      "hints": [
+        "Uno de los comandos solo crea la rama.",
+        "El comando moderno usa `-c`; el antiguo, `-b`."
+      ],
+      "options": [
+        { "id": "a", "text": "`git switch -c feature/login`", "correct": true, "explanation": "Correcto: `-c` (`--create`) crea la rama y cambia a ella." },
+        { "id": "b", "text": "`git checkout -b feature/login`", "correct": true, "explanation": "Correcto: es la forma clásica, anterior a `git switch`." },
+        { "id": "c", "text": "`git branch feature/login`", "correct": false, "explanation": "Solo crea la rama: sigues en la actual." },
+        { "id": "d", "text": "`git switch feature/login`", "correct": false, "explanation": "Cambia a una rama que ya exista; no la crea desde cero." }
+      ],
+      "solution": {
+        "answer": "git switch -c y git checkout -b",
+        "explanation": "`git switch -c` es la forma moderna y `git checkout -b` la clásica. `git branch nombre` solo crea la rama."
+      }
+    },
+    {
+      "id": "switch-c",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Crea la rama `feature/iva` y cambia a ella en un solo comando (con el comando moderno).",
+      "hints": [
+        "El comando moderno para cambiar de rama es `git switch`.",
+        "La opción para crear la rama es `-c` (`--create`)."
+      ],
+      "accepted": ["git switch -c feature/iva"],
+      "output": "Switched to a new branch 'feature/iva'",
+      "solution": {
+        "answer": "git switch -c feature/iva",
+        "explanation": "`git switch -c <rama>` crea la rama en el commit actual y cambia a ella."
+      }
+    },
+    {
+      "id": "switch-anterior",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Vuelve a la rama en la que estabas antes de la actual, sin escribir su nombre.",
+      "hints": ["`git switch` acepta un argumento especial de un solo carácter para \"la anterior\"."],
+      "accepted": ["git switch -"],
+      "output": "Switched to branch 'main'",
+      "solution": {
+        "answer": "git switch -",
+        "explanation": "`git switch -` vuelve a la rama anterior (equivale a `@{-1}`). Útil para alternar entre dos ramas."
+      }
+    },
+    {
+      "id": "borrar-no-fusionada",
+      "type": "command",
+      "cli": "git",
+      "prompt": "La rama `experimento` no está fusionada y no la quieres para nada. Bórrala.",
+      "hints": [
+        "`git branch -d` se niega a borrar ramas sin fusionar.",
+        "Hay una opción corta en mayúscula que fuerza el borrado."
+      ],
+      "accepted": ["git branch -D experimento", "git branch -d -f experimento"],
+      "output": "Deleted branch experimento (was 4e7a2b9).",
+      "solution": {
+        "answer": "git branch -D experimento",
+        "explanation": "`-D` es un atajo de `--delete --force`: borra la rama aunque su trabajo no esté fusionado en ninguna otra. Úsalo solo si de verdad no lo necesitas."
+      }
+    },
+    {
+      "id": "fast-forward",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Creas `feature` desde `main`, haces 2 commits en `feature` y nadie toca `main`. Después, en `main`, ejecutas `git merge feature`. ¿Qué ocurre?",
+      "hints": [
+        "¿Ha avanzado `main` por su cuenta?",
+        "Si no hay nada que combinar, Git solo tiene que mover un puntero."
+      ],
+      "options": [
+        { "id": "a", "text": "Un fast-forward: `main` avanza hasta el último commit de `feature`, sin commit de merge", "correct": true, "explanation": "Correcto: `main` es antecesor de `feature`, así que basta con mover el puntero." },
+        { "id": "b", "text": "Se crea un commit de merge con dos padres", "correct": false, "explanation": "Solo pasa si las dos ramas han divergido, o con `--no-ff`." },
+        { "id": "c", "text": "Hay un conflicto seguro", "correct": false, "explanation": "No puede haber conflicto si `main` no ha cambiado nada." },
+        { "id": "d", "text": "Git copia los commits de `feature` con otros hashes", "correct": false, "explanation": "Eso se parece a un rebase o un cherry-pick, no a un merge." }
+      ],
+      "solution": {
+        "answer": "Fast-forward",
+        "explanation": "Si la rama de destino no ha avanzado, el merge es un fast-forward: Git mueve el puntero y no crea commit de merge."
+      }
+    },
+    {
+      "id": "merge-no-ff",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Estás en `main`. Fusiona la rama `feature/login` creando **siempre** un commit de merge, aunque fuera posible un fast-forward.",
+      "hints": [
+        "El comando es `git merge` con el nombre de la rama.",
+        "La opción es \"no fast-forward\"."
+      ],
+      "accepted": ["git merge --no-ff feature/login"],
+      "solution": {
+        "answer": "git merge --no-ff feature/login",
+        "explanation": "`--no-ff` fuerza un commit de merge: la historia muestra que hubo una rama, aunque `main` no hubiera avanzado."
+      }
+    },
+    {
+      "id": "marcas-conflicto",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Estás en `main` y haces `git merge feature/iva`. En el conflicto, ¿qué hay entre `<<<<<<< HEAD` y `=======`?",
+      "hints": ["HEAD es la rama en la que estás."],
+      "options": [
+        { "id": "a", "text": "La versión de `main` (la rama actual)", "correct": true, "explanation": "Correcto: la parte de arriba es la de HEAD." },
+        { "id": "b", "text": "La versión de `feature/iva`", "correct": false, "explanation": "Esa va entre `=======` y `>>>>>>> feature/iva`." },
+        { "id": "c", "text": "La versión del antecesor común", "correct": false, "explanation": "Por defecto no se muestra; solo con el estilo `diff3` o `zdiff3`." },
+        { "id": "d", "text": "El resultado final que ha elegido Git", "correct": false, "explanation": "En un conflicto Git no elige: te deja las dos versiones." }
+      ],
+      "solution": {
+        "answer": "La versión de la rama actual",
+        "explanation": "`<<<<<<< HEAD` … `=======`: tu rama. `=======` … `>>>>>>> otra-rama`: la rama que fusionas. Deja el contenido correcto y borra las marcas."
+      }
+    },
+    {
+      "id": "abortar-merge",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Un merge se ha llenado de conflictos y prefieres empezar de nuevo. Completa el comando que **cancela** el merge y vuelve al estado anterior.",
+      "template": "git {{cmd}} --{{flag}}",
+      "blanks": [
+        { "id": "cmd", "accepted": ["merge"] },
+        { "id": "flag", "accepted": ["abort"] }
+      ],
+      "hints": [
+        "Es una opción del propio comando que empezó la operación.",
+        "En inglés, \"abortar\"."
+      ],
+      "solution": {
+        "answer": "git merge --abort",
+        "explanation": "`git merge --abort` cancela el merge en curso e intenta volver al estado anterior. Por eso conviene empezar un merge sin cambios pendientes."
+      }
+    },
+    {
+      "id": "pasos-conflicto",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Has editado `precios.py` para resolver un conflicto y has quitado las marcas. ¿Qué haces a continuación?",
+      "hints": ["Git necesita saber que el fichero está resuelto: se hace igual que preparar un cambio."],
+      "options": [
+        { "id": "a", "text": "`git add precios.py` y después `git commit` (o `git merge --continue`)", "correct": true, "explanation": "Correcto: `git add` lo marca como resuelto y el commit termina el merge." },
+        { "id": "b", "text": "`git merge feature/iva` otra vez", "correct": false, "explanation": "El merge sigue en curso: no hay que empezarlo de nuevo." },
+        { "id": "c", "text": "`git restore precios.py`", "correct": false, "explanation": "Descartaría tu resolución." },
+        { "id": "d", "text": "Nada: Git detecta solo que ya está resuelto", "correct": false, "explanation": "Hay que marcarlo con `git add` y terminar el merge." }
+      ],
+      "solution": {
+        "answer": "git add y git commit",
+        "explanation": "Editar → quitar marcas → `git add` → `git commit` (o `git merge --continue`)."
+      }
+    }
+  ]
+}

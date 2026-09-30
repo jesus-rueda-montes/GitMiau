@@ -64,6 +64,31 @@
       "term": "secreto",
       "definition": "Dato que da acceso a algo (contraseña, token, clave de API). Nunca debe ir a un repositorio.",
       "introducedIn": "git/l1-que-es-git"
+    },
+    {
+      "term": "rama",
+      "definition": "Puntero móvil con nombre a un commit (en inglés, branch). Avanza con cada commit nuevo.",
+      "introducedIn": "git/l1-que-es-git"
+    },
+    {
+      "term": "merge",
+      "definition": "Unir la historia de otra rama con la actual. Si las ramas divergieron, crea un commit con dos padres.",
+      "introducedIn": "git/l1-historial"
+    },
+    {
+      "term": "fast-forward",
+      "definition": "Merge en el que la rama de destino no había avanzado: Git solo mueve el puntero, sin crear commit de merge.",
+      "introducedIn": "git/l2-ramas"
+    },
+    {
+      "term": "conflicto",
+      "definition": "Situación de un merge en la que dos ramas cambiaron las mismas líneas y Git necesita que decidas tú.",
+      "introducedIn": "git/l2-ramas"
+    },
+    {
+      "term": "detached HEAD",
+      "definition": "Estado en el que HEAD apunta a un commit concreto en vez de a una rama.",
+      "introducedIn": "git/l2-ramas"
     }
   ]
 }

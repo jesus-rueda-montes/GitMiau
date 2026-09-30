@@ -14,6 +14,7 @@ Miau es una copia adaptada de Kubernetete (decisión M1 de [DECISIONS.md](DECISI
   - Contenido piloto: `git/l1-que-es-git` (2 lecciones, 9 ejercicios: quiz, command y fill; 5 flashcards).
   - Tests (Vitest), lint, build y e2e (Playwright) en verde.
 - **Fase 1 de contenido (Git nivel 1): completada.** `git/l1-historial` (3 lecciones, 11 ejercicios, 7 flashcards). El e2e ya usa el itinerario de Git (decisión M12). Glosario de Git: commit, staging area, working tree, hash, HEAD, secreto, diff.
+- **Git nivel 2:** `git/l2-ramas` ✅ (2 lecciones, 10 ejercicios, 6 flashcards). Siguiente: `git/l2-remotos`.
 - **Siguiente:** resto del temario según [TEMARIO.md](TEMARIO.md); la spec de `gh` al llegar al itinerario de GitHub.
 - **Fase posterior:** simulador de repositorio Git con grafo de commits (decisión M3).
 
@@ -26,6 +27,7 @@ Un paso por entrada, del más antiguo al más reciente. Cada paso termina con lo
 | 2026-09-30 | Spec de git para `l1-historial` | Añadidos `diff`, `show`, `restore`, `reset`, `revert`, `rm` y `check-ignore`, consultados en git-scm.com (también `gitrevisions` para `HEAD~1`, `HEAD^` y `HEAD:ruta`). Script de formato compacto de specs: una línea por flag. |
 | 2026-09-30 | Módulo `git/l1-historial` | Lecciones «Ver qué ha cambiado» (`diff`, `show`, `HEAD~n`), «Ignorar ficheros con .gitignore» y «Deshacer cambios» (`restore`, `reset`, `revert`, `commit --amend`). 11 ejercicios y 7 flashcards. Glosario de Git (7 términos). e2e pasado a `git/l1-que-es-git` → `git/l1-historial`. Tests del motor para `restore -S`, `reset --hard HEAD~1` y `rm -r`. Error detectado: un título de lección con `:` sin comillas rompe el frontmatter YAML (lo avisa el test de contenido). |
 | 2026-09-30 | Motor: flags `shortOnly` + spec de ramas | Campo `shortOnly` en `CliFlagSchema` (exige `short`): el parser no acepta `--name`, el autocompletado solo ofrece `-X` y los errores lo muestran como `-X`. `git rm -r` pasa a `recursive` + `shortOnly`. Spec: `branch` (con `-D` y `-M`), `switch`, `merge`, consultados en git-scm.com. Tests del motor. |
+| 2026-09-30 | Módulo `git/l2-ramas` | Lecciones «Qué es una rama y cómo moverse entre ellas» (`branch`, `switch`, `-c`, `-`, `-d`/`-D`, detached HEAD, `checkout` como forma clásica) y «Merge y conflictos» (fast-forward, tres vías, `--no-ff`, `--ff-only`, `--squash`, marcas de conflicto, `--continue`, `--abort`). 10 ejercicios (uno multi), 6 flashcards. Glosario: rama, merge, fast-forward, conflicto, detached HEAD. Error detectado por el validador: los ids de flashcards no admiten mayúsculas. |
 
 ## Heredado de Kubernetete (sin cambios)
 - Motor de contenido: esquemas zod (`src/content/schema.ts`), parser de lecciones con las 7 secciones obligatorias (`lesson.ts`), `buildCatalog()` que acumula errores con la ruta del archivo (`loader.ts`).
