@@ -1,0 +1,167 @@
+{
+  "exercises": [
+    {
+      "id": "fetch-vs-pull",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres ver qué han subido tus compañeros **sin modificar todavía tu rama ni tus ficheros**. ¿Qué usas?",
+      "hints": [
+        "Uno de los dos comandos solo descarga; el otro además integra.",
+        "Piensa en la fotocopia frente a pasarlo a limpio."
+      ],
+      "options": [
+        { "id": "a", "text": "`git fetch`", "correct": true, "explanation": "Correcto: actualiza `origin/*` y deja tu rama y tus ficheros intactos." },
+        { "id": "b", "text": "`git pull`", "correct": false, "explanation": "`pull` descarga e integra los cambios en tu rama." },
+        { "id": "c", "text": "`git push`", "correct": false, "explanation": "`push` sube tus commits; no descarga nada." },
+        { "id": "d", "text": "`git clone`", "correct": false, "explanation": "`clone` crea un repositorio nuevo; no actualiza uno existente." }
+      ],
+      "solution": {
+        "answer": "git fetch",
+        "explanation": "`git fetch` descarga los commits nuevos y actualiza las ramas de seguimiento (`origin/main`…). Después puedes revisarlos y decidir cómo integrarlos."
+      }
+    },
+    {
+      "id": "origin-main",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "`origin/main` se actualiza en tu ordenador automáticamente cada vez que alguien hace push al remoto.",
+      "hints": ["`origin/main` es una foto de la última vez que hablaste con el remoto."],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "Tu repositorio no se entera de nada hasta que sincronizas." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: solo cambia cuando haces `git fetch` o `git pull` (o `push` de esa rama)." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "Las ramas de seguimiento remoto reflejan el remoto en el momento de la última sincronización. Por eso conviene hacer `git fetch` antes de comparar."
+      }
+    },
+    {
+      "id": "remote-add",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Tienes un repositorio local sin remotos. Conéctalo al repositorio `https://github.com/ada/tienda.git` con el nombre habitual del remoto principal.",
+      "hints": [
+        "El comando para gestionar remotos es `git remote`, con un subcomando.",
+        "El nombre por convención es `origin`."
+      ],
+      "accepted": ["git remote add origin https://github.com/ada/tienda.git"],
+      "solution": {
+        "answer": "git remote add origin https://github.com/ada/tienda.git",
+        "explanation": "`git remote add <nombre> <url>` registra el remoto. `origin` es la convención para el principal."
+      }
+    },
+    {
+      "id": "remote-v",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Lista los remotos del repositorio **con sus URL**.",
+      "hints": ["Es `git remote` con la opción \"verbose\"."],
+      "accepted": ["git remote -v"],
+      "output": "origin  https://github.com/ada/tienda.git (fetch)\norigin  https://github.com/ada/tienda.git (push)",
+      "solution": {
+        "answer": "git remote -v",
+        "explanation": "`-v` (`--verbose`) muestra la URL de fetch y la de push de cada remoto."
+      }
+    },
+    {
+      "id": "fetch-prune",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Descarga las novedades de `origin` y, de paso, **borra las ramas de seguimiento** que ya no existen en el remoto.",
+      "hints": [
+        "El comando que descarga sin integrar es `git fetch`.",
+        "La opción significa \"podar\" en inglés."
+      ],
+      "accepted": ["git fetch --prune origin", "git fetch --prune"],
+      "solution": {
+        "answer": "git fetch --prune origin",
+        "explanation": "`--prune` (`-p`) elimina las ramas `origin/*` cuyo original se borró en el remoto, para que no se acumulen ramas fantasma."
+      }
+    },
+    {
+      "id": "push-u",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Sube por primera vez la rama `feature/login` a `origin` y deja configurado su **upstream** para que después baste con `git push`.",
+      "hints": [
+        "El comando es `git push` con el remoto y la rama.",
+        "La opción que fija el upstream es `-u` (`--set-upstream`)."
+      ],
+      "accepted": ["git push -u origin feature/login"],
+      "output": "To https://github.com/ada/tienda.git\n * [new branch]      feature/login -> feature/login\nbranch 'feature/login' set up to track 'origin/feature/login'.",
+      "solution": {
+        "answer": "git push -u origin feature/login",
+        "explanation": "`-u` guarda `origin/feature/login` como upstream de tu rama: a partir de ahí `git push` y `git pull` saben adónde ir."
+      }
+    },
+    {
+      "id": "push-rechazado",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "`git push` falla con `! [rejected] main -> main (fetch first)`. ¿Qué es lo correcto?",
+      "hints": [
+        "El remoto tiene commits que tú no tienes.",
+        "Hay que integrarlos antes de subir, no taparlos."
+      ],
+      "options": [
+        { "id": "a", "text": "`git push --force`", "correct": false, "explanation": "Sobrescribiría la rama remota y borraría los commits de tus compañeros." },
+        { "id": "b", "text": "`git pull` (con `--rebase` o `--no-rebase`) y después `git push`", "correct": true, "explanation": "Correcto: integras lo nuevo y tu push ya es un fast-forward." },
+        { "id": "c", "text": "Borrar el repositorio y volver a clonarlo", "correct": false, "explanation": "Perderías tus commits locales." },
+        { "id": "d", "text": "`git reset --hard origin/main` y después `git push`", "correct": false, "explanation": "Descartarías tus propios commits." }
+      ],
+      "solution": {
+        "answer": "Integrar con pull y volver a subir",
+        "explanation": "Un push solo se acepta si es un fast-forward de la rama remota. Primero integra (`git pull --rebase` o con merge) y después sube."
+      }
+    },
+    {
+      "id": "pull-rebase",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Tu rama y la remota han divergido. Trae los cambios del upstream poniendo **tus commits encima** de los del remoto (en vez de crear un merge).",
+      "hints": [
+        "El comando que descarga e integra es `git pull`.",
+        "La forma de integrar que \"re-basa\" tus commits es `--rebase` (`-r`)."
+      ],
+      "accepted": ["git pull --rebase"],
+      "output": "Successfully rebased and updated refs/heads/main.",
+      "solution": {
+        "answer": "git pull --rebase",
+        "explanation": "`--rebase` descarga y reaplica tus commits locales encima de los remotos: historia lineal, sin commit de merge. Con `--no-rebase` se haría un merge."
+      }
+    },
+    {
+      "id": "force-lease",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Has reescrito la historia de **tu** rama `feature/login` (que ya estaba subida) y tienes que forzar el push. Completa la opción que solo fuerza **si nadie ha subido nada** a esa rama mientras tanto.",
+      "template": "git push --{{flag}} origin feature/login",
+      "blanks": [{ "id": "flag", "accepted": ["force-with-lease"] }],
+      "hints": [
+        "No es `--force` a secas.",
+        "Es `--force-` más algo que en inglés significa \"con arrendamiento\"."
+      ],
+      "solution": {
+        "answer": "git push --force-with-lease origin feature/login",
+        "explanation": "`--force-with-lease` comprueba que la rama remota sigue donde la viste por última vez; si alguien subió algo, falla en lugar de borrarlo."
+      }
+    },
+    {
+      "id": "clone-origin",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Después de `git clone https://github.com/ada/tienda.git`, ¿cómo se llama el remoto que queda configurado?",
+      "hints": ["Es la convención de la que se habla en toda la lección."],
+      "options": [
+        { "id": "a", "text": "`github`", "correct": false, "explanation": "Git no lo nombra según el servicio." },
+        { "id": "b", "text": "`origin`", "correct": true, "explanation": "Correcto: es el nombre por defecto (se puede cambiar con `-o`)." },
+        { "id": "c", "text": "`main`", "correct": false, "explanation": "`main` es el nombre de una rama, no de un remoto." },
+        { "id": "d", "text": "`tienda`", "correct": false, "explanation": "`tienda` es el nombre de la carpeta que se crea." }
+      ],
+      "solution": {
+        "answer": "origin",
+        "explanation": "`git clone` crea el remoto `origin` apuntando a la URL clonada, y las ramas de seguimiento `origin/*`."
+      }
+    }
+  ]
+}

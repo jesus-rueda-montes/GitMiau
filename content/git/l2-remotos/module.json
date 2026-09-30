@@ -1,0 +1,8 @@
+{
+  "title": "Repositorios remotos",
+  "summary": "Clonar, conectar tu repositorio con un remoto, descargar con fetch y pull, subir con push, el upstream y qué hacer cuando un push es rechazado.",
+  "level": 2,
+  "order": 2,
+  "xp": 100,
+  "prereqs": []
+}

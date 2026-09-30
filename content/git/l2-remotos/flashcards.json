@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "fetch-vs-pull", "front": "`git fetch` frente a `git pull`", "back": "`fetch` descarga y actualiza `origin/*` sin tocar tu trabajo. `pull` = `fetch` + integrar en tu rama (merge o rebase)." },
+    { "id": "origin-main", "front": "¿Qué es `origin/main`?", "back": "Una rama de seguimiento remoto: la última posición conocida de `main` en el remoto `origin`. Se actualiza al sincronizar." },
+    { "id": "upstream", "front": "¿Qué es el upstream y cómo se fija?", "back": "La rama remota asociada a tu rama local. Se fija con `git push -u origin rama` (o `git branch -u origin/rama`)." },
+    { "id": "push-rechazado", "front": "Push rechazado (non-fast-forward): ¿qué haces?", "back": "Integrar primero lo del remoto (`git pull --rebase` o con merge) y volver a hacer push. No forzar." },
+    { "id": "force-lease", "front": "`--force` frente a `--force-with-lease`", "back": "`--force` sobrescribe sin mirar. `--force-with-lease` solo si la rama remota sigue donde la viste: no borra trabajo ajeno." },
+    { "id": "https-ssh", "front": "Autenticarse con GitHub: HTTPS frente a SSH", "back": "HTTPS: un token o un gestor de credenciales (la contraseña de la cuenta no vale para Git). SSH: un par de claves, con la pública registrada en GitHub." }
+  ]
+}

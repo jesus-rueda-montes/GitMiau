@@ -89,6 +89,21 @@
       "term": "detached HEAD",
       "definition": "Estado en el que HEAD apunta a un commit concreto en vez de a una rama.",
       "introducedIn": "git/l2-ramas"
+    },
+    {
+      "term": "remoto",
+      "definition": "Otro repositorio con el que se sincroniza el tuyo, con un nombre (normalmente origin) y una URL.",
+      "introducedIn": "git/l2-remotos"
+    },
+    {
+      "term": "upstream",
+      "definition": "La rama remota asociada a una rama local; permite push y pull sin argumentos.",
+      "introducedIn": "git/l2-remotos"
+    },
+    {
+      "term": "token",
+      "definition": "Cadena secreta que sustituye a la contraseña para autenticarse en un servicio (p. ej. GitHub por HTTPS).",
+      "introducedIn": "git/l2-remotos"
     }
   ]
 }

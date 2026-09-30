@@ -312,6 +312,130 @@
         { "name": "strategy", "short": "s", "takesValue": true, "description": "Estrategia de merge (p. ej. ort, resolve, octopus, ours)" },
         { "name": "strategy-option", "short": "X", "takesValue": true, "description": "Opción de la estrategia (p. ej. ours, theirs)" }
       ]
+    },
+    {
+      "name": "clone",
+      "description": "Clona un repositorio en un directorio nuevo",
+      "source": "https://git-scm.com/docs/git-clone",
+      "args": [{ "name": "REPOSITORIO" }, { "name": "DIRECTORIO" }],
+      "flags": [
+        { "name": "branch", "short": "b", "takesValue": true, "description": "Rama que se deja activa tras clonar (en vez de la del remoto)" },
+        { "name": "origin", "short": "o", "takesValue": true, "description": "Nombre del remoto en lugar de origin" },
+        { "name": "depth", "takesValue": true, "description": "Clon superficial: solo los últimos N commits" },
+        { "name": "single-branch", "takesValue": false, "description": "Solo clona la historia de una rama" },
+        { "name": "no-checkout", "short": "n", "takesValue": false, "description": "No rellena el working tree tras clonar" },
+        { "name": "bare", "takesValue": false, "description": "Clon bare (sin working tree)" },
+        { "name": "mirror", "takesValue": false, "description": "Clon espejo: copia todas las referencias" },
+        { "name": "recurse-submodules", "takesValue": false, "description": "Inicializa y clona también los submódulos" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "No muestra el progreso" }
+      ]
+    },
+    {
+      "name": "remote",
+      "description": "Gestiona los repositorios remotos",
+      "source": "https://git-scm.com/docs/git-remote",
+      "flags": [
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Muestra la URL de cada remoto (va entre remote y el subcomando)" }
+      ],
+      "subcommands": [
+        {
+          "name": "add",
+          "description": "Añade un remoto",
+          "args": [{ "name": "NOMBRE" }, { "name": "URL" }],
+          "flags": [
+            { "name": "fetch", "short": "f", "takesValue": false, "description": "Hace git fetch del remoto justo después de añadirlo" },
+            { "name": "track", "short": "t", "takesValue": true, "description": "Sigue solo la rama indicada" },
+            { "name": "master", "short": "m", "takesValue": true, "description": "Rama a la que apunta refs/remotes/<nombre>/HEAD" }
+          ]
+        },
+        {
+          "name": "rename",
+          "description": "Renombra un remoto",
+          "args": [{ "name": "VIEJO" }, { "name": "NUEVO" }]
+        },
+        {
+          "name": "remove",
+          "aliases": [
+            "rm"
+          ],
+          "description": "Elimina un remoto y sus ramas de seguimiento",
+          "args": [{ "name": "NOMBRE" }]
+        },
+        {
+          "name": "set-url",
+          "description": "Cambia la URL de un remoto",
+          "args": [{ "name": "NOMBRE" }, { "name": "URL" }],
+          "flags": [
+            { "name": "push", "takesValue": false, "description": "Cambia la URL de push en vez de la de fetch" },
+            { "name": "add", "takesValue": false, "description": "Añade una URL en vez de sustituirla" },
+            { "name": "delete", "takesValue": false, "description": "Borra las URL que coinciden" }
+          ]
+        },
+        {
+          "name": "get-url",
+          "description": "Muestra la URL de un remoto",
+          "args": [{ "name": "NOMBRE" }]
+        },
+        {
+          "name": "show",
+          "description": "Muestra información de un remoto",
+          "args": [{ "name": "NOMBRE" }]
+        },
+        {
+          "name": "prune",
+          "description": "Borra las ramas de seguimiento que ya no existen en el remoto",
+          "args": [{ "name": "NOMBRE" }]
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "description": "Descarga commits y referencias de un remoto (actualiza origin/*, no tus ramas)",
+      "source": "https://git-scm.com/docs/git-fetch",
+      "args": [{ "name": "REMOTO" }, { "name": "REFSPEC" }],
+      "flags": [
+        { "name": "all", "takesValue": false, "description": "Descarga de todos los remotos" },
+        { "name": "prune", "short": "p", "takesValue": false, "description": "Borra las ramas de seguimiento que ya no existen en el remoto" },
+        { "name": "tags", "short": "t", "takesValue": false, "description": "Descarga también todos los tags" },
+        { "name": "dry-run", "takesValue": false, "description": "Muestra qué haría sin cambiar nada" },
+        { "name": "depth", "takesValue": true, "description": "Limita la historia a los últimos N commits" },
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Más información" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "Menos información" }
+      ]
+    },
+    {
+      "name": "pull",
+      "description": "Descarga del remoto e integra los cambios en la rama actual (fetch + merge o rebase)",
+      "source": "https://git-scm.com/docs/git-pull",
+      "args": [{ "name": "REMOTO" }, { "name": "RAMA" }],
+      "flags": [
+        { "name": "rebase", "short": "r", "takesValue": false, "description": "Integra con rebase en lugar de merge" },
+        { "name": "no-rebase", "takesValue": false, "description": "Integra con merge" },
+        { "name": "ff-only", "takesValue": false, "description": "Solo fast-forward; falla si las ramas han divergido" },
+        { "name": "ff", "takesValue": false, "description": "Fast-forward si es posible; si no, merge" },
+        { "name": "no-ff", "takesValue": false, "description": "Crea siempre un commit de merge" },
+        { "name": "autostash", "takesValue": false, "description": "Guarda los cambios locales antes y los recupera después" },
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Más información" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "Menos información" }
+      ]
+    },
+    {
+      "name": "push",
+      "description": "Sube tus commits a un remoto",
+      "source": "https://git-scm.com/docs/git-push",
+      "args": [{ "name": "REMOTO" }, { "name": "RAMA" }],
+      "flags": [
+        { "name": "set-upstream", "short": "u", "takesValue": false, "description": "Guarda el remoto y la rama como upstream de la rama actual" },
+        { "name": "force", "short": "f", "takesValue": false, "description": "Sobrescribe la rama remota aunque se pierdan commits" },
+        { "name": "force-with-lease", "takesValue": false, "description": "Fuerza solo si la rama remota sigue donde la viste por última vez" },
+        { "name": "force-if-includes", "takesValue": false, "description": "Con --force-with-lease, exige haber integrado antes los cambios remotos" },
+        { "name": "delete", "short": "d", "takesValue": false, "description": "Borra la rama indicada en el remoto" },
+        { "name": "tags", "takesValue": false, "description": "Sube también todos los tags" },
+        { "name": "all", "takesValue": false, "description": "Sube todas las ramas" },
+        { "name": "dry-run", "short": "n", "takesValue": false, "description": "Muestra qué haría sin subir nada" },
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Más información" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "Menos información" }
+      ]
     }
   ]
 }

@@ -271,4 +271,12 @@ describe('git (contenido real)', () => {
     expect(back.ok && back.command.positionals).toEqual(['-'])
     expect(sameGit('git merge --no-ff feature/login', 'git merge feature/login --no-ff')).toBe(true)
   })
+
+  test('remotos: remote -v sin subcomando, alias rm y push -u', () => {
+    const v = g('git remote -v')
+    expect(v.ok && v.command).toMatchObject({ path: ['git', 'remote'], flags: { verbose: 'true' } })
+    expect(sameGit('git remote rm origin', 'git remote remove origin')).toBe(true)
+    expect(sameGit('git push -u origin main', 'git push --set-upstream origin main')).toBe(true)
+    expect(sameGit('git fetch -p', 'git fetch --prune')).toBe(true)
+  })
 })

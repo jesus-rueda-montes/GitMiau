@@ -21,6 +21,7 @@ Registro de decisiones con su motivo. Las más recientes van al final de cada ta
 | M13 | `git/l1-historial` enseña `git restore` (y `restore --staged`) para deshacer cambios sin commit, no `git checkout -- fichero` | `restore` es el comando específico y documentado para esto; `checkout` mezcla ramas y ficheros. Se mencionará `checkout` al hablar de ramas. |
 | M14 | `.gitignore` se enseña en el nivel 1, junto a deshacer cambios | Los secretos subidos por error son el fallo más grave de un principiante; conviene verlo antes de trabajar con remotos. |
 | M15 | Campo `shortOnly` en los flags de las specs, en lugar de inventar un nombre largo o aceptar mayúsculas en `name` | `git branch -D` y `git rm -r` no tienen forma larga. Con un nombre largo inventado, el motor aceptaría `--delete-force`, que no existe; la regla es no inventar. |
+| M16 | Sobre `git pull` con ramas divergidas se explica que falla y hay que elegir `--rebase` o `--no-rebase` (o configurar `pull.rebase`), sin citar versiones | La documentación actual dice que el modo por defecto es `--ff-only`; versiones anteriores daban un error pidiendo configurar `pull.rebase`/`pull.ff`. En ambos casos el alumno tiene que elegir, así que la explicación vale para las dos. |
 
 ## Heredadas de Kubernetete
 
