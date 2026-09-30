@@ -8,13 +8,22 @@ Miau es una copia adaptada de Kubernetete (decisión M1 de [DECISIONS.md](DECISI
   - Eliminado el editor HCL: `src/engine/hcl.ts`, `src/lib/hclLoader.ts`, `src/components/code/hclMode.ts`, `src/vendor/tree-sitter-hcl/` y la dependencia `web-tree-sitter`. `grade()` corrige los ejercicios de editor solo con `gradeYaml`.
   - Marca Miau: título, cabecera, favicon, clave de IndexedDB `miau-progress`, copias de progreso con `app: "miau"`.
   - Itinerarios: `fundamentos` (opcional: terminal y YAML), `git` y `github` (`content/tracks.json`).
-  - `CLIS = ['git', 'gh']`. Spec de `git` (`content/cli-specs/git.json`): `init`, `config` (`list`, `get`, `set`, `unset`, `edit`), `status`, `add`, `commit`, `log`. Transcrita de git-scm.com.
+  - `CLIS = ['git', 'gh']`. Spec de `git` (`content/cli-specs/git.json`), transcrita de git-scm.com. Comandos: `init`, `config` (`list`, `get`, `set`, `unset`, `edit`), `status`, `add`, `commit`, `log`, `diff`, `show`, `restore`, `reset`, `revert`, `rm`, `check-ignore`.
   - Motor: flags cortos agrupados con valor al final (`-am "msg"`), como en getopt.
   - Specs de `kubectl`, `terraform` y `ansible` como fixtures de test en `src/engine/__fixtures__/` (decisión M6).
   - Contenido piloto: `git/l1-que-es-git` (2 lecciones, 9 ejercicios: quiz, command y fill; 5 flashcards).
   - Tests (Vitest), lint, build y e2e (Playwright, sobre los módulos de Fundamentos, decisión M12) en verde.
-- **Siguiente:** producción de contenido según [TEMARIO.md](TEMARIO.md). Primero `git/l1-historial` (y pasar el e2e a Git), después la spec de `gh` al llegar al itinerario de GitHub.
+- **En curso:** módulo `git/l1-historial` (ver el registro de avances).
+- **Siguiente:** resto del temario según [TEMARIO.md](TEMARIO.md); la spec de `gh` al llegar al itinerario de GitHub.
 - **Fase posterior:** simulador de repositorio Git con grafo de commits (decisión M3).
+
+## Registro de avances
+Un paso por entrada, del más antiguo al más reciente. Cada paso termina con los tests en verde y un commit.
+
+| Fecha | Paso | Detalle |
+|---|---|---|
+| 2026-09-30 | Base de Miau | Copia adaptada de Kubernetete, piloto `git/l1-que-es-git`, documentación inicial. Commit `88d1a54`. |
+| 2026-09-30 | Spec de git para `l1-historial` | Añadidos `diff`, `show`, `restore`, `reset`, `revert`, `rm` y `check-ignore`, consultados en git-scm.com (también `gitrevisions` para `HEAD~1`, `HEAD^` y `HEAD:ruta`). Script de formato compacto de specs: una línea por flag. |
 
 ## Heredado de Kubernetete (sin cambios)
 - Motor de contenido: esquemas zod (`src/content/schema.ts`), parser de lecciones con las 7 secciones obligatorias (`lesson.ts`), `buildCatalog()` que acumula errores con la ruta del archivo (`loader.ts`).
@@ -95,6 +104,8 @@ e2e/                            # Playwright sobre el build de producción
 - Flags: `takesValue`, `values` (sugerencias) y `strict` (solo esos valores son válidos). El motor no modela flags con valor **opcional** (`--decorate[=short]`, `-u[<modo>]`): se declaran como booleanos o se omiten.
 - Estilo `gnu`: `--largo` y `-c` corto; cortos agrupables (`-it`) y, como en getopt, el último del grupo puede llevar valor (`-am "msg"`).
 - Para una CLI nueva: añadirla a `CLIS` en `schema.ts` y crear su JSON.
+- Sinónimos que la documentación declara como tales (`git diff --staged` = `--cached`) son dos flags distintos para el motor: los ejercicios aceptan ambas formas en `accepted`.
+- Flags que solo existen en forma corta (`git rm -r`): `name` y `short` son la misma letra.
 
 ## Notas para tests
 - Los tests de interfaz usan el contenido piloto `git/l1-que-es-git` (`PILOT` en `components.test.tsx`) y aprueban antes los módulos anteriores del itinerario (`resetAndUnlockPilot`).

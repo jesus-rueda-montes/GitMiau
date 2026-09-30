@@ -151,6 +151,105 @@
         { "name": "abbrev-commit", "takesValue": false, "description": "Muestra el hash abreviado" },
         { "name": "format", "takesValue": true, "description": "Formato de salida (oneline, short, medium, full... o format:<cadena>)" }
       ]
+    },
+    {
+      "name": "diff",
+      "description": "Muestra las diferencias entre el working tree, el índice y los commits",
+      "source": "https://git-scm.com/docs/git-diff",
+      "args": [{ "name": "COMMIT" }, { "name": "RUTA" }],
+      "flags": [
+        { "name": "staged", "takesValue": false, "description": "Cambios preparados frente a HEAD (sinónimo de --cached)" },
+        { "name": "cached", "takesValue": false, "description": "Cambios preparados frente a HEAD (sinónimo de --staged)" },
+        { "name": "stat", "takesValue": false, "description": "Resumen de líneas añadidas y borradas por fichero" },
+        { "name": "name-only", "takesValue": false, "description": "Solo los nombres de los ficheros cambiados" },
+        { "name": "name-status", "takesValue": false, "description": "Nombres de los ficheros y letra de estado (A, M, D…)" },
+        { "name": "word-diff", "takesValue": false, "description": "Diferencias palabra a palabra" },
+        { "name": "color-words", "takesValue": false, "description": "Diferencias palabra a palabra, con colores" },
+        { "name": "no-index", "takesValue": false, "description": "Compara dos rutas del disco fuera de un repositorio" }
+      ]
+    },
+    {
+      "name": "show",
+      "description": "Muestra un objeto: para un commit, su mensaje y su diff",
+      "source": "https://git-scm.com/docs/git-show",
+      "args": [{ "name": "OBJETO" }],
+      "flags": [
+        { "name": "stat", "takesValue": false, "description": "Resumen de líneas añadidas y borradas por fichero" },
+        { "name": "name-only", "takesValue": false, "description": "Solo los nombres de los ficheros cambiados" },
+        { "name": "oneline", "takesValue": false, "description": "Cabecera en una línea (--pretty=oneline --abbrev-commit)" },
+        { "name": "no-patch", "short": "s", "takesValue": false, "description": "No muestra el diff" },
+        { "name": "format", "takesValue": true, "description": "Formato de salida (oneline, short, medium, full… o format:<cadena>)" }
+      ]
+    },
+    {
+      "name": "restore",
+      "description": "Restaura ficheros del working tree o del índice",
+      "source": "https://git-scm.com/docs/git-restore",
+      "args": [{ "name": "RUTA" }],
+      "flags": [
+        { "name": "staged", "short": "S", "takesValue": false, "description": "Restaura el índice (saca del staging); por defecto desde HEAD" },
+        { "name": "worktree", "short": "W", "takesValue": false, "description": "Restaura el working tree (lo que se hace si no se indica nada)" },
+        { "name": "source", "short": "s", "takesValue": true, "description": "Commit, rama o tag del que se restaura" },
+        { "name": "patch", "short": "p", "takesValue": false, "description": "Elige de forma interactiva qué trozos restaurar" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "No muestra mensajes" }
+      ]
+    },
+    {
+      "name": "reset",
+      "description": "Mueve HEAD (y la rama) a otro commit o saca ficheros del índice",
+      "source": "https://git-scm.com/docs/git-reset",
+      "args": [{ "name": "COMMIT" }, { "name": "RUTA" }],
+      "flags": [
+        { "name": "soft", "takesValue": false, "description": "Solo mueve HEAD; el índice y el working tree no cambian" },
+        { "name": "mixed", "takesValue": false, "description": "Mueve HEAD y actualiza el índice; el working tree no cambia (por defecto)" },
+        { "name": "hard", "takesValue": false, "description": "Mueve HEAD y sobrescribe el índice y el working tree: descarta cambios" },
+        { "name": "keep", "takesValue": false, "description": "Como --hard, pero aborta si perdería cambios locales" },
+        { "name": "merge", "takesValue": false, "description": "Mueve HEAD y conserva los cambios sin preparar" },
+        { "name": "patch", "short": "p", "takesValue": false, "description": "Elige de forma interactiva qué cambios sacar del índice" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "Solo muestra errores" }
+      ]
+    },
+    {
+      "name": "revert",
+      "description": "Crea commits nuevos que deshacen los cambios de commits anteriores",
+      "source": "https://git-scm.com/docs/git-revert",
+      "args": [{ "name": "COMMIT" }],
+      "flags": [
+        { "name": "no-edit", "takesValue": false, "description": "No abre el editor del mensaje" },
+        { "name": "edit", "short": "e", "takesValue": false, "description": "Abre el editor para retocar el mensaje (por defecto en una terminal)" },
+        { "name": "no-commit", "short": "n", "takesValue": false, "description": "Aplica los cambios al working tree y al índice sin crear el commit" },
+        { "name": "mainline", "short": "m", "takesValue": true, "description": "Número del padre (desde 1) al revertir un merge" },
+        { "name": "signoff", "short": "s", "takesValue": false, "description": "Añade el trailer Signed-off-by" },
+        { "name": "continue", "takesValue": false, "description": "Continúa tras resolver conflictos" },
+        { "name": "skip", "takesValue": false, "description": "Salta el commit actual y sigue con el resto" },
+        { "name": "abort", "takesValue": false, "description": "Cancela la operación y vuelve al estado anterior" },
+        { "name": "quit", "takesValue": false, "description": "Olvida la operación en curso" }
+      ]
+    },
+    {
+      "name": "rm",
+      "description": "Borra ficheros del working tree y del índice",
+      "source": "https://git-scm.com/docs/git-rm",
+      "args": [{ "name": "RUTA" }],
+      "flags": [
+        { "name": "cached", "takesValue": false, "description": "Solo los quita del índice (deja de seguirlos); el fichero sigue en disco" },
+        { "name": "r", "short": "r", "takesValue": false, "description": "Borra de forma recursiva (directorios)" },
+        { "name": "force", "short": "f", "takesValue": false, "description": "Fuerza el borrado aunque haya cambios" },
+        { "name": "dry-run", "short": "n", "takesValue": false, "description": "No borra nada: solo muestra qué se borraría" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "No muestra los ficheros borrados" }
+      ]
+    },
+    {
+      "name": "check-ignore",
+      "description": "Comprueba si una ruta está ignorada y por qué regla",
+      "source": "https://git-scm.com/docs/git-check-ignore",
+      "args": [{ "name": "RUTA" }],
+      "flags": [
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Muestra el fichero, la línea y el patrón que la ignora" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "No muestra nada; solo el código de salida" },
+        { "name": "non-matching", "short": "n", "takesValue": false, "description": "Muestra también las rutas que no coinciden (con -v)" },
+        { "name": "no-index", "takesValue": false, "description": "No mira el índice (útil para depurar por qué un fichero seguido no se ignora)" }
+      ]
     }
   ]
 }
