@@ -1,0 +1,265 @@
+{
+  "exercises": [
+    {
+      "id": "tres-dependabot",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres que GitHub abra PRs **cada semana** para actualizar todas las dependencias de npm a su última versión, **aunque no tengan vulnerabilidades**. ¿Qué función de Dependabot es?",
+      "hints": [
+        "Solo una de las tres funciona «aunque no haya vulnerabilidades»."
+      ],
+      "options": [
+        { "id": "a", "text": "Dependabot version updates, configuradas en `.github/dependabot.yml`", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Dependabot security updates", "correct": false, "explanation": "Solo actualizan dependencias vulnerables." },
+        { "id": "c", "text": "Dependabot alerts", "correct": false, "explanation": "Solo avisan; no abren PRs." },
+        { "id": "d", "text": "Code scanning", "correct": false, "explanation": "Analiza tu código, no tus dependencias." }
+      ],
+      "solution": {
+        "answer": "Version updates",
+        "explanation": "Las version updates mantienen las dependencias al día según el calendario de `dependabot.yml`. Las security updates solo actúan sobre vulnerabilidades y las alertas solo avisan."
+      }
+    },
+    {
+      "id": "security-update-version",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Una dependencia tiene una vulnerabilidad corregida en la 2.3.1; la última versión es la 3.0.0. ¿A qué versión la sube el PR de una **Dependabot security update**?",
+      "hints": [
+        "Las security updates buscan el cambio más pequeño que corrige el problema."
+      ],
+      "options": [
+        { "id": "a", "text": "2.3.1: la versión mínima que incluye el parche", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "3.0.0: la última", "correct": false, "explanation": "Eso lo haría una version update." },
+        { "id": "c", "text": "No abre PR: solo avisa", "correct": false, "explanation": "Eso son las alertas." }
+      ],
+      "solution": {
+        "answer": "2.3.1",
+        "explanation": "Las security updates suben a la versión mínima que incluye el parche, para romper lo menos posible."
+      }
+    },
+    {
+      "id": "dependabot-yml",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "Este `.github/dependabot.yml` solo vigila npm. Añade **una segunda entrada** en `updates` para que Dependabot actualice también las **actions** de los workflows, revisando cada semana y con `directory: \"/\"`.",
+      "starter": "version: 2\nupdates:\n  - package-ecosystem: \"npm\"\n    directory: \"/\"\n    schedule:\n      interval: \"weekly\"\n",
+      "assertions": [
+        { "path": "version", "op": "equals", "value": 2, "message": "version sigue siendo 2 (un número, sin comillas)" },
+        { "path": "updates", "op": "count", "value": 2, "message": "updates tiene 2 entradas" },
+        { "path": "updates[0].package-ecosystem", "op": "equals", "value": "npm", "message": "La primera entrada sigue siendo npm" },
+        { "path": "updates[1].package-ecosystem", "op": "equals", "value": "github-actions", "message": "La segunda entrada tiene package-ecosystem: github-actions" },
+        { "path": "updates[1].directory", "op": "equals", "value": "/", "message": "La segunda entrada tiene directory: \"/\"" },
+        { "path": "updates[1].schedule.interval", "op": "equals", "value": "weekly", "message": "La segunda entrada revisa cada semana (schedule.interval: weekly)" }
+      ],
+      "hints": [
+        "Copia la entrada de npm y cambia el ecosistema.",
+        "El ecosistema de las actions se llama igual que el producto, en minúsculas y con guion: `github-actions`."
+      ],
+      "solution": {
+        "answer": "version: 2\nupdates:\n  - package-ecosystem: \"npm\"\n    directory: \"/\"\n    schedule:\n      interval: \"weekly\"\n  - package-ecosystem: \"github-actions\"\n    directory: \"/\"\n    schedule:\n      interval: \"weekly\"\n",
+        "explanation": "Con `directory: \"/\"`, Dependabot busca las actions en `.github/workflows` (y en `action.yml` de la raíz). Cada entrada necesita `package-ecosystem`, `directory` y `schedule.interval`."
+      }
+    },
+    {
+      "id": "yml-security-updates",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "Para que Dependabot abra PRs que corrigen vulnerabilidades (security updates) es obligatorio tener un `dependabot.yml`.",
+      "hints": [
+        "¿Dónde se activan las security updates?"
+      ],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "Se activan en los ajustes del repo." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: `dependabot.yml` es para las version updates (y para personalizar, si quieres)." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "Las security updates se activan en los ajustes y necesitan las alertas. `dependabot.yml` configura las version updates."
+      }
+    },
+    {
+      "id": "secreto-filtrado",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Descubres que hace una semana se subió una clave de API a un repo **público**. ¿Qué haces **primero**?",
+      "hints": [
+        "Piensa en qué deja de ser peligroso antes: la clave o la historia."
+      ],
+      "options": [
+        { "id": "a", "text": "Revocar la clave y generar una nueva (rotarla)", "correct": true, "explanation": "Correcto: una vez revocada, la copia filtrada no sirve." },
+        { "id": "b", "text": "Borrar el fichero en un commit nuevo", "correct": false, "explanation": "La clave sigue en la historia y ya puede estar copiada." },
+        { "id": "c", "text": "Reescribir la historia para eliminarla y hacer force push", "correct": false, "explanation": "Es costoso y no impide que ya se haya copiado; va después, si hace falta." },
+        { "id": "d", "text": "Hacer el repositorio privado", "correct": false, "explanation": "Llega tarde: la clave ya ha sido pública." }
+      ],
+      "solution": {
+        "answer": "Rotar la clave",
+        "explanation": "Lo primero es revocarla. Limpiar la historia es costoso y, con la clave revocada, normalmente no hace falta."
+      }
+    },
+    {
+      "id": "secret-scanning-alcance",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "¿Dónde busca credenciales **secret scanning**? (Marca todos los correctos)",
+      "hints": [
+        "No solo mira el código de la rama principal."
+      ],
+      "options": [
+        { "id": "a", "text": "En toda la historia de Git de todas las ramas", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "En issues y pull requests (títulos, descripciones y comentarios)", "correct": true, "explanation": "Correcto." },
+        { "id": "c", "text": "En wikis y gists", "correct": true, "explanation": "Correcto." },
+        { "id": "d", "text": "Solo en el último commit de la rama por defecto", "correct": false, "explanation": "Revisa mucho más." }
+      ],
+      "solution": {
+        "answer": "Historia, issues, PRs, wikis, gists…",
+        "explanation": "Secret scanning revisa toda la historia de todas las ramas y también issues, PRs, discussions, wikis y gists."
+      }
+    },
+    {
+      "id": "push-protection",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Qué diferencia hay entre **secret scanning** y **push protection**?",
+      "hints": [
+        "Una actúa antes de que el secreto llegue a GitHub."
+      ],
+      "options": [
+        { "id": "a", "text": "Secret scanning encuentra secretos que ya están en el repo; push protection bloquea el push que los contiene", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Son lo mismo con otro nombre", "correct": false, "explanation": "Actúan en momentos distintos." },
+        { "id": "c", "text": "Push protection solo funciona con commits desde la web", "correct": false, "explanation": "Funciona con `git push`, la web, subidas de ficheros y la API." },
+        { "id": "d", "text": "Secret scanning analiza vulnerabilidades del código", "correct": false, "explanation": "Eso es code scanning." }
+      ],
+      "solution": {
+        "answer": "Detectar frente a impedir",
+        "explanation": "Secret scanning detecta lo que ya ha entrado; push protection impide que entre."
+      }
+    },
+    {
+      "id": "bypass-motivos",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Push protection bloquea tu push y decides saltártelo. ¿Qué motivo deja una **alerta abierta** para corregirlo después?",
+      "hints": [
+        "Solo uno de los motivos reconoce que el secreto es real y habrá que arreglarlo."
+      ],
+      "options": [
+        { "id": "a", "text": "I'll fix it later", "correct": true, "explanation": "Correcto: crea una alerta abierta." },
+        { "id": "b", "text": "It's used in tests", "correct": false, "explanation": "Crea una alerta cerrada." },
+        { "id": "c", "text": "It's a false positive", "correct": false, "explanation": "Crea una alerta cerrada." }
+      ],
+      "solution": {
+        "answer": "I'll fix it later",
+        "explanation": "*It's used in tests* y *It's a false positive* crean alertas cerradas; *I'll fix it later* deja una abierta."
+      }
+    },
+    {
+      "id": "codeql",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres que GitHub analice **tu propio código** en cada PR para encontrar vulnerabilidades (por ejemplo, inyección SQL). ¿Qué usas?",
+      "hints": [
+        "No son las dependencias ni los secretos: es el código."
+      ],
+      "options": [
+        { "id": "a", "text": "Code scanning con CodeQL", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Dependabot alerts", "correct": false, "explanation": "Vigilan las dependencias, no tu código." },
+        { "id": "c", "text": "Secret scanning", "correct": false, "explanation": "Busca credenciales, no fallos de código." },
+        { "id": "d", "text": "CODEOWNERS", "correct": false, "explanation": "Asigna revisores; no analiza nada." }
+      ],
+      "solution": {
+        "answer": "Code scanning (CodeQL)",
+        "explanation": "Code scanning hace análisis estático del código; CodeQL es su motor. Con el default setup se activa desde los ajustes; también admite herramientas de terceros en formato SARIF."
+      }
+    },
+    {
+      "id": "token-minimo",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un script debe **leer las issues de un único repositorio** durante los próximos tres meses. ¿Qué credencial sigue mejor el principio de mínimo privilegio?",
+      "hints": [
+        "Busca la que limita a la vez repositorio, permisos y tiempo."
+      ],
+      "options": [
+        { "id": "a", "text": "Un fine-grained token con acceso solo a ese repo, *Issues: Read-only* y caducidad de tres meses", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Un token classic con el scope `repo`, sin caducidad", "correct": false, "explanation": "Da acceso de escritura a todos tus repos, para siempre." },
+        { "id": "c", "text": "Tu contraseña de GitHub en una variable de entorno", "correct": false, "explanation": "Nunca: da acceso total a tu cuenta." },
+        { "id": "d", "text": "Un token classic con todos los scopes, para no tener problemas", "correct": false, "explanation": "Es justo lo contrario del mínimo privilegio." }
+      ],
+      "solution": {
+        "answer": "Fine-grained token acotado",
+        "explanation": "El fine-grained permite elegir el repo, el permiso exacto y la caducidad."
+      }
+    },
+    {
+      "id": "github-app",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "¿Por qué una **GitHub App** es mejor que el token personal de una persona para una integración permanente de la empresa? (Marca todos los correctos)",
+      "hints": [
+        "Piensa en qué pasa si la persona se va y si se filtra el token."
+      ],
+      "options": [
+        { "id": "a", "text": "Actúa con su propia identidad, así que no se rompe si la persona deja la empresa", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Sus tokens de instalación caducan en 1 hora", "correct": true, "explanation": "Correcto: una filtración sirve durante poco tiempo." },
+        { "id": "c", "text": "Se instala solo en los repositorios elegidos, con permisos detallados", "correct": true, "explanation": "Correcto." },
+        { "id": "d", "text": "Tiene acceso automático a todos los repos de la organización", "correct": false, "explanation": "Al revés: solo a los repos donde se instala." }
+      ],
+      "solution": {
+        "answer": "Identidad propia, tokens cortos, repos elegidos",
+        "explanation": "Las GitHub Apps no dependen de una persona ni ocupan licencia, usan tokens de 1 hora y solo acceden a los repos donde se instalan."
+      }
+    },
+    {
+      "id": "gh-secret-set",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Guarda un secret llamado `NPM_TOKEN` en el repositorio actual, dejando que `gh` te pida el valor sin mostrarlo.",
+      "hints": [
+        "Es `gh secret` con el subcomando para crear o actualizar.",
+        "Sin `--body`, `gh` pide el valor de forma interactiva."
+      ],
+      "accepted": [
+        "gh secret set NPM_TOKEN"
+      ],
+      "solution": {
+        "answer": "gh secret set NPM_TOKEN",
+        "explanation": "Así el valor no queda en el historial de la terminal. Con `--body \"$VARIABLE\"` se lee de una variable de entorno."
+      }
+    },
+    {
+      "id": "gh-secret-env",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Guarda el secret `DEPLOY_KEY` en el environment `production` del repositorio actual (el valor lo pedirá `gh`).",
+      "hints": [
+        "Es el mismo subcomando que para un secret de repo.",
+        "El flag del environment es `--env` (o `-e`)."
+      ],
+      "accepted": [
+        "gh secret set DEPLOY_KEY --env production",
+        "gh secret set DEPLOY_KEY -e production"
+      ],
+      "solution": {
+        "answer": "gh secret set DEPLOY_KEY --env production",
+        "explanation": "Un secret de environment solo lo ven los jobs que usan ese environment, que puede exigir aprobación antes de desplegar."
+      }
+    },
+    {
+      "id": "gh-secret-list",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Lista los secrets del repositorio actual.",
+      "hints": [
+        "Es `gh secret` con el subcomando para listar (tiene alias `ls`)."
+      ],
+      "accepted": [
+        "gh secret list",
+        "gh secret ls"
+      ],
+      "solution": {
+        "answer": "gh secret list",
+        "explanation": "Muestra los nombres de los secrets; sus valores no se pueden leer una vez guardados."
+      }
+    }
+  ]
+}

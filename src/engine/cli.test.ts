@@ -237,6 +237,13 @@ describe('gh (contenido real)', () => {
     expect(sameGh('gh issue new -t "Falla el login"', 'gh issue create --title "Falla el login"')).toBe(true)
     expect(sameGh('gh issue develop 42 -c', 'gh issue develop 42 --checkout')).toBe(true)
   })
+
+  test('secrets: alias, --env y --app estricto', () => {
+    expect(sameGh('gh secret set DEPLOY_KEY -e production', 'gh secret set DEPLOY_KEY --env production')).toBe(true)
+    expect(sameGh('gh secret ls', 'gh secret list')).toBe(true)
+    expect(sameGh('gh secret remove NPM_TOKEN', 'gh secret delete NPM_TOKEN')).toBe(true)
+    expect(p('gh secret set NPM_TOKEN --app npm')).toEqual({ ok: false, errors: [expect.stringMatching(/valor no válido para --app/)] })
+  })
 })
 
 describe('git (contenido real)', () => {

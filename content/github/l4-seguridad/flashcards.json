@@ -1,0 +1,12 @@
+{
+  "cards": [
+    { "id": "dependabot-tres", "front": "Las tres funciones de Dependabot", "back": "Alerts (avisan de dependencias vulnerables), security updates (PR a la versión mínima parcheada) y version updates (PRs periódicos según `dependabot.yml`)." },
+    { "id": "dependabot-yml", "front": "Claves de `.github/dependabot.yml`", "back": "`version: 2` y `updates`; cada entrada con `package-ecosystem`, `directory` y `schedule.interval`." },
+    { "id": "code-scanning", "front": "¿Qué es code scanning?", "back": "Análisis estático de tu código que muestra alertas. Motor: CodeQL (default o advanced setup); admite herramientas de terceros con SARIF." },
+    { "id": "secret-vs-push", "front": "Secret scanning frente a push protection", "back": "Secret scanning detecta secretos ya subidos (toda la historia, issues, PRs…). Push protection bloquea el push que los contiene." },
+    { "id": "secreto-filtrado", "front": "Se ha filtrado un secreto: primer paso", "back": "Revocarlo y generar uno nuevo (rotarlo). Limpiar la historia es secundario." },
+    { "id": "fine-grained", "front": "Fine-grained token frente a classic", "back": "Fine-grained: un propietario, repos concretos, permisos detallados y caducidad (recomendado). Classic: scopes amplios sobre todos tus repos." },
+    { "id": "github-apps", "front": "Ventajas de una GitHub App", "back": "Identidad propia (no depende de una persona), permisos detallados, solo en los repos donde se instala, tokens de instalación de 1 hora, webhooks integrados." },
+    { "id": "gh-secret", "front": "Gestionar secrets desde la terminal", "back": "`gh secret set NOMBRE` (pide el valor; `--env`, `--app`, `--org`), `gh secret list` y `gh secret delete NOMBRE`." }
+  ]
+}

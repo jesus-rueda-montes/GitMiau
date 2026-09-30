@@ -1,0 +1,8 @@
+{
+  "title": "Seguridad en GitHub",
+  "summary": "Dependabot (alertas, security updates y version updates), code scanning con CodeQL, secret scanning y push protection, tokens fine-grained, GitHub Apps y gh secret.",
+  "level": 4,
+  "order": 1,
+  "xp": 120,
+  "prereqs": []
+}

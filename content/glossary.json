@@ -284,6 +284,41 @@
       "term": "CODEOWNERS",
       "definition": "Fichero que asigna propietarios (personas o equipos) a rutas del repositorio para las revisiones.",
       "introducedIn": "github/l3-proteccion"
+    },
+    {
+      "term": "Dependabot",
+      "definition": "Servicio de GitHub que avisa de dependencias vulnerables y abre PRs para actualizarlas.",
+      "introducedIn": "github/l4-seguridad"
+    },
+    {
+      "term": "dependency graph",
+      "definition": "Lista de las dependencias de un repo que GitHub obtiene de sus ficheros de manifiesto y de bloqueo.",
+      "introducedIn": "github/l4-seguridad"
+    },
+    {
+      "term": "CodeQL",
+      "definition": "Motor de análisis estático de GitHub que usa code scanning para encontrar vulnerabilidades en el código.",
+      "introducedIn": "github/l4-seguridad"
+    },
+    {
+      "term": "SARIF",
+      "definition": "Formato estándar de resultados de análisis estático; permite enviar a code scanning resultados de otras herramientas.",
+      "introducedIn": "github/l4-seguridad"
+    },
+    {
+      "term": "push protection",
+      "definition": "Función que bloquea un push si contiene un secreto detectado, antes de que llegue a GitHub.",
+      "introducedIn": "github/l4-seguridad"
+    },
+    {
+      "term": "GitHub App",
+      "definition": "Integración con identidad propia, permisos detallados y tokens de corta duración, instalada en repos concretos.",
+      "introducedIn": "github/l3-proteccion"
+    },
+    {
+      "term": "mínimo privilegio",
+      "definition": "Principio de dar a cada persona o sistema solo los permisos que necesita, durante el tiempo que los necesita.",
+      "introducedIn": "github/l1-repos-cuenta"
     }
   ]
 }

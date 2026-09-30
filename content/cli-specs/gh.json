@@ -579,6 +579,63 @@
           ]
         }
       ]
+    },
+    {
+      "name": "secret",
+      "description": "Gestiona secrets de GitHub Actions, Dependabot o Codespaces",
+      "source": "https://cli.github.com/manual/gh_secret",
+      "subcommands": [
+        {
+          "name": "set",
+          "description": "Crea o actualiza un secret",
+          "args": [{ "name": "NOMBRE" }],
+          "flags": [
+            { "name": "app", "short": "a", "values": ["actions", "agents", "codespaces", "dependabot"], "strict": true, "takesValue": true, "description": "Aplicación del secret: actions, agents, codespaces o dependabot" },
+            { "name": "body", "short": "b", "takesValue": true, "description": "Valor del secret (si falta, se lee de stdin o se pide)" },
+            { "name": "env", "short": "e", "takesValue": true, "description": "Secret de un environment" },
+            { "name": "env-file", "short": "f", "takesValue": true, "description": "Carga secrets de un fichero con formato dotenv" },
+            { "name": "org", "short": "o", "takesValue": true, "description": "Secret de una organización" },
+            { "name": "repos", "short": "r", "takesValue": true, "description": "Repositorios con acceso a un secret de organización o de usuario" },
+            { "name": "user", "short": "u", "takesValue": false, "description": "Secret de usuario" },
+            { "name": "visibility", "short": "v", "values": ["all", "private", "selected"], "strict": true, "takesValue": true, "description": "Visibilidad de un secret de organización: all, private o selected" },
+            { "name": "no-store", "takesValue": false, "description": "Muestra el valor cifrado en base64 en vez de guardarlo" },
+            { "name": "no-repos-selected", "takesValue": false, "description": "Ningún repositorio tiene acceso al secret de organización" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "list",
+          "aliases": [
+            "ls"
+          ],
+          "description": "Lista los secrets (solo nombres, nunca valores)",
+          "flags": [
+            { "name": "app", "short": "a", "values": ["actions", "agents", "codespaces", "dependabot"], "strict": true, "takesValue": true, "description": "Secrets de una aplicación: actions, agents, codespaces o dependabot" },
+            { "name": "env", "short": "e", "takesValue": true, "description": "Secrets de un environment" },
+            { "name": "jq", "short": "q", "takesValue": true, "description": "Filtra la salida JSON con una expresión jq" },
+            { "name": "json", "takesValue": true, "description": "Salida JSON con los campos indicados" },
+            { "name": "org", "short": "o", "takesValue": true, "description": "Secrets de una organización" },
+            { "name": "template", "short": "t", "takesValue": true, "description": "Formatea la salida JSON con una plantilla de Go" },
+            { "name": "user", "short": "u", "takesValue": false, "description": "Secrets de usuario" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "delete",
+          "aliases": [
+            "remove"
+          ],
+          "description": "Borra un secret",
+          "args": [{ "name": "NOMBRE" }],
+          "flags": [
+            { "name": "app", "short": "a", "values": ["actions", "agents", "codespaces", "dependabot"], "strict": true, "takesValue": true, "description": "Aplicación del secret: actions, agents, codespaces o dependabot" },
+            { "name": "env", "short": "e", "takesValue": true, "description": "Secret de un environment" },
+            { "name": "org", "short": "o", "takesValue": true, "description": "Secret de una organización" },
+            { "name": "user", "short": "u", "takesValue": false, "description": "Secret de usuario" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        }
+      ]
     }
   ]
 }
