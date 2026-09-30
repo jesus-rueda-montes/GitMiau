@@ -24,6 +24,8 @@ Registro de decisiones con su motivo. Las más recientes van al final de cada ta
 | M16 | Sobre `git pull` con ramas divergidas se explica que falla y hay que elegir `--rebase` o `--no-rebase` (o configurar `pull.rebase`), sin citar versiones | La documentación actual dice que el modo por defecto es `--ff-only`; versiones anteriores daban un error pidiendo configurar `pull.rebase`/`pull.ff`. En ambos casos el alumno tiene que elegir, así que la explicación vale para las dos. |
 | M17 | Repositorio público `jesus-rueda-montes/GitMiau`, con push al final de cada paso | Elegido por el usuario; público para poder usar GitHub Pages gratis. Push tras cada paso para que el trabajo no quede solo en local. |
 | M18 | El itinerario de GitHub combina **interfaz web** (quizzes y escenarios: revisar PRs, permisos, ajustes) y **CLI `gh`** (ejercicios de comandos) | El usuario pidió «lo más profesional y usado en el mundo laboral». Las dos formas se usan: la web para revisar y configurar y `gh` para trabajar desde la terminal y automatizar (scripts, workflows de Actions). |
+| M19 | Los módulos de Actions **no** exigen aprobar `fundamentos/f0-yaml`; la lección lo recomienda | Los fundamentos son opcionales. Convertirlos en requisito cambiaría el diseño de la progresión y no se ha pedido. |
+| M20 | En el contenido, las actions oficiales aparecen con la versión que muestran hoy sus README (`@v7`), y las aserciones del editor aceptan cualquier versión | El contenido enseña lo actual; así los ejercicios no se rompen cuando salga una versión nueva. El workflow del propio proyecto sigue en `@v4` (aplazado por el usuario). |
 
 ## Heredadas de Kubernetete
 

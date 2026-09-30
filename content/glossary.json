@@ -209,6 +209,36 @@
       "term": "trunk",
       "definition": "La rama principal en la que integra todo el equipo (normalmente main).",
       "introducedIn": "github/l2-flujos-trabajo"
+    },
+    {
+      "term": "workflow",
+      "definition": "Proceso automatizado de GitHub Actions, definido en un YAML de .github/workflows/ y disparado por eventos.",
+      "introducedIn": "github/l1-repos-cuenta"
+    },
+    {
+      "term": "runner",
+      "definition": "Máquina que ejecuta un job de GitHub Actions (alojada por GitHub o propia, self-hosted).",
+      "introducedIn": "github/l3-actions-basico"
+    },
+    {
+      "term": "job",
+      "definition": "Conjunto de steps de un workflow que se ejecuta en un runner; los jobs van en paralelo salvo needs.",
+      "introducedIn": "github/l3-actions-basico"
+    },
+    {
+      "term": "step",
+      "definition": "Paso dentro de un job: un comando (run) o una action (uses).",
+      "introducedIn": "github/l3-actions-basico"
+    },
+    {
+      "term": "CI/CD",
+      "definition": "Integración continua (comprobar y testear cada cambio) y entrega o despliegue continuos (publicarlo automáticamente).",
+      "introducedIn": "github/l3-actions-basico"
+    },
+    {
+      "term": "cron",
+      "definition": "Formato de cinco campos (minuto, hora, día del mes, mes, día de la semana) para programar tareas periódicas.",
+      "introducedIn": "github/l3-actions-basico"
     }
   ]
 }

@@ -399,6 +399,144 @@
           ]
         }
       ]
+    },
+    {
+      "name": "run",
+      "description": "Ejecuciones (runs) de GitHub Actions",
+      "source": "https://cli.github.com/manual/gh_run",
+      "subcommands": [
+        {
+          "name": "list",
+          "aliases": [
+            "ls"
+          ],
+          "description": "Lista las ejecuciones recientes (20 por defecto)",
+          "flags": [
+            { "name": "workflow", "short": "w", "takesValue": true, "description": "Filtra por workflow" },
+            { "name": "branch", "short": "b", "takesValue": true, "description": "Filtra por rama" },
+            { "name": "event", "short": "e", "takesValue": true, "description": "Filtra por evento (push, pull_request…)" },
+            { "name": "status", "short": "s", "takesValue": true, "description": "Filtra por estado (queued, in_progress, completed, failure, success…)" },
+            { "name": "user", "short": "u", "takesValue": true, "description": "Filtra por quien la lanzó" },
+            { "name": "commit", "short": "c", "takesValue": true, "description": "Filtra por SHA del commit" },
+            { "name": "limit", "short": "L", "takesValue": true, "description": "Número máximo de resultados (por defecto, 20)" },
+            { "name": "all", "short": "a", "takesValue": false, "description": "Incluye los workflows desactivados" },
+            { "name": "json", "takesValue": true, "description": "Salida JSON con los campos indicados" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "view",
+          "description": "Resumen de una ejecución, sus jobs y sus logs",
+          "args": [{ "name": "RUN_ID" }],
+          "flags": [
+            { "name": "log", "takesValue": false, "description": "Muestra el log completo" },
+            { "name": "log-failed", "takesValue": false, "description": "Muestra solo el log de los pasos que fallaron" },
+            { "name": "job", "short": "j", "takesValue": true, "description": "Muestra un job concreto" },
+            { "name": "verbose", "short": "v", "takesValue": false, "description": "Muestra los pasos de cada job" },
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre la ejecución en el navegador" },
+            { "name": "exit-status", "takesValue": false, "description": "Termina con código distinto de 0 si la ejecución falló" },
+            { "name": "attempt", "short": "a", "takesValue": true, "description": "Número de intento que se muestra" },
+            { "name": "json", "takesValue": true, "description": "Salida JSON con los campos indicados" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "watch",
+          "description": "Sigue una ejecución en directo hasta que termina",
+          "args": [{ "name": "RUN_ID" }],
+          "flags": [
+            { "name": "compact", "takesValue": false, "description": "Muestra solo los pasos relevantes o fallidos" },
+            { "name": "exit-status", "takesValue": false, "description": "Termina con código distinto de 0 si la ejecución falla" },
+            { "name": "interval", "short": "i", "takesValue": true, "description": "Segundos entre actualizaciones (por defecto, 3)" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "rerun",
+          "description": "Vuelve a lanzar una ejecución, solo los jobs fallidos o un job concreto",
+          "args": [{ "name": "RUN_ID" }],
+          "flags": [
+            { "name": "failed", "takesValue": false, "description": "Solo los jobs que fallaron (y sus dependencias)" },
+            { "name": "job", "short": "j", "takesValue": true, "description": "Un job concreto (y sus dependencias)" },
+            { "name": "debug", "short": "d", "takesValue": false, "description": "Con logs de depuración" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "cancel",
+          "description": "Cancela una ejecución en curso",
+          "args": [{ "name": "RUN_ID" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "download",
+          "description": "Descarga los artifacts de una ejecución",
+          "args": [{ "name": "RUN_ID" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "delete",
+          "description": "Borra una ejecución",
+          "args": [{ "name": "RUN_ID" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "workflow",
+      "description": "Workflows de GitHub Actions",
+      "source": "https://cli.github.com/manual/gh_workflow",
+      "subcommands": [
+        {
+          "name": "list",
+          "description": "Lista los workflows del repositorio",
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "view",
+          "description": "Muestra un workflow y sus ejecuciones recientes",
+          "args": [{ "name": "WORKFLOW" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "enable",
+          "description": "Activa un workflow",
+          "args": [{ "name": "WORKFLOW" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "disable",
+          "description": "Desactiva un workflow",
+          "args": [{ "name": "WORKFLOW" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "run",
+          "description": "Lanza un workflow manualmente (evento workflow_dispatch)",
+          "args": [{ "name": "WORKFLOW" }],
+          "flags": [
+            { "name": "ref", "short": "r", "takesValue": true, "description": "Rama o tag con la versión del workflow" },
+            { "name": "raw-field", "short": "f", "takesValue": true, "description": "Parámetro de entrada clave=valor" },
+            { "name": "field", "short": "F", "takesValue": true, "description": "Parámetro de entrada clave=valor (admite @fichero)" },
+            { "name": "json", "takesValue": false, "description": "Lee las entradas como JSON de la entrada estándar" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        }
+      ]
     }
   ]
 }

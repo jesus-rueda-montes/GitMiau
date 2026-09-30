@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "piezas", "front": "Piezas de GitHub Actions", "back": "Workflow (YAML en .github/workflows/) → se dispara con eventos (on) → jobs (en paralelo, cada uno en su runner) → steps (en orden: run o uses)." },
+    { "id": "eventos", "front": "Eventos más habituales de un workflow", "back": "push, pull_request, workflow_dispatch (manual), schedule (cron en UTC, mínimo cada 5 min)." },
+    { "id": "needs-if", "front": "`needs` e `if` en un workflow", "back": "`needs`: el job espera a que otro termine bien. `if`: ejecuta un job o step solo si se cumple una condición." },
+    { "id": "github-token", "front": "¿Qué es el GITHUB_TOKEN?", "back": "Token automático de cada ejecución para actuar sobre el repo. Se limita con `permissions`. Sus eventos no disparan otros workflows (salvo workflow_dispatch y repository_dispatch)." },
+    { "id": "seguridad", "front": "Dos reglas de seguridad en Actions", "back": "Fijar las actions de terceros al SHA completo (inmutable) y no interpolar datos no confiables (github.event.*) en run: pasarlos por env." },
+    { "id": "gh-run", "front": "Depurar Actions desde la terminal", "back": "`gh run list`, `gh run watch`, `gh run view <id> --log-failed`, `gh run rerun <id> --failed`, `gh workflow run x.yml --ref main`." }
+  ]
+}

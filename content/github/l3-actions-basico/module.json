@@ -1,0 +1,8 @@
+{
+  "title": "GitHub Actions: lo básico",
+  "summary": "Workflows, eventos, jobs, steps, runners y actions; escribir un workflow de CI, GITHUB_TOKEN y permisos, buenas prácticas de seguridad y gh run / gh workflow.",
+  "level": 3,
+  "order": 1,
+  "xp": 100,
+  "prereqs": []
+}

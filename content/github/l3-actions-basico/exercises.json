@@ -1,0 +1,218 @@
+{
+  "exercises": [
+    {
+      "id": "ruta-workflows",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Dónde tiene que estar un fichero de workflow para que GitHub Actions lo ejecute?",
+      "hints": ["Es una carpeta dentro de `.github`."],
+      "options": [
+        { "id": "a", "text": "`.github/workflows/`, con extensión `.yml` o `.yaml`", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "En la raíz, como `workflow.yml`", "correct": false, "explanation": "GitHub no busca workflows ahí." },
+        { "id": "c", "text": "`.github/actions/`", "correct": false, "explanation": "Ahí se suelen guardar actions propias, no workflows." },
+        { "id": "d", "text": "`.github/ISSUE_TEMPLATE/`", "correct": false, "explanation": "Ahí van las plantillas de issues." }
+      ],
+      "solution": {
+        "answer": ".github/workflows/",
+        "explanation": "Cada fichero `.yml`/`.yaml` de `.github/workflows/` es un workflow."
+      }
+    },
+    {
+      "id": "jobs-paralelo",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "Los jobs de un workflow se ejecutan **uno detrás de otro**, en el orden en que aparecen en el fichero.",
+      "hints": ["Hay una clave para encadenar jobs; sin ella…"],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "Por defecto van en paralelo." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: en paralelo, salvo que uno declare `needs` sobre otro." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "Los jobs se ejecutan en paralelo, cada uno en su runner. Para que uno espere a otro se usa `needs`. Los steps de un job, en cambio, sí van en orden."
+      }
+    },
+    {
+      "id": "cron-utc",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Tu workflow tiene `schedule: - cron: \"0 6 * * 1\"`. ¿Cuándo se ejecuta?",
+      "hints": [
+        "Los cinco campos son: minuto, hora, día del mes, mes y día de la semana.",
+        "Piensa en qué zona horaria usa GitHub."
+      ],
+      "options": [
+        { "id": "a", "text": "Los lunes a las 06:00 UTC", "correct": true, "explanation": "Correcto: minuto 0, hora 6, día de la semana 1 (lunes), en UTC." },
+        { "id": "b", "text": "Los lunes a las 06:00 en la hora local del repositorio", "correct": false, "explanation": "Los cron de Actions van siempre en UTC." },
+        { "id": "c", "text": "Cada 6 minutos", "correct": false, "explanation": "El 6 está en el campo de la hora." },
+        { "id": "d", "text": "El día 6 de cada mes", "correct": false, "explanation": "El día del mes es el tercer campo, que aquí es `*`." }
+      ],
+      "solution": {
+        "answer": "Lunes, 06:00 UTC",
+        "explanation": "Cron de cinco campos en UTC; el intervalo mínimo permitido es cada 5 minutos."
+      }
+    },
+    {
+      "id": "ci-workflow",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "Escribe `.github/workflows/ci.yml`: se llama `CI`, se ejecuta en los **push a `main`** y en los **pull_request**. Tiene un job `test` en `ubuntu-latest` con 4 pasos, en este orden: `actions/checkout`, `actions/setup-node` con `node-version: 24`, `npm ci` y `npm test`.",
+      "starter": "name: CI\non:\n\njobs:\n  test:\n",
+      "assertions": [
+        { "path": "name", "op": "equals", "value": "CI", "message": "El workflow se llama CI" },
+        { "path": "on.push.branches", "op": "equals", "value": ["main"], "message": "on.push.branches es una lista con main" },
+        { "path": "on", "op": "hasKeys", "value": ["pull_request"], "message": "on incluye el evento pull_request (puede ir sin valor)" },
+        { "path": "jobs.test.runs-on", "op": "equals", "value": "ubuntu-latest", "message": "El job test usa runs-on: ubuntu-latest" },
+        { "path": "jobs.test.steps", "op": "count", "value": 4, "message": "El job test tiene exactamente 4 steps" },
+        { "path": "jobs.test.steps[0].uses", "op": "matches", "value": "^actions/checkout@", "message": "El primer step usa actions/checkout@<versión>" },
+        { "path": "jobs.test.steps[1].uses", "op": "matches", "value": "^actions/setup-node@", "message": "El segundo step usa actions/setup-node@<versión>" },
+        { "path": "jobs.test.steps[1].with.node-version", "op": "oneOf", "value": [24, "24"], "message": "setup-node recibe node-version: 24 dentro de with" },
+        { "path": "jobs.test.steps[2].run", "op": "equals", "value": "npm ci", "message": "El tercer step ejecuta npm ci" },
+        { "path": "jobs.test.steps[3].run", "op": "equals", "value": "npm test", "message": "El cuarto step ejecuta npm test" }
+      ],
+      "hints": [
+        "`on` es un mapa: `push:` con `branches: [main]` dentro, y `pull_request:` al mismo nivel que `push`.",
+        "`steps` es una lista: cada paso empieza con `- uses:` o `- run:`.",
+        "Las entradas de una action van en `with:`, indentado bajo el mismo elemento de la lista que su `uses:`."
+      ],
+      "solution": {
+        "answer": "name: CI\non:\n  push:\n    branches: [main]\n  pull_request:\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - uses: actions/setup-node@v7\n        with:\n          node-version: 24\n      - run: npm ci\n      - run: npm test\n",
+        "explanation": "`on` define los eventos (push filtrado a main y pull_request). El job `test` corre en un runner Ubuntu y sus steps van en orden: descargar el código, instalar Node, instalar dependencias con `npm ci` y pasar los tests."
+      }
+    },
+    {
+      "id": "needs-permissions",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "Modifica el workflow para que el `GITHUB_TOKEN` tenga **solo permiso de lectura del contenido** (a nivel de workflow) y para que el job `deploy` **espere a que termine bien** el job `test`.",
+      "starter": "name: CI\non: [push]\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - run: npm test\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo \"Desplegando\"\n",
+      "assertions": [
+        { "path": "permissions.contents", "op": "equals", "value": "read", "message": "permissions (a nivel de workflow) tiene contents: read" },
+        { "path": "jobs.deploy.needs", "op": "oneOf", "value": ["test", ["test"]], "message": "El job deploy declara needs: test" },
+        { "path": "jobs.test.needs", "op": "absent", "message": "El job test no depende de nadie" },
+        { "path": "jobs.deploy.steps[0].run", "op": "exists", "message": "El job deploy conserva su step" }
+      ],
+      "hints": [
+        "`permissions` va al nivel superior, junto a `name`, `on` y `jobs`.",
+        "Dentro de `permissions`, la clave es `contents` y el valor, `read`.",
+        "`needs` va dentro del job que espera (`deploy`), al mismo nivel que `runs-on`."
+      ],
+      "solution": {
+        "answer": "name: CI\non: [push]\n\npermissions:\n  contents: read\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v7\n      - run: npm test\n  deploy:\n    needs: test\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo \"Desplegando\"\n",
+        "explanation": "`permissions: contents: read` limita el GITHUB_TOKEN a leer el repositorio (mínimo privilegio). `needs: test` hace que `deploy` solo empiece si `test` termina con éxito."
+      }
+    },
+    {
+      "id": "github-token-bucle",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Un workflow hace commit y push a `main` usando el `GITHUB_TOKEN`. Tienes otro workflow con `on: push`. ¿Se ejecuta?",
+      "hints": ["GitHub evita a propósito los bucles infinitos."],
+      "options": [
+        { "id": "a", "text": "No: los eventos que provoca el GITHUB_TOKEN no crean ejecuciones nuevas (salvo workflow_dispatch y repository_dispatch)", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Sí, como cualquier push", "correct": false, "explanation": "Con el GITHUB_TOKEN no se disparan nuevos workflows." },
+        { "id": "c", "text": "Sí, pero solo si el repositorio es público", "correct": false, "explanation": "La visibilidad no influye." },
+        { "id": "d", "text": "Solo si el workflow tiene `permissions: write-all`", "correct": false, "explanation": "Los permisos no cambian esta regla." }
+      ],
+      "solution": {
+        "answer": "No se ejecuta",
+        "explanation": "Así se evitan bucles recursivos. Si necesitas encadenar workflows, usa `workflow_dispatch`, `repository_dispatch` o un token de una GitHub App."
+      }
+    },
+    {
+      "id": "inyeccion",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Cuál es la forma segura de usar el título de un PR dentro de un step `run`?",
+      "hints": ["El título lo escribe quien abre el PR, que puede ser cualquiera."],
+      "options": [
+        { "id": "a", "text": "Pasarlo por una variable de entorno (`env: TITULO: ${{ github.event.pull_request.title }}`) y usar `\"$TITULO\"`", "correct": true, "explanation": "Correcto: el valor no se pega dentro del script." },
+        { "id": "b", "text": "`run: echo \"${{ github.event.pull_request.title }}\"`", "correct": false, "explanation": "La expresión se sustituye dentro del script antes de ejecutarlo: un título malicioso puede inyectar comandos." },
+        { "id": "c", "text": "Ponerlo entre comillas simples dentro de la expresión", "correct": false, "explanation": "Las comillas se pueden cerrar desde el propio título." },
+        { "id": "d", "text": "No se puede usar de ninguna forma", "correct": false, "explanation": "Sí se puede, a través de una variable de entorno." }
+      ],
+      "solution": {
+        "answer": "Variable de entorno intermedia",
+        "explanation": "GitHub recomienda asignar la expresión a una variable de entorno y usar esa variable en el script, para que los datos no confiables no formen parte del código."
+      }
+    },
+    {
+      "id": "pin-sha",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Según la documentación de GitHub, ¿cuál es la única forma de usar una action de terceros como una versión **inmutable**?",
+      "hints": ["Un tag se puede mover a otro commit."],
+      "options": [
+        { "id": "a", "text": "Fijarla al SHA completo de un commit", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "Fijarla a un tag como `@v2`", "correct": false, "explanation": "Cómodo, pero el tag se puede mover; úsalo solo con autores de confianza." },
+        { "id": "c", "text": "Usar `@main`", "correct": false, "explanation": "Cambia con cada commit." },
+        { "id": "d", "text": "No indicar versión", "correct": false, "explanation": "Hay que indicar siempre una referencia." }
+      ],
+      "solution": {
+        "answer": "SHA completo",
+        "explanation": "`uses: dueño/action@<sha de 40 caracteres>` apunta siempre al mismo código: nadie puede cambiarlo por detrás."
+      }
+    },
+    {
+      "id": "gh-run-list",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Lista las últimas ejecuciones **del workflow `ci.yml`**.",
+      "hints": [
+        "El comando es `gh run list`.",
+        "El filtro por workflow es `--workflow` (`-w`)."
+      ],
+      "accepted": ["gh run list --workflow ci.yml"],
+      "output": "STATUS  TITLE                 WORKFLOW  BRANCH         EVENT         ID\n✓       Añade login con email  CI        feature/login  pull_request  123457\nX       Añade login con email  CI        feature/login  pull_request  123456",
+      "solution": {
+        "answer": "gh run list --workflow ci.yml",
+        "explanation": "`gh run list` muestra las últimas ejecuciones; `--workflow`, `--branch` o `--status` las filtran."
+      }
+    },
+    {
+      "id": "gh-run-log-failed",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "La ejecución `123456` ha fallado. Muestra **solo el log de los pasos que fallaron**.",
+      "hints": [
+        "El comando es `gh run view` con el ID.",
+        "Hay una opción de log solo para lo fallido."
+      ],
+      "accepted": ["gh run view 123456 --log-failed"],
+      "output": "test  Run npm test  FAIL src/login.test.ts\ntest  Run npm test    ✕ acepta emails en mayúsculas (12 ms)",
+      "solution": {
+        "answer": "gh run view 123456 --log-failed",
+        "explanation": "`--log-failed` muestra solo los pasos que fallaron, sin tener que buscar entre todo el log (`--log`)."
+      }
+    },
+    {
+      "id": "gh-workflow-run",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Lanza a mano el workflow `deploy.yml` (tiene `workflow_dispatch`) usando la versión de la rama `main`.",
+      "hints": [
+        "El comando es `gh workflow run` con el nombre del fichero.",
+        "La rama se indica con `--ref` (`-r`)."
+      ],
+      "accepted": ["gh workflow run deploy.yml --ref main"],
+      "output": "✓ Created workflow_dispatch event for deploy.yml at main",
+      "solution": {
+        "answer": "gh workflow run deploy.yml --ref main",
+        "explanation": "`gh workflow run` crea un evento `workflow_dispatch`; solo funciona si el workflow lo declara en `on`."
+      }
+    },
+    {
+      "id": "rerun-failed",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Un test falló por un problema puntual de red. Completa el comando para relanzar **solo los jobs que fallaron** de la ejecución `123456`.",
+      "template": "gh run rerun 123456 --{{flag}}",
+      "blanks": [{ "id": "flag", "accepted": ["failed"] }],
+      "hints": ["La opción es el participio de \"fallar\" en inglés."],
+      "solution": {
+        "answer": "gh run rerun 123456 --failed",
+        "explanation": "`--failed` relanza solo los jobs fallidos (y los que dependen de ellos), sin repetir lo que ya fue bien."
+      }
+    }
+  ]
+}
