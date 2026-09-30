@@ -278,6 +278,117 @@
           ]
         }
       ]
+    },
+    {
+      "name": "issue",
+      "description": "Trabaja con issues",
+      "source": "https://cli.github.com/manual/gh_issue",
+      "subcommands": [
+        {
+          "name": "create",
+          "aliases": [
+            "new"
+          ],
+          "description": "Crea una issue",
+          "flags": [
+            { "name": "title", "short": "t", "takesValue": true, "description": "Título de la issue" },
+            { "name": "body", "short": "b", "takesValue": true, "description": "Descripción" },
+            { "name": "body-file", "short": "F", "takesValue": true, "description": "Lee la descripción de un fichero (\"-\" para la entrada estándar)" },
+            { "name": "label", "short": "l", "takesValue": true, "description": "Añade una etiqueta (se puede repetir)" },
+            { "name": "assignee", "short": "a", "takesValue": true, "description": "Asigna a personas (\"@me\" para ti)" },
+            { "name": "milestone", "short": "m", "takesValue": true, "description": "La añade a un milestone" },
+            { "name": "project", "short": "p", "takesValue": true, "description": "La añade a un proyecto" },
+            { "name": "template", "short": "T", "takesValue": true, "description": "Usa una plantilla como punto de partida" },
+            { "name": "editor", "short": "e", "takesValue": false, "description": "Abre el editor para el título y la descripción" },
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre el navegador para crearla" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "list",
+          "aliases": [
+            "ls"
+          ],
+          "description": "Lista las issues (por defecto, las abiertas)",
+          "flags": [
+            { "name": "state", "short": "s", "values": ["open", "closed", "all"], "strict": true, "takesValue": true, "description": "Estado: open, closed o all" },
+            { "name": "label", "short": "l", "takesValue": true, "description": "Filtra por etiqueta" },
+            { "name": "assignee", "short": "a", "takesValue": true, "description": "Filtra por asignado" },
+            { "name": "author", "short": "A", "takesValue": true, "description": "Filtra por autor" },
+            { "name": "milestone", "short": "m", "takesValue": true, "description": "Filtra por milestone (número o título)" },
+            { "name": "mention", "takesValue": true, "description": "Filtra por mención" },
+            { "name": "search", "short": "S", "takesValue": true, "description": "Búsqueda avanzada" },
+            { "name": "limit", "short": "L", "takesValue": true, "description": "Número máximo de resultados (por defecto, 30)" },
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre la lista en el navegador" },
+            { "name": "json", "takesValue": true, "description": "Salida JSON con los campos indicados" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "view",
+          "description": "Muestra una issue",
+          "args": [{ "name": "ISSUE" }],
+          "flags": [
+            { "name": "web", "short": "w", "takesValue": false, "description": "Abre la issue en el navegador" },
+            { "name": "comments", "short": "c", "takesValue": false, "description": "Muestra los comentarios" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "status",
+          "description": "Tus issues: asignadas, que te mencionan y abiertas por ti",
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "close",
+          "description": "Cierra una issue",
+          "args": [{ "name": "ISSUE" }],
+          "flags": [
+            { "name": "reason", "short": "r", "values": ["completed", "not planned", "duplicate"], "strict": true, "takesValue": true, "description": "Motivo: completed, not planned o duplicate" },
+            { "name": "comment", "short": "c", "takesValue": true, "description": "Deja un comentario al cerrarla" },
+            { "name": "duplicate-of", "takesValue": true, "description": "La marca como duplicada de otra issue" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "reopen",
+          "description": "Reabre una issue cerrada",
+          "args": [{ "name": "ISSUE" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "comment",
+          "description": "Añade un comentario a una issue",
+          "args": [{ "name": "ISSUE" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "edit",
+          "description": "Modifica una issue (título, etiquetas, asignados…)",
+          "args": [{ "name": "ISSUE" }],
+          "flags": [
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        },
+        {
+          "name": "develop",
+          "description": "Crea una rama enlazada a la issue (o lista las enlazadas)",
+          "args": [{ "name": "ISSUE" }],
+          "flags": [
+            { "name": "checkout", "short": "c", "takesValue": false, "description": "Cambia a la rama nada más crearla" },
+            { "name": "name", "short": "n", "takesValue": true, "description": "Nombre de la rama nueva" },
+            { "name": "base", "short": "b", "takesValue": true, "description": "Rama remota de la que parte" },
+            { "name": "list", "short": "l", "takesValue": false, "description": "Lista las ramas enlazadas a la issue" },
+            { "name": "repo", "short": "R", "takesValue": true, "description": "Otro repositorio, con el formato [HOST/]DUEÑO/REPO" }
+          ]
+        }
+      ]
     }
   ]
 }

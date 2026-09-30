@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "issue", "front": "¿Qué metadatos tiene una issue?", "back": "Assignees (quién la lleva), labels (clasificación), milestone (objetivo con fecha) y proyecto. `#n` la enlaza y `@persona` menciona." },
+    { "id": "cierre", "front": "Motivos al cerrar una issue", "back": "completed (hecha), not planned (no se hará) y duplicate (duplicada de otra)." },
+    { "id": "plantillas", "front": "¿Dónde van las plantillas de issue y qué necesita un issue form?", "back": "En `.github/ISSUE_TEMPLATE/`. Un issue form (.yml) necesita `name`, `description` y `body`." },
+    { "id": "milestone", "front": "¿Qué es un milestone?", "back": "Agrupa issues y PRs de un repositorio para un objetivo, con fecha límite y porcentaje de progreso." },
+    { "id": "project", "front": "¿Qué es un GitHub Project?", "back": "Tabla, board y roadmap sobre issues, PRs y draft issues, a nivel de usuario u organización (varios repos), con campos y automatizaciones." },
+    { "id": "flujo", "front": "Flujo de la issue al código", "back": "Issue → `gh issue develop n --checkout` → commits → PR con `Closes #n` → merge (la issue se cierra)." }
+  ]
+}

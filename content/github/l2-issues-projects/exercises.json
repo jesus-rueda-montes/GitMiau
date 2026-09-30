@@ -1,0 +1,174 @@
+{
+  "exercises": [
+    {
+      "id": "good-first-issue",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Quieres que las personas que empiezan a contribuir encuentren tareas sencillas en tu proyecto. ¿Qué etiqueta por defecto usas?",
+      "hints": ["Esas issues aparecen en la página contribute del repositorio."],
+      "options": [
+        { "id": "a", "text": "`good first issue`", "correct": true, "explanation": "Correcto: GitHub usa esa etiqueta para la página contribute." },
+        { "id": "b", "text": "`help wanted`", "correct": false, "explanation": "Indica que se busca ayuda, pero no que la tarea sea para principiantes." },
+        { "id": "c", "text": "`enhancement`", "correct": false, "explanation": "Indica una mejora o funcionalidad nueva." },
+        { "id": "d", "text": "`question`", "correct": false, "explanation": "Indica que falta información." }
+      ],
+      "solution": {
+        "answer": "good first issue",
+        "explanation": "Las issues con `good first issue` alimentan la página contribute del repositorio, pensada para nuevas personas colaboradoras."
+      }
+    },
+    {
+      "id": "milestone-vs-project",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Necesitas un tablero kanban que reúna issues de **tres repositorios** de tu organización, con un campo de prioridad. ¿Qué usas?",
+      "hints": ["Uno de los dos se limita a un repositorio."],
+      "options": [
+        { "id": "a", "text": "Un GitHub Project de la organización", "correct": true, "explanation": "Correcto: abarca varios repos, tiene vista board y campos personalizados." },
+        { "id": "b", "text": "Un milestone en cada repositorio", "correct": false, "explanation": "Un milestone agrupa trabajo de un solo repo y no tiene vista de tablero." },
+        { "id": "c", "text": "Una etiqueta `prioridad` en cada repo", "correct": false, "explanation": "Ayuda a clasificar, pero no da una vista de conjunto." },
+        { "id": "d", "text": "Una issue con la lista de todas las tareas", "correct": false, "explanation": "No se sincroniza con el estado real de cada tarea." }
+      ],
+      "solution": {
+        "answer": "GitHub Project",
+        "explanation": "Los Projects viven a nivel de usuario u organización, admiten issues de varios repos, vistas table/board/roadmap y campos como single select."
+      }
+    },
+    {
+      "id": "ruta-plantillas",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Dónde se guardan las plantillas de issues (incluidos los issue forms)?",
+      "hints": ["Es una carpeta dentro de `.github`, con el nombre en mayúsculas."],
+      "options": [
+        { "id": "a", "text": "`.github/ISSUE_TEMPLATE/`", "correct": true, "explanation": "Correcto." },
+        { "id": "b", "text": "`docs/issues/`", "correct": false, "explanation": "GitHub no busca plantillas ahí." },
+        { "id": "c", "text": "`.github/workflows/`", "correct": false, "explanation": "Ahí van los workflows de GitHub Actions." },
+        { "id": "d", "text": "En la raíz, como `ISSUE.md`", "correct": false, "explanation": "No es la ubicación de las plantillas." }
+      ],
+      "solution": {
+        "answer": ".github/ISSUE_TEMPLATE/",
+        "explanation": "Allí van las plantillas `.md` y los issue forms `.yml`, más un `config.yml` opcional para el selector."
+      }
+    },
+    {
+      "id": "issue-form-bug",
+      "type": "editor",
+      "language": "yaml",
+      "prompt": "Completa el issue form `.github/ISSUE_TEMPLATE/bug.yml`: nombre `Informe de error`, una descripción, la etiqueta `bug` y un único campo de tipo `textarea` con id `que-paso`, la etiqueta `¿Qué ha pasado?` y **obligatorio**.",
+      "starter": "name: \ndescription: \nlabels: []\nbody:\n",
+      "assertions": [
+        { "path": "name", "op": "equals", "value": "Informe de error", "message": "name es Informe de error" },
+        { "path": "description", "op": "matches", "value": "\\S", "message": "Tiene una description (obligatoria en los issue forms)" },
+        { "path": "labels", "op": "equals", "value": ["bug"], "message": "labels es una lista con la etiqueta bug" },
+        { "path": "body", "op": "count", "value": 1, "message": "body es una lista con un único campo" },
+        { "path": "body[0].type", "op": "equals", "value": "textarea", "message": "El campo es de tipo textarea (body[0].type)" },
+        { "path": "body[0].id", "op": "equals", "value": "que-paso", "message": "El campo tiene id: que-paso" },
+        { "path": "body[0].attributes.label", "op": "equals", "value": "¿Qué ha pasado?", "message": "La etiqueta del campo va en attributes.label" },
+        { "path": "body[0].validations.required", "op": "equals", "value": true, "message": "El campo es obligatorio: validations.required: true (booleano, sin comillas)" }
+      ],
+      "hints": [
+        "`body` es una lista: el campo empieza con `- type: textarea`.",
+        "`label` va dentro de `attributes`, y `required` dentro de `validations`, los dos al mismo nivel que `type` e `id`.",
+        "`required: true` sin comillas (es un booleano)."
+      ],
+      "solution": {
+        "answer": "name: Informe de error\ndescription: Algo no funciona como debería\nlabels: [\"bug\"]\nbody:\n  - type: textarea\n    id: que-paso\n    attributes:\n      label: ¿Qué ha pasado?\n    validations:\n      required: true\n",
+        "explanation": "Un issue form necesita `name`, `description` y `body`. Cada campo de `body` es un elemento de la lista con `type`, un `id` opcional, sus `attributes` (label, placeholder…) y sus `validations`."
+      }
+    },
+    {
+      "id": "gh-issue-create",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Crea una issue con el título `El login falla con mayúsculas`, la etiqueta `bug` y **asignada a ti**.",
+      "hints": [
+        "El comando es `gh issue create`.",
+        "Usa `--title`, `--label` y `--assignee @me`."
+      ],
+      "accepted": ["gh issue create --title \"El login falla con mayúsculas\" --label bug --assignee @me"],
+      "output": "Creating issue in ada/tienda\n\nhttps://github.com/ada/tienda/issues/42",
+      "solution": {
+        "answer": "gh issue create --title \"El login falla con mayúsculas\" --label bug --assignee @me",
+        "explanation": "`--label` añade la etiqueta y `--assignee @me` te la asigna. Sin `--body`, `gh` te pedirá la descripción."
+      }
+    },
+    {
+      "id": "gh-issue-list-bug",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Lista **todas** las issues (abiertas y cerradas) con la etiqueta `bug`.",
+      "hints": [
+        "El comando es `gh issue list`.",
+        "Filtra con `--label` y usa `--state all` para incluir las cerradas."
+      ],
+      "accepted": ["gh issue list --label bug --state all"],
+      "solution": {
+        "answer": "gh issue list --label bug --state all",
+        "explanation": "Por defecto solo salen las abiertas; `--state` acepta open, closed o all."
+      }
+    },
+    {
+      "id": "gh-issue-close-reason",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Cierra la issue **17** indicando que **no se va a hacer**.",
+      "hints": [
+        "El subcomando es `gh issue close`.",
+        "El motivo va con `--reason`; tiene un espacio, así que necesita comillas."
+      ],
+      "accepted": ["gh issue close 17 --reason \"not planned\""],
+      "output": "✓ Closed issue ada/tienda#17 (Modo oscuro para el panel)",
+      "solution": {
+        "answer": "gh issue close 17 --reason \"not planned\"",
+        "explanation": "Motivos de cierre: `completed`, `not planned` o `duplicate`. Así queda claro si se hizo o se descartó."
+      }
+    },
+    {
+      "id": "gh-issue-develop",
+      "type": "command",
+      "cli": "gh",
+      "prompt": "Crea una rama **enlazada** a la issue **42** y cambia a ella.",
+      "hints": [
+        "Es un subcomando de `gh issue` que significa \"desarrollar\".",
+        "La opción para cambiar a la rama es `--checkout` (`-c`)."
+      ],
+      "accepted": ["gh issue develop 42 --checkout"],
+      "output": "github.com/ada/tienda/tree/42-el-login-falla-con-mayusculas\nSwitched to a new branch '42-el-login-falla-con-mayusculas'",
+      "solution": {
+        "answer": "gh issue develop 42 --checkout",
+        "explanation": "`gh issue develop` crea una rama enlazada a la issue (aparece en su apartado Development) y `--checkout` cambia a ella."
+      }
+    },
+    {
+      "id": "motivo-cierre",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "La issue 23 es la misma que la 12. Completa el comando para cerrarla como **duplicada**.",
+      "template": "gh issue close 23 --{{flag}} 12",
+      "blanks": [{ "id": "flag", "accepted": ["duplicate-of"] }],
+      "hints": ["La opción es \"duplicada de\" en inglés, con guiones."],
+      "solution": {
+        "answer": "gh issue close 23 --duplicate-of 12",
+        "explanation": "`--duplicate-of` marca la issue como duplicada de otra y deja el enlace entre ambas."
+      }
+    },
+    {
+      "id": "vistas-project",
+      "type": "quiz",
+      "mode": "multi",
+      "prompt": "¿Qué vistas (layouts) ofrece GitHub Projects? (Marca todas las correctas)",
+      "hints": ["Son tres: una tipo hoja de cálculo, una kanban y una temporal."],
+      "options": [
+        { "id": "a", "text": "Table", "correct": true, "explanation": "Correcto: la vista de tabla." },
+        { "id": "b", "text": "Board", "correct": true, "explanation": "Correcto: el tablero kanban." },
+        { "id": "c", "text": "Roadmap", "correct": true, "explanation": "Correcto: la línea temporal." },
+        { "id": "d", "text": "Diagrama de Gantt con dependencias", "correct": false, "explanation": "No es una de las vistas de Projects." }
+      ],
+      "solution": {
+        "answer": "Table, Board y Roadmap",
+        "explanation": "Un Project se puede ver como tabla, como tablero por columnas o como roadmap en el tiempo, y puedes tener varias vistas guardadas."
+      }
+    }
+  ]
+}

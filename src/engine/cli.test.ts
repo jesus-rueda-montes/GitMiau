@@ -230,6 +230,13 @@ describe('gh (contenido real)', () => {
     expect(p('gh auth login -p ftp')).toEqual({ ok: false, errors: [expect.stringMatching(/valor no válido para --git-protocol/)] })
     expect(sameGh('gh repo fork cli/cli --clone=false', 'gh repo fork cli/cli')).toBe(true)
   })
+
+  test('issues: valores estrictos con espacios, alias y develop', () => {
+    expect(sameGh('gh issue close 12 --reason "not planned"', "gh issue close 12 -r 'not planned'")).toBe(true)
+    expect(p('gh issue close 12 --reason wontfix')).toEqual({ ok: false, errors: [expect.stringMatching(/valor no válido para --reason/)] })
+    expect(sameGh('gh issue new -t "Falla el login"', 'gh issue create --title "Falla el login"')).toBe(true)
+    expect(sameGh('gh issue develop 42 -c', 'gh issue develop 42 --checkout')).toBe(true)
+  })
 })
 
 describe('git (contenido real)', () => {

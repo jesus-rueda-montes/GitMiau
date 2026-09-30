@@ -1,0 +1,8 @@
+{
+  "title": "Issues, plantillas y Projects",
+  "summary": "Organizar el trabajo con issues, labels y milestones, plantillas e issue forms, GitHub Projects y el recorrido issue → rama → PR, desde la web y con gh issue.",
+  "level": 2,
+  "order": 2,
+  "xp": 100,
+  "prereqs": []
+}
