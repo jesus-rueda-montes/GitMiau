@@ -1,0 +1,34 @@
+{
+  "entries": [
+    {
+      "term": "SSH",
+      "definition": "Protocolo para abrir una sesión cifrada en una máquina remota y ejecutar comandos en ella.",
+      "introducedIn": "fundamentos/f0-terminal-linux"
+    },
+    {
+      "term": "YAML",
+      "definition": "Formato de texto para datos estructurados basado en la indentación; lo usan GitHub Actions, Kubernetes y muchas herramientas.",
+      "introducedIn": "fundamentos/f0-yaml"
+    },
+    {
+      "term": "JSON",
+      "definition": "Formato de datos con llaves, corchetes y comillas; muy usado por las APIs.",
+      "introducedIn": "fundamentos/f0-yaml"
+    },
+    {
+      "term": "systemd",
+      "definition": "El sistema que arranca y gestiona los servicios en la mayoría de distribuciones Linux (systemctl).",
+      "introducedIn": "fundamentos/f0-terminal-linux"
+    },
+    {
+      "term": "root",
+      "definition": "El superusuario de Linux: puede hacerlo todo en la máquina.",
+      "introducedIn": "fundamentos/f0-terminal-linux"
+    },
+    {
+      "term": "stdout",
+      "definition": "Salida estándar: donde un programa escribe su resultado normal (stderr es la de errores).",
+      "introducedIn": "fundamentos/f0-terminal-linux"
+    }
+  ]
+}

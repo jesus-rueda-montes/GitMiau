@@ -1,0 +1,9 @@
+{
+  "cards": [
+    { "id": "tres-areas", "front": "¿Cuáles son las tres áreas de Git?", "back": "Working tree (tus archivos), staging area o index (lo preparado con `git add`) y repositorio (la historia, con `git commit`)." },
+    { "id": "git-vs-github", "front": "Git frente a GitHub", "back": "Git: sistema de control de versiones distribuido, en local. GitHub: plataforma que aloja repositorios Git y añade colaboración." },
+    { "id": "commit", "front": "¿Qué guarda un commit?", "back": "Una foto del proyecto, el autor, la fecha, un mensaje y el enlace a su commit padre. Se identifica con un hash." },
+    { "id": "commit-a", "front": "¿`git commit -a` incluye archivos nuevos?", "back": "No. Solo prepara los archivos con seguimiento modificados o borrados. Los nuevos necesitan `git add`." },
+    { "id": "head", "front": "¿Qué es HEAD?", "back": "Un puntero a tu posición actual: normalmente, la rama en la que estás (y, a través de ella, su último commit)." }
+  ]
+}

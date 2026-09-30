@@ -1,0 +1,20 @@
+{
+  "tracks": [
+    {
+      "id": "fundamentos",
+      "title": "Nivel 0 · Fundamentos",
+      "description": "La terminal y YAML: la base para todo lo demás. Opcional: puedes saltarlo aprobando su examen.",
+      "optional": true
+    },
+    {
+      "id": "git",
+      "title": "Git",
+      "description": "El motor local: commits, ramas, merges, remotos, rebase y cómo recuperar lo que parecía perdido."
+    },
+    {
+      "id": "github",
+      "title": "GitHub",
+      "description": "La plataforma: Pull Requests, issues, GitHub Actions, protección de ramas, seguridad y releases."
+    }
+  ]
+}

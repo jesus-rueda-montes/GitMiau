@@ -1,0 +1,156 @@
+{
+  "cli": "git",
+  "description": "CLI de Git",
+  "source": "https://git-scm.com/docs/git",
+  "commands": [
+    {
+      "name": "init",
+      "description": "Crea un repositorio Git vacío o reinicializa uno existente",
+      "source": "https://git-scm.com/docs/git-init",
+      "args": [{ "name": "DIRECTORIO" }],
+      "flags": [
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "Solo muestra errores y avisos" },
+        { "name": "bare", "takesValue": false, "description": "Crea un repositorio bare (sin working tree)" },
+        { "name": "initial-branch", "short": "b", "takesValue": true, "description": "Nombre de la rama inicial" },
+        { "name": "template", "takesValue": true, "description": "Directorio de plantillas" },
+        { "name": "separate-git-dir", "takesValue": true, "description": "Guarda el repositorio fuera del directorio de trabajo" },
+        { "name": "object-format", "takesValue": true, "values": ["sha1", "sha256"], "strict": true, "description": "Algoritmo de hash del repositorio" }
+      ]
+    },
+    {
+      "name": "config",
+      "description": "Lee y escribe la configuración de Git",
+      "source": "https://git-scm.com/docs/git-config",
+      "subcommands": [
+        {
+          "name": "list",
+          "description": "Lista todas las variables de configuración y sus valores",
+          "flags": [
+            { "name": "global", "takesValue": false, "description": "Configuración global del usuario (~/.gitconfig)" },
+            { "name": "system", "takesValue": false, "description": "Configuración de todo el sistema" },
+            { "name": "local", "takesValue": false, "description": "Configuración del repositorio (.git/config)" },
+            { "name": "file", "short": "f", "takesValue": true, "description": "Usa el archivo de configuración indicado" },
+            { "name": "show-origin", "takesValue": false, "description": "Muestra de qué archivo sale cada valor" }
+          ]
+        },
+        {
+          "name": "get",
+          "description": "Muestra el valor de una variable",
+          "args": [{ "name": "NOMBRE" }],
+          "flags": [
+            { "name": "global", "takesValue": false, "description": "Configuración global del usuario (~/.gitconfig)" },
+            { "name": "system", "takesValue": false, "description": "Configuración de todo el sistema" },
+            { "name": "local", "takesValue": false, "description": "Configuración del repositorio (.git/config)" },
+            { "name": "file", "short": "f", "takesValue": true, "description": "Usa el archivo de configuración indicado" },
+            { "name": "show-origin", "takesValue": false, "description": "Muestra de qué archivo sale el valor" }
+          ]
+        },
+        {
+          "name": "set",
+          "description": "Da valor a una variable",
+          "args": [{ "name": "NOMBRE" }, { "name": "VALOR" }],
+          "flags": [
+            { "name": "global", "takesValue": false, "description": "Configuración global del usuario (~/.gitconfig)" },
+            { "name": "system", "takesValue": false, "description": "Configuración de todo el sistema" },
+            { "name": "local", "takesValue": false, "description": "Configuración del repositorio (.git/config), la opción por defecto" },
+            { "name": "file", "short": "f", "takesValue": true, "description": "Usa el archivo de configuración indicado" }
+          ]
+        },
+        {
+          "name": "unset",
+          "description": "Borra una variable",
+          "args": [{ "name": "NOMBRE" }],
+          "flags": [
+            { "name": "global", "takesValue": false, "description": "Configuración global del usuario (~/.gitconfig)" },
+            { "name": "system", "takesValue": false, "description": "Configuración de todo el sistema" },
+            { "name": "local", "takesValue": false, "description": "Configuración del repositorio (.git/config)" },
+            { "name": "file", "short": "f", "takesValue": true, "description": "Usa el archivo de configuración indicado" }
+          ]
+        },
+        {
+          "name": "edit",
+          "description": "Abre el archivo de configuración en el editor",
+          "flags": [
+            { "name": "global", "takesValue": false, "description": "Configuración global del usuario (~/.gitconfig)" },
+            { "name": "system", "takesValue": false, "description": "Configuración de todo el sistema" },
+            { "name": "local", "takesValue": false, "description": "Configuración del repositorio (.git/config)" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "description": "Muestra el estado del working tree y del staging area",
+      "source": "https://git-scm.com/docs/git-status",
+      "args": [{ "name": "RUTA" }],
+      "flags": [
+        { "name": "short", "short": "s", "takesValue": false, "description": "Salida en formato corto" },
+        { "name": "branch", "short": "b", "takesValue": false, "description": "Muestra la rama y su seguimiento también en formato corto" },
+        { "name": "long", "takesValue": false, "description": "Salida en formato largo (por defecto)" },
+        { "name": "show-stash", "takesValue": false, "description": "Muestra cuántas entradas hay en el stash" },
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Muestra también los cambios preparados para el commit" }
+      ]
+    },
+    {
+      "name": "add",
+      "description": "Añade contenido de ficheros al índice (staging area)",
+      "source": "https://git-scm.com/docs/git-add",
+      "args": [{ "name": "RUTA" }],
+      "flags": [
+        { "name": "all", "short": "A", "takesValue": false, "description": "Prepara todos los cambios: nuevos, modificados y borrados" },
+        { "name": "update", "short": "u", "takesValue": false, "description": "Prepara solo los ficheros que Git ya sigue (modificados y borrados)" },
+        { "name": "patch", "short": "p", "takesValue": false, "description": "Elige de forma interactiva qué trozos (hunks) preparar" },
+        { "name": "interactive", "short": "i", "takesValue": false, "description": "Modo interactivo" },
+        { "name": "dry-run", "short": "n", "takesValue": false, "description": "No añade nada: solo muestra qué se añadiría" },
+        { "name": "force", "short": "f", "takesValue": false, "description": "Permite añadir ficheros ignorados" },
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Muestra lo que va añadiendo" },
+        { "name": "intent-to-add", "short": "N", "takesValue": false, "description": "Registra solo que la ruta se añadirá más tarde" }
+      ]
+    },
+    {
+      "name": "commit",
+      "description": "Guarda en el repositorio los cambios preparados",
+      "source": "https://git-scm.com/docs/git-commit",
+      "args": [{ "name": "RUTA" }],
+      "flags": [
+        { "name": "message", "short": "m", "takesValue": true, "description": "Mensaje del commit" },
+        { "name": "all", "short": "a", "takesValue": false, "description": "Prepara antes los ficheros seguidos que se han modificado o borrado" },
+        { "name": "amend", "takesValue": false, "description": "Sustituye el último commit de la rama por uno nuevo" },
+        { "name": "no-edit", "takesValue": false, "description": "Reutiliza el mensaje sin abrir el editor" },
+        { "name": "edit", "short": "e", "takesValue": false, "description": "Abre el editor para retocar el mensaje" },
+        { "name": "file", "short": "F", "takesValue": true, "description": "Lee el mensaje de un archivo" },
+        { "name": "author", "takesValue": true, "description": "Sustituye el autor del commit" },
+        { "name": "signoff", "short": "s", "takesValue": false, "description": "Añade el trailer Signed-off-by" },
+        { "name": "allow-empty", "takesValue": false, "description": "Permite un commit sin cambios" },
+        { "name": "no-verify", "short": "n", "takesValue": false, "description": "Se salta los hooks pre-commit y commit-msg" },
+        { "name": "dry-run", "takesValue": false, "description": "Muestra qué se incluiría sin crear el commit" },
+        { "name": "patch", "short": "p", "takesValue": false, "description": "Elige de forma interactiva qué cambios incluir" },
+        { "name": "verbose", "short": "v", "takesValue": false, "description": "Muestra el diff en la plantilla del mensaje" },
+        { "name": "quiet", "short": "q", "takesValue": false, "description": "No muestra el resumen del commit" }
+      ]
+    },
+    {
+      "name": "log",
+      "description": "Muestra el historial de commits",
+      "source": "https://git-scm.com/docs/git-log",
+      "args": [{ "name": "REVISIONES" }, { "name": "RUTA" }],
+      "flags": [
+        { "name": "oneline", "takesValue": false, "description": "Un commit por línea (--pretty=oneline --abbrev-commit)" },
+        { "name": "graph", "takesValue": false, "description": "Dibuja el grafo de commits a la izquierda" },
+        { "name": "all", "takesValue": false, "description": "Incluye todas las referencias (ramas, tags) además de HEAD" },
+        { "name": "decorate", "takesValue": false, "description": "Muestra los nombres de rama y tag de cada commit" },
+        { "name": "max-count", "short": "n", "takesValue": true, "description": "Limita el número de commits mostrados" },
+        { "name": "author", "takesValue": true, "description": "Solo commits cuyo autor coincide con el patrón" },
+        { "name": "grep", "takesValue": true, "description": "Solo commits cuyo mensaje coincide con el patrón" },
+        { "name": "since", "takesValue": true, "description": "Commits posteriores a una fecha" },
+        { "name": "until", "takesValue": true, "description": "Commits anteriores a una fecha" },
+        { "name": "stat", "takesValue": false, "description": "Resumen de líneas añadidas y borradas por fichero" },
+        { "name": "patch", "short": "p", "takesValue": false, "description": "Muestra el diff de cada commit" },
+        { "name": "follow", "takesValue": false, "description": "Sigue la historia de un fichero a través de renombrados" },
+        { "name": "reverse", "takesValue": false, "description": "Muestra los commits en orden inverso" },
+        { "name": "abbrev-commit", "takesValue": false, "description": "Muestra el hash abreviado" },
+        { "name": "format", "takesValue": true, "description": "Formato de salida (oneline, short, medium, full... o format:<cadena>)" }
+      ]
+    }
+  ]
+}

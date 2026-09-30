@@ -1,0 +1,8 @@
+{
+  "title": "Qué es Git y tu primer commit",
+  "summary": "Control de versiones, las tres áreas de Git (working tree, staging area y repositorio) y los comandos init, status, add, commit y log.",
+  "level": 1,
+  "order": 1,
+  "xp": 100,
+  "prereqs": []
+}

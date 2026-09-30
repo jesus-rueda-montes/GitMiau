@@ -1,0 +1,159 @@
+{
+  "exercises": [
+    {
+      "id": "git-vs-github",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "¿Cuál de estas frases describe mejor la relación entre **Git** y **GitHub**?",
+      "hints": [
+        "Uno de los dos funciona sin conexión a internet.",
+        "Piensa en herramienta frente a plataforma que la aloja."
+      ],
+      "options": [
+        { "id": "a", "text": "Git es un sistema de control de versiones local; GitHub es una plataforma que aloja repositorios Git y añade colaboración", "correct": true, "explanation": "Correcto: Git es la herramienta y GitHub, un servicio construido sobre ella." },
+        { "id": "b", "text": "Son lo mismo: GitHub es el nombre comercial de Git", "correct": false, "explanation": "No: Git es un proyecto de código abierto independiente; GitHub es una empresa y una plataforma." },
+        { "id": "c", "text": "Git necesita una cuenta de GitHub para funcionar", "correct": false, "explanation": "Git funciona en local sin ninguna cuenta; también hay otras plataformas (GitLab, Bitbucket…)." },
+        { "id": "d", "text": "GitHub es la versión gráfica de Git que se instala en tu ordenador", "correct": false, "explanation": "GitHub es sobre todo un servicio web. Existe GitHub Desktop, pero no es lo mismo que GitHub." }
+      ],
+      "solution": {
+        "answer": "Git es la herramienta local; GitHub, la plataforma",
+        "explanation": "Git guarda la historia en tu máquina. GitHub aloja repositorios Git en la nube y añade Pull Requests, issues, Actions y más."
+      }
+    },
+    {
+      "id": "tres-areas",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "Has modificado `app.py` y has ejecutado `git add app.py`, pero aún no has hecho commit. ¿Dónde está ese cambio?",
+      "hints": [
+        "`git add` no guarda en la historia: prepara.",
+        "Es el área intermedia entre el working tree y el repositorio."
+      ],
+      "options": [
+        { "id": "a", "text": "Solo en el working tree", "correct": false, "explanation": "Estaba ahí antes de `git add`; ahora además está preparado." },
+        { "id": "b", "text": "En la staging area, listo para el próximo commit", "correct": true, "explanation": "Correcto: `git add` pasa el cambio a la staging area (el index)." },
+        { "id": "c", "text": "En la historia del repositorio", "correct": false, "explanation": "Solo `git commit` añade algo a la historia." },
+        { "id": "d", "text": "En GitHub", "correct": false, "explanation": "Nada llega a GitHub hasta que haces push, que verás más adelante." }
+      ],
+      "solution": {
+        "answer": "En la staging area",
+        "explanation": "El flujo es working tree → `git add` → staging area → `git commit` → repositorio."
+      }
+    },
+    {
+      "id": "commit-a-nuevos",
+      "type": "quiz",
+      "mode": "truefalse",
+      "prompt": "`git commit -a -m \"…\"` incluye también los archivos **nuevos** que Git aún no sigue (untracked).",
+      "hints": ["`-a` actúa sobre los archivos que Git ya conoce."],
+      "options": [
+        { "id": "v", "text": "Verdadero", "correct": false, "explanation": "`-a` solo prepara los archivos con seguimiento que se han modificado o borrado." },
+        { "id": "f", "text": "Falso", "correct": true, "explanation": "Correcto: los archivos nuevos necesitan un `git add` explícito." }
+      ],
+      "solution": {
+        "answer": "Falso",
+        "explanation": "`git commit -a` prepara automáticamente los archivos tracked modificados o borrados, pero ignora los untracked."
+      }
+    },
+    {
+      "id": "status-corto",
+      "type": "quiz",
+      "mode": "single",
+      "prompt": "`git status -s` muestra esta línea: `?? notas.txt`. ¿Qué significa?",
+      "hints": ["Los interrogantes indican que Git no sabe nada de ese archivo todavía."],
+      "options": [
+        { "id": "a", "text": "El archivo tiene conflictos", "correct": false, "explanation": "Los conflictos se muestran con otros códigos (por ejemplo `UU`)." },
+        { "id": "b", "text": "El archivo es nuevo y no tiene seguimiento (untracked)", "correct": true, "explanation": "Correcto: `??` = untracked." },
+        { "id": "c", "text": "El archivo está preparado para el commit", "correct": false, "explanation": "Un archivo nuevo preparado aparece como `A `." },
+        { "id": "d", "text": "El archivo se ha borrado", "correct": false, "explanation": "Un borrado aparece con `D`." }
+      ],
+      "solution": {
+        "answer": "Untracked",
+        "explanation": "`??` indica un archivo que Git ve en la carpeta pero que no forma parte del repositorio. Con `git add notas.txt` pasaría a `A `."
+      }
+    },
+    {
+      "id": "init-main",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Convierte la carpeta actual en un repositorio Git cuya rama inicial se llame `main`.",
+      "hints": [
+        "El comando para crear un repositorio es `git init`.",
+        "Tiene un flag corto `-b` (o largo `--initial-branch`) para elegir el nombre de la rama."
+      ],
+      "accepted": ["git init -b main"],
+      "output": "Initialized empty Git repository in /home/ada/proyecto/.git/",
+      "solution": {
+        "answer": "git init -b main",
+        "explanation": "`git init` crea la carpeta `.git`; `-b main` (`--initial-branch=main`) da nombre a la rama inicial sin depender de la configuración."
+      }
+    },
+    {
+      "id": "status-short",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Muestra el estado del repositorio en **formato corto** (una línea por archivo).",
+      "hints": [
+        "El comando es `git status`.",
+        "El flag es `-s` o `--short`."
+      ],
+      "accepted": ["git status -s"],
+      "output": "A  README.md\n?? notas.txt",
+      "solution": {
+        "answer": "git status -s",
+        "explanation": "`-s` (`--short`) muestra dos columnas por archivo: la primera es la staging area y la segunda, el working tree."
+      }
+    },
+    {
+      "id": "commit-mensaje",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Guarda en la historia lo que hay preparado con el mensaje `Añade el README`.",
+      "hints": [
+        "El comando que guarda es `git commit`.",
+        "El mensaje va con `-m` y entre comillas porque tiene espacios."
+      ],
+      "accepted": ["git commit -m \"Añade el README\""],
+      "output": "[main (root-commit) 3f2a9c1] Añade el README\n 1 file changed, 3 insertions(+)\n create mode 100644 README.md",
+      "solution": {
+        "answer": "git commit -m \"Añade el README\"",
+        "explanation": "`git commit` crea el commit con el contenido de la staging area; `-m` (`--message`) evita abrir el editor."
+      }
+    },
+    {
+      "id": "log-oneline",
+      "type": "command",
+      "cli": "git",
+      "prompt": "Muestra la historia con **un commit por línea**.",
+      "hints": [
+        "El comando para ver la historia es `git log`.",
+        "Busca el flag que en inglés significa \"una línea\"."
+      ],
+      "accepted": ["git log --oneline"],
+      "output": "9b1e4d2 (HEAD -> main) Corrige la errata del título\n3f2a9c1 Añade el README",
+      "solution": {
+        "answer": "git log --oneline",
+        "explanation": "`--oneline` equivale a `--pretty=oneline --abbrev-commit`: hash abreviado y primera línea del mensaje."
+      }
+    },
+    {
+      "id": "config-email",
+      "type": "fill",
+      "language": "shell",
+      "prompt": "Completa el comando para guardar tu email `ada@example.com` en la configuración **de tu usuario** (válida para todos tus repositorios).",
+      "template": "git config {{sub}} --{{ambito}} user.email ada@example.com",
+      "blanks": [
+        { "id": "sub", "accepted": ["set"] },
+        { "id": "ambito", "accepted": ["global"] }
+      ],
+      "hints": [
+        "El subcomando moderno para dar valor a una variable significa \"poner\" en inglés.",
+        "El ámbito del usuario (`~/.gitconfig`) es el opuesto a `--local`."
+      ],
+      "solution": {
+        "answer": "git config set --global user.email ada@example.com",
+        "explanation": "`git config set` da valor a una variable; `--global` la guarda en `~/.gitconfig`, así que vale para todos tus repositorios."
+      }
+    }
+  ]
+}
